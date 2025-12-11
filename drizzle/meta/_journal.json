@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1765416643011,
+      "tag": "0000_lush_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765458587039,
+      "tag": "0001_lumpy_stark_industries",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765465654471,
+      "tag": "0002_flat_fixer",
+      "breakpoints": true
+    }
+  ]
+}
