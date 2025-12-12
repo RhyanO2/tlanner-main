@@ -6,9 +6,7 @@ async function seed() {
 
   const createdUser = await userSeed.createUser();
   const userid = createdUser[0].id
-
-
- const insertTask = await taskSeed.createTask(userid)
+  await taskSeed.createTask(userid)
 
 }
 
