@@ -4,6 +4,7 @@ import {Users} from "../database/schema.ts";
 import { verify } from "argon2";
 import z from "zod";
 import {eq} from 'drizzle-orm';
+import jwt from 'jsonwebtoken'
 
 
 export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
@@ -16,11 +17,14 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
         password: z.string()
       }),
       response: {
-        200: z.object({message: 'Acess granted!'}),
-        400: z.object({message: 'Invalid credentials.'})
+        200: z.object({
+          message: z.string(),
+          token: z.string()
+
+        }),
+        400: z.object({message: z.string()})
       }
     },
-    
     
   }, async(request,reply)=>{
     const {email,password} = request.body;
@@ -39,9 +43,14 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
       reply.status(400).send({message: 'Invalid credentials.'})
     }
 
-    reply.status(200).send({message: 'Acess granted!'})
+    if(!process.env.JWT_SECRET){
+      throw new Error(`JWT_SECRET MUST BE SET.`);
+    }
+    const token = jwt.sign(`${Users.id}`,process.env.JWT_SECRET)
+
+    reply.status(200).send({message: 'Acess granted!',
+      token: token
+    })
 
   })
-
-
 }

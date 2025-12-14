@@ -3,6 +3,10 @@ import {validatorCompiler,serializerCompiler,type ZodTypeProvider, jsonSchemaTra
 import { registerRoute } from './routes/userRegister.ts';
 import {fastifySwagger} from '@fastify/swagger'
 import scalarAPIReference from '@scalar/fastify-api-reference'
+import { loginRoute } from './routes/userLogin.ts';
+import { TESTROUTE } from './routes/testRoute.ts';
+import { getTasks } from './routes/taskView.ts';
+import { createTask } from './routes/taskCreate.ts';
 
 const server = fastify(
   {logger: {transport:{
@@ -32,14 +36,17 @@ server.register(scalarAPIReference,{
  
 })}
 
-server.get('/', async (request,reply)=>{
-  reply.status(418).send({WORKING: 'This is fine!👍'})
-})
 
 server.setSerializerCompiler(serializerCompiler)
 server.setValidatorCompiler(validatorCompiler)
 
+
+
+server.register(TESTROUTE)
 server.register(registerRoute)
+server.register(loginRoute)
+server.register(getTasks)
+server.register(createTask)
 
 
 export {server}

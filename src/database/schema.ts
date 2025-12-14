@@ -20,7 +20,7 @@ export const Tasks = pgTable('Tasks',{
   title: text().notNull(),
   description: text().notNull().unique(),
   status: status().notNull().default('pending'),
-  due_date: timestamp('due_date',{mode: 'date'}).notNull().defaultNow(),
+  due_date: timestamp('due_date',{mode: 'date'}),
   id_user: uuid().notNull().references(()=>Users.id)
 });
 
