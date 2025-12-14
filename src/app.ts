@@ -7,18 +7,11 @@ import { loginRoute } from './routes/userLogin.ts';
 import { TESTROUTE } from './routes/testRoute.ts';
 import { getTasks } from './routes/taskView.ts';
 import { createTask } from './routes/taskCreate.ts';
+import { fastifyServer as server } from './config/fastifyServer.ts';
 
-const server = fastify(
-  {logger: {transport:{
-      target: 'pino-pretty',
-      options: {
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname',
-      },
-    },
-  },
-},
-).withTypeProvider<ZodTypeProvider>()
+
+
+server.withTypeProvider<ZodTypeProvider>()
 
 
 if(process.env.NODE_ENV === 'development'){server.register(fastifySwagger,{
