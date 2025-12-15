@@ -2,11 +2,15 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import { db } from '../database/index.ts';
 import { Tasks } from '../database/schema.ts';
 import z from 'zod';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
 
 export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
     '/tasks/:id',
     {
+      preHandler:[
+        checkRequestJWT
+      ],
       schema: {
         summary: 'Create a task',
         params: z.object({

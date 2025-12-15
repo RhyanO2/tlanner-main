@@ -22,7 +22,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
           token: z.string()
 
         }),
-        400: z.object({message: z.string()})
+        401: z.object({message: z.string()})
       }
     },
     
@@ -32,7 +32,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
     const result = await db.select().from(Users).where(eq(Users.email,email))
 
     if(result.length === 0){
-      res.status(400).send({message:'Invalid credentials.'})
+      res.status(401).send({message:'Invalid credentials.'})
     }
 
     const user = result[0]
@@ -40,7 +40,7 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
     const matchPassword = await verify(user.password, password)
 
     if(!matchPassword){
-      res.status(400).send({message: 'Invalid credentials.'})
+      res.status(401).send({message: 'Invalid credentials.'})
     }
 
     if(!process.env.JWT_SECRET){

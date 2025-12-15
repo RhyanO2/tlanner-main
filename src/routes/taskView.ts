@@ -19,23 +19,20 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
         params: z.object({
           id: z.uuid(),
         }),
-        // response: {
-        //   200: z.object({
-        //     user: z.string(),
-        //     tasks: z.array(
-        //       z.object({
-        //         title: z.string(),
-        //         status: z.enum(['pending', 'in_progress', 'done']),
-        //         description: z.string(),
-        //         userRelated: z.string(),
-        //       }),
+        response: {
+          200: z.object({
+            user: z.string(),
+            tasks: z.array(
+              z.object({
+                title: z.string(),
+                status: z.enum(['pending', 'in_progress', 'done']),
+                description: z.string(),
+                userRelated: z.string(),
+              }),
       
-        //     ),
-        //   }),
-        //   403: z.object({
-        //     error: z.string()
-        //   })
-        // },
+            ),
+          }),
+        },
       },
     },
     async (req, res) => {
@@ -43,7 +40,6 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
       // const user = getAuthenticatedUserFromRequest(req)
       console.log(req.headers.authorization);
       
-
       const results = await db
         .select({
           taskID: Tasks.id,
@@ -55,9 +51,7 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
         .from(Tasks)
         .where(eq(Tasks.id_user, userID));
 
-        if(!results[0]){
-          res.status(403).send({error:'UserID not found!!'})
-        }
+       
       res.status(200).send({
         user: userID,
         tasks: results,
