@@ -3,7 +3,7 @@ import {Users} from '../schema.ts';
 import {fakerPT_BR as f} from '@faker-js/faker';
 import {hash} from 'argon2';
 
-
+ 
 export default  {
    createUser: async()=>{ 
     const userName = f.person.firstName()

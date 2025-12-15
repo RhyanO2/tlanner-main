@@ -15,7 +15,8 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
         body: z.object({
           title: z.string(),
           description: z.string(),
-          due_date: z.string(),
+          // status: z.enum([]),
+          // due_date: z.string(),
         }),
         response: {
           201: z.object({
@@ -24,25 +25,27 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
         },
       },
     },
-    async (request, reply) => {
-      const { title, description, due_date } = request.body;
-      const userID = request.params.id;
+    async (req, res) => {
+      const { title, description } = req.body;
+      const userID = req.params.id;
 
-      const date = new Date(due_date);
+      // const date = new Date(due_date);
+      
 
-      const insert = await db
-        .insert(Tasks)
-        .values([
-          {
-            title: title,
-            description: description,
-            due_date: date, // ((((tipagem erro)))) padrão-drizzle
-            id_user: userID,
-          },
-        ])
-        .returning();
 
-      reply.status(201).send({ message: 'Task Created!' });
+      await db.insert(Tasks).values([
+      {
+        title: title,
+        description: description,
+        due_date: new Date(),
+        id_user: userID
+      },
+    ]).returning()
+
+      res.status(201).send({message:'Task created!'});
     }
   );
 };
+
+
+

@@ -26,13 +26,13 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
       }
     },
     
-  }, async(request,reply)=>{
-    const {email,password} = request.body;
+  }, async(req,res)=>{
+    const {email,password} = req.body;
 
     const result = await db.select().from(Users).where(eq(Users.email,email))
 
     if(result.length === 0){
-      reply.status(400).send({message:'Invalid credentials.'})
+      res.status(400).send({message:'Invalid credentials.'})
     }
 
     const user = result[0]
@@ -40,15 +40,15 @@ export const loginRoute: FastifyPluginAsyncZod = async (server)=>{
     const matchPassword = await verify(user.password, password)
 
     if(!matchPassword){
-      reply.status(400).send({message: 'Invalid credentials.'})
+      res.status(400).send({message: 'Invalid credentials.'})
     }
 
     if(!process.env.JWT_SECRET){
       throw new Error(`JWT_SECRET MUST BE SET.`);
     }
-    const token = jwt.sign(`${Users.id}`,process.env.JWT_SECRET)
+    const token = jwt.sign({sub: user.id},process.env.JWT_SECRET)
 
-    reply.status(200).send({message: 'Acess granted!',
+    res.status(200).send({message: 'Acess granted!',
       token: token
     })
 

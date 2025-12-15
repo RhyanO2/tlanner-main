@@ -21,9 +21,9 @@ export const registerRoute: FastifyPluginAsyncZod = async(server)=> {
           201: z.object({User:z.string()})
         }
       },
-    }, async(request,reply)=>{
+    }, async(req,res)=>{
       try{
-        const {name,email,password} = request.body
+        const {name,email,password} = req.body
 
         const hashed = hash(password)
         const createUser = await db.insert(Users).values({
@@ -32,7 +32,7 @@ export const registerRoute: FastifyPluginAsyncZod = async(server)=> {
           password: await hashed
       }).returning()
 
-      reply.status(201).send({User:`${createUser[0].id} Created with sucess`})
+      res.status(201).send({User:`${createUser[0].id} Created with sucess`})
       }catch(err){
         
       }

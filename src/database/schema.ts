@@ -12,7 +12,7 @@ export const Users = pgTable('Users', {
 export const Tasks = pgTable('Tasks', {
   id: uuid().primaryKey().defaultRandom(),
   title: text().notNull(),
-  description: text().notNull().unique(),
+  description: text().notNull(),
   status: status().notNull().default('pending'),
   due_date: timestamp('due_date', { mode: 'date' }),
   id_user: uuid()

@@ -1,0 +1,1 @@
+ALTER TABLE "Tasks" DROP CONSTRAINT "Tasks_description_unique";

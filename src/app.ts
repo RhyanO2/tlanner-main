@@ -8,6 +8,8 @@ import { TESTROUTE } from './routes/testRoute.ts';
 import { getTasks } from './routes/taskView.ts';
 import { createTask } from './routes/taskCreate.ts';
 import { fastifyServer as server } from './config/fastifyServer.ts';
+import { editTask } from './routes/taskUpdate.ts';
+import { deleteTask } from './routes/taskDelete.ts';
 
 
 
@@ -40,6 +42,7 @@ server.register(registerRoute)
 server.register(loginRoute)
 server.register(getTasks)
 server.register(createTask)
-
+server.register(editTask)
+server.register(deleteTask)
 
 export {server}
