@@ -17,6 +17,8 @@ module.exports = {
               password: password
           }).returning()
 
+      return insertedUser
+
   }
 
 };
