@@ -34,7 +34,7 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
     async (req, res) => {
       const userID = req.params.id;
       // const user = getAuthenticatedUserFromRequest(req)
-      console.log(req.headers.authorization);
+      // console.log(req.headers.authorization);
 
       const results = await db
         .select({

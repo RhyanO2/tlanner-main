@@ -31,9 +31,6 @@ export const editTask: FastifyPluginAsyncZod = async (server) => {
     async (req, res) => {
       const { title, description, status, due_date } = req.body;
       const taskID = req.params.id;
-
-      const hasTasks = db.select().from(Tasks).where(eq(Tasks.id,taskID))
-
     
 
       const taskDate = new Date(due_date);
