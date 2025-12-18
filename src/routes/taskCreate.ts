@@ -3,6 +3,7 @@ import { db } from '../database/index.ts';
 import { Tasks } from '../database/schema.ts';
 import z from 'zod';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
+import { postTask } from '../controllers/taskControllers.ts';
 
 export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
@@ -28,26 +29,8 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
           }),
         },
       },
-    },
-    async (req, res) => {
-      const { title, description } = req.body;
-      const userID = req.params.id;
-
-      // const date = new Date(due_date);
-      
-
-
-      await db.insert(Tasks).values([
-      {
-        title: title,
-        description: description,
-        due_date: new Date(),
-        id_user: userID
-      },
-    ]).returning()
-
-      res.status(201).send({message:'Task created!'});
-    }
+    },postTask
+   
   );
 };
 

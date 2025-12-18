@@ -5,8 +5,9 @@ import z from 'zod';
 import { title } from 'node:process';
 import { eq } from 'drizzle-orm';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
+import { editTask } from '../controllers/taskControllers.ts';
 
-export const editTask: FastifyPluginAsyncZod = async (server) => {
+export const putTask: FastifyPluginAsyncZod = async (server) => {
   server.put(
     '/tasks/:id',
     {
@@ -25,27 +26,10 @@ export const editTask: FastifyPluginAsyncZod = async (server) => {
         }),
         response:{
            200:z.object({messaqe:z.string()}),
+           400:z.object({messaqe:z.string()}),
+           500:z.object({messaqe:z.string()}),
         }
       },
-    },
-    async (req, res) => {
-      const { title, description, status, due_date } = req.body;
-      const taskID = req.params.id;
-    
-
-      const taskDate = new Date(due_date);
-
-      await db
-        .update(Tasks)
-        .set({
-          title: title,
-          description: description,
-          status: status,
-          due_date: taskDate,
-        })
-        .where(eq(Tasks.id, taskID));
-
-      res.status(200).send({ messaqe: 'Task Updated!' });
-    }
+    },editTask
   );
 };

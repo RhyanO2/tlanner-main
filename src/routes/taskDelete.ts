@@ -5,6 +5,7 @@ import z from 'zod';
 import { title } from 'node:process';
 import { eq } from 'drizzle-orm';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
+import {delTask} from '../controllers/taskControllers.ts';
 
 export const deleteTask: FastifyPluginAsyncZod = async (server) => {
   server.delete(
@@ -22,12 +23,6 @@ export const deleteTask: FastifyPluginAsyncZod = async (server) => {
         },
       },
     },
-    async (req, res) => {
-      const taskID = req.params.id;
-      
-      await db.delete(Tasks).where(eq(Tasks.id, taskID));
-
-      res.status(200).send({ messaqe: 'Task Deleted!' });
-    }
+    delTask
   );
 };

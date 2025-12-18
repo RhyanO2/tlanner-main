@@ -3,6 +3,7 @@ import { db } from "../database/index.ts";
 import {Users} from "../database/schema.ts";
 import { hash } from "argon2";
 import z from "zod";
+import {register} from '../controllers/userControllers.ts'
 
 
 export const registerRoute: FastifyPluginAsyncZod = async(server)=> {
@@ -21,22 +22,7 @@ export const registerRoute: FastifyPluginAsyncZod = async(server)=> {
           201: z.object({User:z.string()})
         }
       },
-    }, async(req,res)=>{
-      try{
-        const {name,email,password} = req.body
-
-        const hashed = hash(password)
-        const createUser = await db.insert(Users).values({
-          name: name,
-          email: email,
-          password: await hashed
-      }).returning()
-
-      res.status(201).send({User:`${createUser[0].id} Created with sucess`})
-      }catch(err){
-        
-      }
-      
-    })
+    }, register
+  );
 }
 
