@@ -2,6 +2,8 @@ import { Tasks } from '../database/schema.ts';
 import { db } from '../database/index.ts';
 import { eq } from 'drizzle-orm';
 import { taskSelectByUser,taskSelectById,taskInsert,taskUpdate,taskDelete } from '../models/taskModel.ts'
+import { AppError } from '../errors/AppError.ts';
+import { faker } from '@faker-js/faker';
 
 export async function tasksGet(userId: string) {
   
@@ -10,9 +12,14 @@ export async function tasksGet(userId: string) {
 }
 
 
-export async function taskCreate(title: string,description: string,date: Date,userId: string) {
+export async function taskCreate(title: string,description: string,due_date: Date,userId: string) {
+  
+  
+  const realDate = new Date(due_date)
 
-  const realDate = new Date(date)
+  if(!description){
+    description = title
+  }
 
   const createTask = taskInsert(title,description,realDate,userId)
 
@@ -25,7 +32,7 @@ export async function taskEdit(title:string,description:string,status:'pending' 
   const task = taskSelectById(taskId)
 
   if(!task){
-    throw new Error('task cannot be find')
+    throw new AppError('task cannot be find',401)
   }
 
   const realDate = new Date(due_date)
@@ -40,7 +47,7 @@ export async function taskRemove(taskId:string) {
   const task = taskSelectById(taskId)
 
   if(!task){
-    throw new Error('task cannot be find')
+    throw new AppError('task cannot be find',401)
   }
 
   return taskDelete(taskId)

@@ -1,9 +1,19 @@
-import { selectUser, insertUser } from '../models/userModel.ts'
+import { selectUserByEmail, insertUser } from '../models/userModel.ts'
 import { hash, verify } from "argon2";
 import jwt from 'jsonwebtoken'
+import { AppError } from '../errors/AppError.ts';
 
 
 export async function userRegister (name:string,email:string,password:string){
+  
+  const userSelect = await selectUserByEmail(email)
+  if(!name){
+    throw new AppError('User field missing',401)
+  }
+
+  if(userSelect[0]){
+    throw new AppError('Email already exists!',409)
+  }
 
   const hashedPassword = await hash(password)
 
@@ -11,15 +21,15 @@ export async function userRegister (name:string,email:string,password:string){
 
 
 
-  return user[0]
+  return user
 }
 
 export async function userLogin(email:string,password:string) {
 
-  const userSelect = await selectUser(email)
+  const userSelect = await selectUserByEmail(email)
 
   if(userSelect.length === 0){
-    return [401,{message: 'Invalid credentials'}]
+    throw new AppError('Invalid credentials.', 401)
   }
 
   const user = userSelect[0]
@@ -27,17 +37,16 @@ export async function userLogin(email:string,password:string) {
   const matchPassword = await verify(user.password,password)
 
   if(!matchPassword){
-    return [401,{message: 'Invalid credentials'}]
+    throw new AppError('Invalid credentials.', 401)
   }
 
-   if(!process.env.JWT_SECRET){
-      throw new Error(`JWT_SECRET MUST BE SET.`);
-    }
+  if(!process.env.JWT_SECRET){
+    throw new Error(`JWT_SECRET MUST BE SET.`);
+  }
 
   const token = jwt.sign({sub: user.id},process.env.JWT_SECRET)
 
-  return [200,{message:'Acess granted!',token: token}]
-
+  return token
 }
 
 
