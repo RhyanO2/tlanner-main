@@ -25,9 +25,9 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
           due_date: z.string(),
         }),
         response:{
-           200:z.object({messaqe:z.string()}),
-           400:z.object({messaqe:z.string()}),
-           500:z.object({messaqe:z.string()}),
+           200:z.object({message:z.string()}),
+           400:z.object({message:z.string()}),
+           500:z.object({message:z.string()}),
         }
       },
     },editTask

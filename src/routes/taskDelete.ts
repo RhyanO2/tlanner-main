@@ -15,11 +15,13 @@ export const deleteTask: FastifyPluginAsyncZod = async (server) => {
         checkRequestJWT
       ],
       schema: {
+        summary: 'Delete an existent task',
         params: z.object({
           id: z.uuid(),
         }),
         response: {
-          200: z.object({ messaqe: z.string() }),
+          200: z.object({ message: z.string() }),
+          401: z.object({ message: z.string() }),
         },
       },
     },

@@ -15,7 +15,7 @@ test('Delete a created task from the database', async()=>{
 
   expect(response.status).toEqual(200)
   expect(response.body).toEqual({
-    messaqe: expect.any(String)
+    message: expect.any(String)
   })
   
 

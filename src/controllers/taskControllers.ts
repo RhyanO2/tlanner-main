@@ -22,10 +22,10 @@ export async function getTaskByUserID(req: FastifyRequest, res: FastifyReply) {
 
 export async function postTask(req: FastifyRequest, res: FastifyReply) {
   const userId  = req.params.id; 
-  const { title, description,due_date } = req.body as {
+  const { title, description, due_date } = req.body as {
     title: string;
     description: string;
-    due_date: Date;
+    due_date: string;
   };
   try {
     taskCreate(title, description, due_date, userId);
@@ -57,9 +57,13 @@ export async function editTask(req: FastifyRequest, res: FastifyReply) {
 
 export async function delTask(req: FastifyRequest, res: FastifyReply) {
   try {
-    const  taskId  = req.params.id;
+    const taskId:string  = req.params.id;
+  
+
     taskRemove(taskId);
+
     res.status(200).send({message:'Task deleted!'});
+
   }catch(err:any){
     res.status(err.statuscode || 400 ).send({
       message: err.message

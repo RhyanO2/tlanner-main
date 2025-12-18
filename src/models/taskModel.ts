@@ -29,7 +29,7 @@ import { eq } from 'drizzle-orm';
       .where(eq(Tasks.id, taskId));
   }
 
-   export async function taskInsert (title: string,description: string,date: Date,userId: string) {
+   export async function taskInsert (title: string,description: string,date: Date ,userId: string) {
     const insertedTask = await db
       .insert(Tasks)
       .values([
@@ -72,6 +72,6 @@ import { eq } from 'drizzle-orm';
       .where(eq(Tasks.id, taskId))
       .returning();
 
-    return deletedTask;
+    return deletedTask[0];
   }
 

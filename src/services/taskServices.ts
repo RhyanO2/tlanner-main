@@ -12,10 +12,10 @@ export async function tasksGet(userId: string) {
 }
 
 
-export async function taskCreate(title: string,description: string,due_date: Date,userId: string) {
-  
+export async function taskCreate(title: string,description: string,due_date: string,userId: string) {
   
   const realDate = new Date(due_date)
+  
 
   if(!description){
     description = title
@@ -29,9 +29,9 @@ export async function taskCreate(title: string,description: string,due_date: Dat
 
 export async function taskEdit(title:string,description:string,status:'pending' | 'in_progress' | 'done',due_date:string,taskId:string) {
 
-  const task = taskSelectById(taskId)
+  const task = await taskSelectById(taskId)
 
-  if(!task){
+  if(task.length === 0){
     throw new AppError('task cannot be find',401)
   }
 
@@ -44,9 +44,10 @@ export async function taskEdit(title:string,description:string,status:'pending' 
 
 export async function taskRemove(taskId:string) {
 
-  const task = taskSelectById(taskId)
+  const task = await taskSelectById(taskId)
 
-  if(!task){
+
+  if(task.length === 0){
     throw new AppError('task cannot be find',401)
   }
 
