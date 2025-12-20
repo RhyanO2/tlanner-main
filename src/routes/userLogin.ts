@@ -21,7 +21,6 @@ export const loginRoute: FastifyPluginAsyncZod = async (server) => {
         },
       },
     },
-      login
-    
+    login
   );
 };

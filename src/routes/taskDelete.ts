@@ -5,15 +5,13 @@ import z from 'zod';
 import { title } from 'node:process';
 import { eq } from 'drizzle-orm';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import {delTask} from '../controllers/taskControllers.ts';
+import { delTask } from '../controllers/taskControllers.ts';
 
 export const deleteTask: FastifyPluginAsyncZod = async (server) => {
   server.delete(
     '/tasks/:id',
     {
-      preHandler:[
-        checkRequestJWT
-      ],
+      preHandler: [checkRequestJWT],
       schema: {
         summary: 'Delete an existent task',
         params: z.object({

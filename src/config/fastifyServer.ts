@@ -1,8 +1,8 @@
-import fastify from "fastify";
+import fastify from 'fastify';
 
-
-export const fastifyServer = fastify(
-  {logger: {transport:{
+export const fastifyServer = fastify({
+  logger: {
+    transport: {
       target: 'pino-pretty',
       options: {
         translateTime: 'HH:MM:ss Z',
@@ -10,5 +10,4 @@ export const fastifyServer = fastify(
       },
     },
   },
-},
-)
+});

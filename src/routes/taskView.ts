@@ -31,6 +31,7 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
           }),
         },
       },
-    },getTaskByUserID
+    },
+    getTaskByUserID
   );
 };

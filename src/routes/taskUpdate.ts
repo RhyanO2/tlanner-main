@@ -11,9 +11,7 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
   server.put(
     '/tasks/:id',
     {
-      preHandler:[
-        checkRequestJWT
-      ],
+      preHandler: [checkRequestJWT],
       schema: {
         params: z.object({
           id: z.uuid(),
@@ -24,12 +22,13 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
           status: z.enum(['pending', 'in_progress', 'done']),
           due_date: z.string(),
         }),
-        response:{
-           200:z.object({message:z.string()}),
-           400:z.object({message:z.string()}),
-           500:z.object({message:z.string()}),
-        }
+        response: {
+          200: z.object({ message: z.string() }),
+          400: z.object({ message: z.string() }),
+          500: z.object({ message: z.string() }),
+        },
       },
-    },editTask
+    },
+    editTask
   );
 };

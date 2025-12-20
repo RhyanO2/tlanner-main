@@ -9,9 +9,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
     '/tasks/:id',
     {
-      preHandler:[
-        checkRequestJWT
-      ],
+      preHandler: [checkRequestJWT],
       schema: {
         summary: 'Create a task',
         params: z.object({
@@ -29,10 +27,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
           }),
         },
       },
-    },postTask
-   
+    },
+    postTask
   );
 };
-
-
-

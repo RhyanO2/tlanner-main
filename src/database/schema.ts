@@ -1,4 +1,11 @@
-import {date,pgEnum,pgTable,text,timestamp,uuid,} from 'drizzle-orm/pg-core';
+import {
+  date,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const status = pgEnum('task_status', ['pending', 'in_progress', 'done']);
 
@@ -19,3 +26,8 @@ export const Tasks = pgTable('Tasks', {
     .notNull()
     .references(() => Users.id),
 });
+
+// export const Images = pgTable('Images',{
+//   id: uuid().primaryKey().defaultRandom,
+
+// })
