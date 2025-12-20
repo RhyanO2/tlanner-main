@@ -2,6 +2,7 @@ import { selectUserByEmail, insertUser } from '../models/userModel.ts';
 import { hash, verify } from 'argon2';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError.ts';
+import { sendEmail } from './mailService.ts';
 
 export async function userRegister(
   name: string,
@@ -27,6 +28,8 @@ export async function userRegister(
 export async function userLogin(email: string, password: string) {
   const userSelect = await selectUserByEmail(email);
 
+  const userName = userSelect[0].name
+
   if (userSelect.length === 0) {
     throw new AppError('Invalid credentials.', 401);
   }
@@ -43,7 +46,8 @@ export async function userLogin(email: string, password: string) {
     throw new Error(`JWT_SECRET MUST BE SET.`);
   }
 
-  const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET);
 
+  const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET);
+  sendEmail(email,userName); //sometime i fix that
   return token;
 }
