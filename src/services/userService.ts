@@ -28,13 +28,13 @@ export async function userRegister(
 export async function userLogin(email: string, password: string) {
   const userSelect = await selectUserByEmail(email);
 
-  const userName = userSelect[0].name;
-
   if (userSelect.length === 0) {
     throw new AppError('Invalid credentials.', 401);
   }
 
   const user = userSelect[0];
+  const name = user.name
+  
 
   const matchPassword = await verify(user.password, password);
 
@@ -47,6 +47,6 @@ export async function userLogin(email: string, password: string) {
   }
 
   const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET);
-  sendEmail(email, userName); //sometime i fix that
+  sendEmail(email, name); //sometime i fix that 
   return token;
 }
