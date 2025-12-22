@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node --env-file .env --watch src/server.ts",
     "start test": "node --env-file test.env --watch src/server.ts",
-    "test": "dotenv -e test.env vitest run"
+    "test": "dotenv -e test.env vitest run",
+    "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate"
   },
   "keywords": [],
   "author": "",

@@ -6,7 +6,7 @@ export async function sendEmail(email:string,userName:string) {
     from: '"Mail sender test" <rhyanlindorp@gmail.com>',
     to: email,
     subject: 'Welcome Back!',
-    html: `<h1>Welcome Back!${userName ? `, ${userName}` : ''}! Good to see you again.</p>`,
+    html: `<h1>Welcome Back${userName ? `, ${userName}` : ''}!</h1><p>Good to see you again.</p>`,
   })
 
 
