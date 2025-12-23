@@ -1,13 +1,5 @@
-- [ ] TASK ROUTES PAGINATION
-- [x] ALL ROUTES WORKING
-- [x] TESTS 
-- [x] JWT
-- [x] ROUTER PROTECTION
-- [ ] DEPENDENCY INVERSION
-- [ ] 
 
-
-###  Errors: 
+###  Critical errors observed during project development: 
 
 ``` src/tests/taskEdit.spec.ts > Edit task giving taskID in reqparams
 Error: Test timed out in 5000ms.
