@@ -14,6 +14,7 @@ import { createTask } from './routes/taskCreate.ts';
 import { fastifyServer as server } from './config/fastifyServer.ts';
 import { putTask } from './routes/taskUpdate.ts';
 import { deleteTask } from './routes/taskDelete.ts';
+import cors from '@fastify/cors'
 
 server.withTypeProvider<ZodTypeProvider>();
 
@@ -35,6 +36,9 @@ if (process.env.NODE_ENV === 'development') {
 
 server.setSerializerCompiler(serializerCompiler);
 server.setValidatorCompiler(validatorCompiler);
+
+server.register(cors)
+
 
 server.register(TESTROUTE);
 server.register(registerRoute);
