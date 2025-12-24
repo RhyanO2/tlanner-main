@@ -1,8 +1,6 @@
 import { userLogin, userRegister } from '../services/userService.ts';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
-// const {FastifyRequest,FastifyReply} = pkg
-
 export async function register(req: FastifyRequest, res: FastifyReply) {
   try {
     const { name, email, password } = req.body as {

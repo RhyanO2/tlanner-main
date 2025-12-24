@@ -47,7 +47,7 @@ export async function editTask(req: FastifyRequest, res: FastifyReply) {
     due_date: string;
   };
   try {
-    taskEdit(title, description, status, due_date, taskId);
+    await taskEdit(title, description, status, due_date, taskId);
     res.status(200).send({ message: 'Task edited!' });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
@@ -60,7 +60,7 @@ export async function delTask(req: FastifyRequest, res: FastifyReply) {
   try {
     const taskId: string = req.params.id;
 
-    taskRemove(taskId);
+    await taskRemove(taskId);
 
     res.status(200).send({ message: 'Task deleted!' });
   } catch (err: any) {

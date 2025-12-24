@@ -1,7 +1,4 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
-import { db } from '../database/index.ts';
-import { Users } from '../database/schema.ts';
-import { hash } from 'argon2';
 import z from 'zod';
 import { register } from '../controllers/userControllers.ts';
 

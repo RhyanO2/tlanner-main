@@ -1,9 +1,5 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
-import { db } from '../database/index.ts';
-import { Tasks, Users } from '../database/schema.ts';
 import z from 'zod';
-import { title } from 'node:process';
-import { eq } from 'drizzle-orm';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
 import { delTask } from '../controllers/taskControllers.ts';
 

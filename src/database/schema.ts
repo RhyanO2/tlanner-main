@@ -1,5 +1,4 @@
 import {
-  date,
   pgEnum,
   pgTable,
   text,
