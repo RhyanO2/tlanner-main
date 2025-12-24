@@ -18,8 +18,8 @@ export async function makeUser() {
     .returning();
 
   return {
-    user: user[0], //Retorna o usuário criado
-    password, // Retorna a senha antes do hash do usuário criado
+    user: user[0],
+    password,
   };
 }
 

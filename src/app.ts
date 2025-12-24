@@ -1,4 +1,3 @@
-import fastify from 'fastify';
 import {
   validatorCompiler,
   serializerCompiler,
@@ -23,7 +22,7 @@ if (process.env.NODE_ENV === 'development') {
     openapi: {
       info: {
         title: 'Tlanner-api',
-        version: '1.0.0',
+        version: '1.1.0',
       },
     },
     transform: jsonSchemaTransform,
