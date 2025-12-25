@@ -1,2 +1,9 @@
 onlyBuiltDependencies:
+  - argon2
+  - core-js
   - esbuild
+  - keccak
+  - scrypt
+  - secp256k1
+  - sha3
+  - websocket
