@@ -1,18 +1,19 @@
-import { Tasks } from '../database/schema.ts';
+import { Tasks, statusPriority, taskPriority } from '../database/schema.ts';
 import { db } from '../database/index.ts';
 import { eq } from 'drizzle-orm';
 
-export async function taskSelectByUser(userId: string) {
+export async function taskSelectByWorkspace(WorkspaceID: string) {
   return await db
     .select({
       taskID: Tasks.id,
       title: Tasks.title,
       status: Tasks.status,
+      priority: Tasks.priority,
       description: Tasks.description,
-      userRelated: Tasks.id_user,
+      workspaceRelated: Tasks.id_workspace,
     })
     .from(Tasks)
-    .where(eq(Tasks.id_user, userId));
+    .where(eq(Tasks.id_workspace, WorkspaceID));
 }
 
 export async function taskSelectById(taskId: string) {
@@ -21,8 +22,9 @@ export async function taskSelectById(taskId: string) {
       taskID: Tasks.id,
       title: Tasks.title,
       status: Tasks.status,
+      priority: Tasks.priority,
       description: Tasks.description,
-      userRelated: Tasks.id_user,
+      workspaceRelated: Tasks.id_workspace,
     })
     .from(Tasks)
     .where(eq(Tasks.id, taskId));
@@ -32,7 +34,8 @@ export async function taskInsert(
   title: string,
   description: string,
   date: Date,
-  userId: string
+  priority: taskPriority,
+  workspaceID: string
 ) {
   const insertedTask = await db
     .insert(Tasks)
@@ -41,7 +44,8 @@ export async function taskInsert(
         title: title,
         description: description,
         due_date: date,
-        id_user: userId,
+        priority: priority,
+        id_workspace: workspaceID,
       },
     ])
     .returning();
@@ -52,7 +56,8 @@ export async function taskInsert(
 export async function taskUpdate(
   title: string,
   description: string,
-  status: 'pending' | 'in_progress' | 'done',
+  status: statusPriority,
+  priority: taskPriority,
   due_date: Date,
   taskId: string
 ) {
@@ -62,6 +67,7 @@ export async function taskUpdate(
       title: title,
       description: description,
       status: status,
+      priority: priority,
       due_date: due_date,
     })
     .where(eq(Tasks.id, taskId))
