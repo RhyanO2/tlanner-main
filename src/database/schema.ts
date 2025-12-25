@@ -7,6 +7,8 @@ export const priority = pgEnum('task_priotity', [
   'high',
   'urgent',
 ]);
+export type statusPriority = (typeof status.enumValues)[number];
+export type taskPriority = (typeof priority.enumValues)[number];
 
 export const Users = pgTable('Users', {
   id: uuid().primaryKey().defaultRandom(),
