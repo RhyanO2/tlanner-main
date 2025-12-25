@@ -36,6 +36,13 @@
       "when": 1765730102288,
       "tag": "0004_smiling_gladiator",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1766679596416,
+      "tag": "0005_conscious_raider",
+      "breakpoints": true
     }
   ]
 }
