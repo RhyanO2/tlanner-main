@@ -15,7 +15,7 @@ export const deleteTask: FastifyPluginAsyncZod = async (server) => {
         }),
         response: {
           200: z.object({ message: z.string() }),
-          401: z.object({ message: z.string() }),
+          404: z.object({ message: z.string() }),
         },
       },
     },

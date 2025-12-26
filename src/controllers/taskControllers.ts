@@ -15,7 +15,7 @@ export async function getTaskByWorkspaceID(
     const { workspaceID } = req.params as { workspaceID: string };
     const result = await tasksGet(workspaceID);
     res.status(200).send({
-      user: workspaceID,
+      workspace: workspaceID,
       tasks: result,
     });
   } catch (err: any) {
@@ -26,12 +26,12 @@ export async function getTaskByWorkspaceID(
 }
 
 export async function postTask(req: FastifyRequest, res: FastifyReply) {
-  const { workspaceID } = req.params as { workspaceID: string };
-  const { title, description, priority, due_date } = req.body as {
+  const { title, description, priority, due_date, workspaceID } = req.body as {
     title: string;
     description: string;
     due_date: string;
     priority: 'low' | 'normal' | 'high' | 'urgent';
+    workspaceID: string;
   };
   try {
     taskCreate(title, description, due_date, priority, workspaceID);
@@ -44,7 +44,7 @@ export async function postTask(req: FastifyRequest, res: FastifyReply) {
 }
 
 export async function editTask(req: FastifyRequest, res: FastifyReply) {
-  const { taskID } = req.params as { taskID: string };
+  const { id } = req.params as { id: string };
   const { title, description, priority, status, due_date } = req.body as {
     title: string;
     description: string;
@@ -53,7 +53,7 @@ export async function editTask(req: FastifyRequest, res: FastifyReply) {
     due_date: string;
   };
   try {
-    await taskEdit(title, description, priority, status, due_date, taskID);
+    await taskEdit(title, description, priority, status, due_date, id);
     res.status(200).send({ message: 'Task edited!' });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
@@ -64,9 +64,9 @@ export async function editTask(req: FastifyRequest, res: FastifyReply) {
 
 export async function delTask(req: FastifyRequest, res: FastifyReply) {
   try {
-    const { taskID } = req.params as { taskID: string };
+    const { id } = req.params as { id: string };
 
-    await taskRemove(taskID);
+    await taskRemove(id);
 
     res.status(200).send({ message: 'Task deleted!' });
   } catch (err: any) {
