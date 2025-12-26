@@ -1,17 +1,17 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { getTaskByWorkspaceID } from '../controllers/taskControllers.ts';
+import { getUserWorkspaces } from '../controllers/workspaceControllers.ts';
 
-export const getTasks: FastifyPluginAsyncZod = async (server) => {
+export const userWorkspaces: FastifyPluginAsyncZod = async (server) => {
   server.get(
-    '/tasks/:workspaceID',
+    '/user/:userID/workspaces',
     {
       preHandler: [checkRequestJWT],
       schema: {
         summary: 'Get tasks related to an user by ID',
         params: z.object({
-          workspaceID: z.uuid(),
+          userID: z.uuid(),
         }),
         // response: {
         //   200: z.object({
@@ -28,6 +28,6 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
         // },
       },
     },
-    getTaskByWorkspaceID
+    getUserWorkspaces
   );
 };
