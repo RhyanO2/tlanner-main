@@ -1,4 +1,4 @@
-import { Tasks, statusPriority, taskPriority } from '../database/schema.ts';
+import { Tasks } from '../database/schema.ts';
 import { db } from '../database/index.ts';
 import { eq } from 'drizzle-orm';
 
@@ -34,7 +34,7 @@ export async function taskInsert(
   title: string,
   description: string,
   date: Date,
-  priority: taskPriority,
+  priority: 'low' | 'normal' | 'high' | 'urgent',
   workspaceID: string
 ) {
   const insertedTask = await db
@@ -56,8 +56,8 @@ export async function taskInsert(
 export async function taskUpdate(
   title: string,
   description: string,
-  status: statusPriority,
-  priority: taskPriority,
+  status: 'pending' | 'in_progress' | 'done',
+  priority: 'low' | 'normal' | 'high' | 'urgent',
   due_date: Date,
   taskId: string
 ) {

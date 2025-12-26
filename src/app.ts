@@ -14,7 +14,12 @@ import { createTask } from './routes/taskCreate.ts';
 import { fastifyServer as server } from './config/fastifyServer.ts';
 import { putTask } from './routes/taskUpdate.ts';
 import { deleteTask } from './routes/taskDelete.ts';
-import cors from '@fastify/cors'
+import { userWorkspaces } from './routes/userWorkspaceView.ts';
+import { getWorkspace } from './routes/workspaceView.ts';
+import { WorkspacePost } from './routes/workspaceCreate.ts';
+import { WorkspacePut } from './routes/workspaceUpdate.ts';
+import { WorkspaceDelete } from './routes/workspaceDelete.ts';
+import cors from '@fastify/cors';
 
 server.withTypeProvider<ZodTypeProvider>();
 
@@ -37,8 +42,7 @@ if (process.env.NODE_ENV === 'development') {
 server.setSerializerCompiler(serializerCompiler);
 server.setValidatorCompiler(validatorCompiler);
 
-server.register(cors)
-
+server.register(cors);
 
 server.register(TESTROUTE);
 server.register(registerRoute);
@@ -47,5 +51,10 @@ server.register(getTasks);
 server.register(createTask);
 server.register(putTask);
 server.register(deleteTask);
+server.register(userWorkspaces);
+server.register(getWorkspace);
+server.register(WorkspacePost);
+server.register(WorkspacePut);
+server.register(WorkspaceDelete);
 
 export { server };
