@@ -10,9 +10,9 @@ import {
 export async function userWorkspacesGet(userID: string) {
   const workspaces = await selectUserWorkspaces(userID);
 
-  // if (workspaces.length === 0) {
-  //   throw new AppError('User do not have workspaces yet', 404);
-  // }
+  if (workspaces.length === 0) {
+    throw new AppError('User do not have workspaces yet', 404);
+  }
 
   return { workspaces };
 }
