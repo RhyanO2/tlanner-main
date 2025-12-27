@@ -15,7 +15,7 @@ export const WorkspacePost: FastifyPluginAsyncZod = async (server) => {
           id_user: z.uuid(),
         }),
         response: {
-          200: z.object({
+          201: z.object({
             message: z.string(),
           }),
         },

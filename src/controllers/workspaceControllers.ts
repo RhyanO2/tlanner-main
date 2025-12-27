@@ -43,7 +43,7 @@ export async function PostWorkspace(req: FastifyRequest, res: FastifyReply) {
       id_user: string;
     };
     const results = WorkspaceCreate(title, id_user);
-    res.status(200).send({ message: 'Workspace created' });
+    res.status(201).send({ message: 'Workspace created' });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
