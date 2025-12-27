@@ -14,7 +14,7 @@ describe('TaskEdit Tests', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .put(`/tasks/${task.id}`)
+      .put(`/task/${task.id}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
@@ -57,7 +57,7 @@ describe('TaskEdit Tests', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .put(`/tasks/${task}`)
+      .put(`/task/${task}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
