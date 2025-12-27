@@ -31,7 +31,13 @@ export async function taskCreate(
     description = title;
   }
 
-  const createTask = taskInsert(title, description, realDate, priority, workspaceID);
+  const createTask = taskInsert(
+    title,
+    description,
+    realDate,
+    priority,
+    workspaceID
+  );
 
   return createTask;
 }
