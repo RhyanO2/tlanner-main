@@ -17,6 +17,11 @@ export const WorkspacePut: FastifyPluginAsyncZod = async (server) => {
         body: z.object({
           title: z.string(),
         }),
+        response: {
+          200: z.object({
+            message: z.string(),
+          }),
+        },
       },
     },
     PutWorkspace

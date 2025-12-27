@@ -2,7 +2,7 @@ import { Tasks } from '../database/schema.ts';
 import { db } from '../database/index.ts';
 import { eq } from 'drizzle-orm';
 
-export async function taskSelectByWorkspace(WorkspaceID: string) {
+export async function taskSelectByID(taskID: string) {
   return await db
     .select({
       taskID: Tasks.id,
@@ -13,7 +13,7 @@ export async function taskSelectByWorkspace(WorkspaceID: string) {
       workspaceRelated: Tasks.id_workspace,
     })
     .from(Tasks)
-    .where(eq(Tasks.id_workspace, WorkspaceID));
+    .where(eq(Tasks.id, taskID));
 }
 
 export async function taskSelectById(taskId: string) {

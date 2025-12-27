@@ -28,7 +28,7 @@ export async function getWorkspaceByID(req: FastifyRequest, res: FastifyReply) {
     const { id } = req.params as { id: string };
     const results = await WorkspaceGet(id);
 
-    res.status(200).send(results);
+    res.status(200).send({ results });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,

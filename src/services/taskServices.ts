@@ -1,5 +1,5 @@
 import {
-  taskSelectByWorkspace,
+  taskSelectByID,
   taskSelectById,
   taskInsert,
   taskUpdate,
@@ -8,8 +8,8 @@ import {
 // import { taskPriority } from '../database/schema.ts';
 import { AppError } from '../errors/AppError.ts';
 
-export async function tasksGet(workspaceID: string) {
-  const tasks = await taskSelectByWorkspace(workspaceID);
+export async function tasksGet(taskID: string) {
+  const tasks = await taskSelectByID(taskID);
 
   if (tasks.length === 0) {
     throw new AppError('Cannot find task related to this user workspace', 404);

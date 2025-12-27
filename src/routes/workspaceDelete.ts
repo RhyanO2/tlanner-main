@@ -13,6 +13,11 @@ export const WorkspaceDelete: FastifyPluginAsyncZod = async (server) => {
         params: z.object({
           id: z.uuid(),
         }),
+        response: {
+          200: z.object({
+            message: z.string(),
+          }),
+        },
       },
     },
     DeleteWorkspace
