@@ -5,7 +5,7 @@ import { editTask } from '../controllers/taskControllers.ts';
 
 export const putTask: FastifyPluginAsyncZod = async (server) => {
   server.put(
-    '/tasks/:id',
+    '/task/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {

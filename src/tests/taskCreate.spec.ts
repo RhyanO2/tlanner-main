@@ -14,7 +14,7 @@ test('Create a task', async () => {
   const date = new Date(f.date.future());
 
   const response = await request(server.server)
-    .post(`/tasks`)
+    .post(`/workspace/${workspaceID}/tasks`)
     .set('Content-Type', 'application/json')
     .set('Authorization', token)
     .send({

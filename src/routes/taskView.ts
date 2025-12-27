@@ -5,7 +5,7 @@ import { getTaskByID } from '../controllers/taskControllers.ts';
 
 export const getTasks: FastifyPluginAsyncZod = async (server) => {
   server.get(
-    '/tasks/:id',
+    '/task/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {

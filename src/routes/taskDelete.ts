@@ -5,7 +5,7 @@ import { delTask } from '../controllers/taskControllers.ts';
 
 export const deleteTask: FastifyPluginAsyncZod = async (server) => {
   server.delete(
-    '/tasks/:id',
+    '/task/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {

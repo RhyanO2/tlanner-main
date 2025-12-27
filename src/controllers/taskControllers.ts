@@ -23,7 +23,10 @@ export async function getTaskByID(req: FastifyRequest, res: FastifyReply) {
 }
 
 export async function postTask(req: FastifyRequest, res: FastifyReply) {
-  const { title, description, priority, due_date, workspaceID } = req.body as {
+  const {workspaceID} = req.params as {
+    workspaceID:string
+  }
+  const { title, description, priority, due_date } = req.body as {
     title: string;
     description: string;
     due_date: string;

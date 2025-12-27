@@ -33,8 +33,7 @@ export async function userLogin(email: string, password: string) {
   }
 
   const user = userSelect[0];
-  const name = user.name
-  
+  const name = user.name;
 
   const matchPassword = await verify(user.password, password);
 
@@ -46,7 +45,9 @@ export async function userLogin(email: string, password: string) {
     throw new Error(`JWT_SECRET MUST BE SET.`);
   }
 
-  const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET);
-  sendEmail(email, name); //sometime i fix that 
+  const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
+    expiresIn: '5h',
+  });
+  sendEmail(email, name); //sometime i fix that
   return token;
 }

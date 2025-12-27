@@ -15,7 +15,7 @@ describe('Task view', () => {
     const taskID = (await makeTaskInWorkspace(workspaceID)).id;
 
     const response = await request(server.server)
-      .get(`/tasks/${taskID}`)
+      .get(`/task/${taskID}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
@@ -32,7 +32,7 @@ describe('Task view', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .get(`/tasks/${user}`)
+      .get(`/task/${user}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
