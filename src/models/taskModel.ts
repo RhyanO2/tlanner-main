@@ -30,6 +30,14 @@ export async function taskSelectById(taskId: string) {
     .where(eq(Tasks.id, taskId));
 }
 
+export async function selectTasksByWorkspaceId(workspaceID: string) {
+  const workspace = await db
+    .select()
+    .from(Tasks)
+    .where(eq(Tasks.id_workspace, workspaceID));
+  return workspace;
+}
+
 export async function taskInsert(
   title: string,
   description: string,

@@ -35,5 +35,5 @@ export const Tasks = pgTable('Tasks', {
   due_date: timestamp('due_date', { mode: 'date' }),
   id_workspace: uuid()
     .notNull()
-    .references(() => Workspace.id),
+    .references(() => Workspace.id, { onDelete: 'cascade' }),
 });

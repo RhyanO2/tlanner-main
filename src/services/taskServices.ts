@@ -4,6 +4,7 @@ import {
   taskInsert,
   taskUpdate,
   taskDelete,
+  selectTasksByWorkspaceId,
 } from '../models/taskModel.ts';
 // import { taskPriority } from '../database/schema.ts';
 import { AppError } from '../errors/AppError.ts';
@@ -12,7 +13,20 @@ export async function tasksGet(taskID: string) {
   const tasks = await taskSelectByID(taskID);
 
   if (tasks.length === 0) {
-    throw new AppError('Cannot find task related to this user workspace', 404);
+    throw new AppError(`Task ID${taskID} does not exists`, 404);
+  }
+
+  return tasks;
+}
+
+export async function WorkspaceTasksGet(workspaceID: string) {
+  const tasks = await selectTasksByWorkspaceId(workspaceID);
+
+  if (tasks.length === 0) {
+    throw new AppError(
+      'Cannot find tasks related to this user workspace yet. Create one at the upper button',
+      404
+    );
   }
 
   return tasks;

@@ -21,7 +21,7 @@ export async function WorkspaceGet(workspaceID: string) {
   const workspace = await selectWorkspaceById(workspaceID);
 
   if (workspace.length === 0) {
-    throw new AppError(`${workspaceID} workspace cannot be founded`);
+    throw new AppError(`${workspaceID} workspace cannot be founded`, 404);
   }
 
   return workspace;
@@ -40,6 +40,12 @@ export async function WorkspaceEdit(title: string, workspaceID: string) {
 }
 
 export async function WorkspaceDelete(workspaceID: string) {
+  const workspace = await selectWorkspaceById(workspaceID);
+
+  if (workspace.length === 0) {
+    throw new AppError(`(${workspaceID}) workspace cannot be founded`, 404);
+  }
+
   const deleteWorkspace = await removeWorkspace(workspaceID);
 
   return deleteWorkspace;
