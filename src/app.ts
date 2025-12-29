@@ -20,6 +20,7 @@ import { WorkspacePost } from './routes/workspaceCreate.ts';
 import { WorkspacePut } from './routes/workspaceUpdate.ts';
 import { WorkspaceDelete } from './routes/workspaceDelete.ts';
 import cors from '@fastify/cors';
+import { WorkspaceTasks } from './routes/workspaceTasks.ts';
 
 server.withTypeProvider<ZodTypeProvider>();
 
@@ -42,7 +43,13 @@ if (process.env.NODE_ENV === 'development') {
 server.setSerializerCompiler(serializerCompiler);
 server.setValidatorCompiler(validatorCompiler);
 
-server.register(cors);
+// Configure CORS - must be registered before routes
+server.register(cors, {
+  origin: true, // Allow all origins (for development)
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+});
 
 server.register(TESTROUTE);
 server.register(registerRoute);
@@ -56,5 +63,6 @@ server.register(getWorkspace);
 server.register(WorkspacePost);
 server.register(WorkspacePut);
 server.register(WorkspaceDelete);
+server.register(WorkspaceTasks);
 
 export { server };
