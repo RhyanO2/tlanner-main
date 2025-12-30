@@ -1,10 +1,10 @@
 import { describe, test, expect } from 'vitest';
 import request from 'supertest';
-import { server } from '';
-import { authenticateCreatedUser } from '';
+import { server } from '../app';
+import { authenticateCreatedUser } from './factories/makeUser';
 
 import { faker as f } from '@faker-js/faker';
-import { makeWorkspace } from '';
+import { makeWorkspace } from './factories/makeUserWorkspace';
 
 describe('Workspace Create', () => {
   test('Edit created user workspace', async () => {
