@@ -1,5 +1,5 @@
-import { Tasks } from '../database/schema.ts';
-import { db } from '../database/index.ts';
+import { Tasks } from '../database/schema';
+import { db } from '../database/index';
 import { eq } from 'drizzle-orm';
 
 export async function taskSelectByID(taskID: string) {

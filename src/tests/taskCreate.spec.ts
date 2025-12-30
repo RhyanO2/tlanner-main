@@ -1,9 +1,9 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
+import { server } from '../app';
 import { faker as f } from '@faker-js/faker';
-import { authenticateCreatedUser } from './factories/makeUser.ts';
-import { makeWorkspace } from './factories/makeUserWorkspace.ts';
+import { authenticateCreatedUser } from './factories/makeUser';
+import { makeWorkspace } from './factories/makeUserWorkspace';
 
 test('Create a task', async () => {
   await server.ready(); // espera o servidor rodar

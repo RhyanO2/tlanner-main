@@ -1,4 +1,4 @@
-import {mailProvider} from '../infra/mail.ts'
+import {mailProvider} from '../infra/mail'
 
 export async function sendEmail(email:string,userName:string) {
 

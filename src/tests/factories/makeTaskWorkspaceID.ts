@@ -1,7 +1,7 @@
 import { faker as f } from '@faker-js/faker';
-import { db } from '../../database/index.ts';
-import { Tasks } from '../../database/schema.ts';
-import { makeUser } from './makeUser.ts';
+import { db } from '../../database/index';
+import { Tasks } from '../../database/schema';
+import { makeUser } from './makeUser';
 
 export async function makeTaskInWorkspace(workspaceID: string) {
   const Task = await db

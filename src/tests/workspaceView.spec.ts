@@ -1,9 +1,9 @@
 import { describe, test, expect } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
-import { authenticateCreatedUser } from './factories/makeUser.ts';
-import { makeWorkspace } from './factories/makeUserWorkspace.ts';
-import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.ts';
+import { server } from '../app';
+import { authenticateCreatedUser } from './factories/makeUser';
+import { makeWorkspace } from './factories/makeUserWorkspace';
+import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID';
 
 describe('Workspace views', () => {
   test('View all task from a user workspace ', async () => {

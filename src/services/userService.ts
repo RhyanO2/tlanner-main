@@ -1,8 +1,8 @@
-import { selectUserByEmail, insertUser } from '../models/userModel.ts';
+import { selectUserByEmail, insertUser } from '../models/userModel';
 import { hash, verify } from 'argon2';
 import jwt from 'jsonwebtoken';
-import { AppError } from '../errors/AppError.ts';
-import { sendEmail } from './mailService.ts';
+import { AppError } from '../errors/AppError';
+import { sendEmail } from './mailService';
 
 export async function userRegister(
   name: string,

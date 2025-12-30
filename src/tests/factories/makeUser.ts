@@ -1,7 +1,7 @@
-import { Users } from '../../database/schema.ts';
+import { Users } from '../../database/schema';
 import { fakerPT_BR as f } from '@faker-js/faker';
 import jwt from 'jsonwebtoken';
-import { db } from '../../database/index.ts';
+import { db } from '../../database/index';
 import { hash } from 'argon2';
 import { randomUUID } from 'node:crypto';
 

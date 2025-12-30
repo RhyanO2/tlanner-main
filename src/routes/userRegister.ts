@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { register } from '../controllers/userControllers.ts';
+import { register } from '../controllers/userControllers';
 
 export const registerRoute: FastifyPluginAsyncZod = async (server) => {
   server.post(
