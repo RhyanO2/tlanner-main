@@ -1,5 +1,5 @@
-import { db } from '../index.ts';
-import { Users } from '../schema.ts';
+import { db } from '../index.js';
+import { Users } from '../schema.js';
 import { fakerPT_BR as f } from '@faker-js/faker';
 import { hash } from 'argon2';
 

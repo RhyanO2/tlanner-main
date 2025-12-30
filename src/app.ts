@@ -4,23 +4,23 @@ import {
   type ZodTypeProvider,
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod';
-import { registerRoute } from './routes/userRegister.ts';
+import { registerRoute } from './routes/userRegister.js';
 import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
-import { loginRoute } from './routes/userLogin.ts';
-import { TESTROUTE } from './routes/testRoute.ts';
-import { getTasks } from './routes/taskView.ts';
-import { createTask } from './routes/taskCreate.ts';
-import { fastifyServer as server } from './config/fastifyServer.ts';
-import { putTask } from './routes/taskUpdate.ts';
-import { deleteTask } from './routes/taskDelete.ts';
-import { userWorkspaces } from './routes/userWorkspaceView.ts';
-import { getWorkspace } from './routes/workspaceView.ts';
-import { WorkspacePost } from './routes/workspaceCreate.ts';
-import { WorkspacePut } from './routes/workspaceUpdate.ts';
-import { WorkspaceDelete } from './routes/workspaceDelete.ts';
+import { loginRoute } from './routes/userLogin.js';
+import { TESTROUTE } from './routes/testRoute.js';
+import { getTasks } from './routes/taskView.js';
+import { createTask } from './routes/taskCreate.js';
+import { fastifyServer as server } from './config/fastifyServer.js';
+import { putTask } from './routes/taskUpdate.js';
+import { deleteTask } from './routes/taskDelete.js';
+import { userWorkspaces } from './routes/userWorkspaceView.js';
+import { getWorkspace } from './routes/workspaceView.js';
+import { WorkspacePost } from './routes/workspaceCreate.js';
+import { WorkspacePut } from './routes/workspaceUpdate.js';
+import { WorkspaceDelete } from './routes/workspaceDelete.js';
 import cors from '@fastify/cors';
-import { WorkspaceTasks } from './routes/workspaceTasks.ts';
+import { WorkspaceTasks } from './routes/workspaceTasks.js';
 
 server.withTypeProvider<ZodTypeProvider>();
 

@@ -5,9 +5,9 @@ import {
   taskUpdate,
   taskDelete,
   selectTasksByWorkspaceId,
-} from '../models/taskModel.ts';
+} from '../models/taskModel.js';
 // import { taskPriority } from '../database/schema.ts';
-import { AppError } from '../errors/AppError.ts';
+import { AppError } from '../errors/AppError.js';
 
 export async function tasksGet(taskID: string) {
   const tasks = await taskSelectByID(taskID);

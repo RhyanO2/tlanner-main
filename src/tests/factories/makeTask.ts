@@ -1,8 +1,8 @@
 import { faker as f } from '@faker-js/faker';
-import { db } from '../../database/index.ts';
-import { Tasks } from '../../database/schema.ts';
-import { makeUser } from './makeUser.ts';
-import { makeWorkspace } from './makeUserWorkspace.ts';
+import { db } from '../../database/index.js';
+import { Tasks } from '../../database/schema.js';
+import { makeUser } from './makeUser.js';
+import { makeWorkspace } from './makeUserWorkspace.js';
 
 export async function makeTask() {
   const { user } = await makeUser();

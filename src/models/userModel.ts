@@ -1,5 +1,5 @@
-import { Users } from '../database/schema.ts';
-import { db } from '../database/index.ts';
+import { Users } from '../database/schema.js';
+import { db } from '../database/index.js';
 import { eq } from 'drizzle-orm';
 
 export async function selectUserByID(userId: string) {

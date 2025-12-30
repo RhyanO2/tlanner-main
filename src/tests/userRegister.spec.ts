@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
+import { server } from '../app.js';
 import { faker as f } from '@faker-js/faker';
 
 test('Register an user parsing bodyparams', async () => {

@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { postTask } from '../controllers/taskControllers.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { postTask } from '../controllers/taskControllers.js';
 
 export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
