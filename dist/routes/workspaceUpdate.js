@@ -1,0 +1,22 @@
+import z from 'zod';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { PutWorkspace } from '../controllers/workspaceControllers.js';
+export const WorkspacePut = async (server) => {
+    server.put('/workspace/:id', {
+        preHandler: [checkRequestJWT],
+        schema: {
+            params: z.object({
+                id: z.uuid(),
+            }),
+            summary: 'Create a workspace parsind userid an title',
+            body: z.object({
+                title: z.string(),
+            }),
+            response: {
+                200: z.object({
+                    message: z.string(),
+                }),
+            },
+        },
+    }, PutWorkspace);
+};
