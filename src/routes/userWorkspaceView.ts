@@ -1,8 +1,8 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { getUserWorkspaces } from '../controllers/workspaceControllers.ts';
-import { Workspace } from '../database/schema.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { getUserWorkspaces } from '../controllers/workspaceControllers.js';
+import { Workspace } from '../database/schema.js';
 
 export const userWorkspaces: FastifyPluginAsyncZod = async (server) => {
   server.get(

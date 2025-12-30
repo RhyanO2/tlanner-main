@@ -1,10 +1,10 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
-import { authenticateCreatedUser } from './factories/makeUser.ts';
+import { server } from '../app.js';
+import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker } from '@faker-js/faker';
-import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.ts';
-import { makeWorkspace } from './factories/makeUserWorkspace.ts';
+import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
+import { makeWorkspace } from './factories/makeUserWorkspace.js';
 
 describe('Task view', () => {
   test('View all tasks related to an user Workspace', async () => {

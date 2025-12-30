@@ -1,7 +1,7 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { DeleteWorkspace } from '../controllers/workspaceControllers.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { DeleteWorkspace } from '../controllers/workspaceControllers.js';
 
 export const WorkspaceDelete: FastifyPluginAsyncZod = async (server) => {
   server.delete(

@@ -4,7 +4,7 @@ import {
   WorkspaceCreate,
   WorkspaceEdit,
   WorkspaceDelete,
-} from '../services/workspaceService.ts';
+} from '../services/workspaceService.js';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
 export async function getUserWorkspaces(

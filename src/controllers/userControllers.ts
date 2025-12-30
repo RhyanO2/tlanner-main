@@ -1,4 +1,4 @@
-import { userLogin, userRegister } from '../services/userService.ts';
+import { userLogin, userRegister } from '../services/userService.js';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
 export async function register(req: FastifyRequest, res: FastifyReply) {

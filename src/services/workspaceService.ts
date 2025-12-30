@@ -1,11 +1,11 @@
-import { AppError } from '../errors/AppError.ts';
+import { AppError } from '../errors/AppError.js';
 import {
   selectUserWorkspaces,
   selectWorkspaceById,
   insertWorkspace,
   updateWorkspaceTitle,
   removeWorkspace,
-} from '../models/workspaceModel.ts';
+} from '../models/workspaceModel.js';
 
 export async function userWorkspacesGet(userID: string) {
   const workspaces = await selectUserWorkspaces(userID);
