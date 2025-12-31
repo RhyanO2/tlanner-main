@@ -1,27 +1,27 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
-import { authenticateCreatedUser } from './factories/makeUser.ts';
+import { server } from '../app.js';
+import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker } from '@faker-js/faker';
-import { makeTask } from './factories/makeTaskUserID.ts';
-import { makeWorkspace } from './factories/makeUserWorkspace.ts';
+import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
+import { makeWorkspace } from './factories/makeUserWorkspace.js';
 
 describe('Task view', () => {
-  test('View all tasks related to an user', async () => {
+  test('View all tasks related to an user Workspace', async () => {
     await server.ready();
 
     const { token, user } = await authenticateCreatedUser();
     const workspaceID = (await makeWorkspace(user.id)).id;
-    const task = await makeTask(workspaceID);
+    const taskID = (await makeTaskInWorkspace(workspaceID)).id;
 
     const response = await request(server.server)
-      .get(`/tasks/${workspaceID}`)
+      .get(`/task/${taskID}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      workspace: workspaceID,
+      workspace: taskID,
       tasks: expect.any(Array),
     });
   });
@@ -32,7 +32,7 @@ describe('Task view', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .get(`/tasks/${user}`)
+      .get(`/task/${user}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 

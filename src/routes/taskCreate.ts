@@ -1,11 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { postTask } from '../controllers/taskControllers.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { postTask } from '../controllers/taskControllers.js';
 
 export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
-    '/tasks',
+    '/workspace/:workspaceID/tasks',
     {
       preHandler: [checkRequestJWT],
       schema: {
@@ -15,7 +15,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
           description: z.string(),
           // status: z.enum([]),
           due_date: z.string(),
-          workspaceID: z.string(),
+          // workspaceID: z.string(),
         }),
         response: {
           201: z.object({

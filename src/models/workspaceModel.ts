@@ -1,5 +1,5 @@
-import { db } from '../database/index.ts';
-import { Workspace } from '../database/schema.ts';
+import { db } from '../database/index.js';
+import { Workspace } from '../database/schema.js';
 import { eq } from 'drizzle-orm';
 
 export async function selectUserWorkspaces(userID: string) {

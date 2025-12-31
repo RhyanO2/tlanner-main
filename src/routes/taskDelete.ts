@@ -1,11 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { delTask } from '../controllers/taskControllers.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { delTask } from '../controllers/taskControllers.js';
 
 export const deleteTask: FastifyPluginAsyncZod = async (server) => {
   server.delete(
-    '/tasks/:id',
+    '/task/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {

@@ -1,6 +1,8 @@
 import 'dotenv/config';
-import { server } from './app.ts';
+import { server } from './app.js';
 
-server.listen({ port: 3000 }).then(() => {
-  console.log(`RUNNING IN (--3000--)`);
+const port = Number(process.env.SERVER_PORT);
+
+server.listen({ port: port }).then(() => {
+  console.log(`${port}`);
 });

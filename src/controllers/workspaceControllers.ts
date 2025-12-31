@@ -4,7 +4,7 @@ import {
   WorkspaceCreate,
   WorkspaceEdit,
   WorkspaceDelete,
-} from '../services/workspaceService.ts';
+} from '../services/workspaceService.js';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
 export async function getUserWorkspaces(
@@ -70,7 +70,7 @@ export async function PutWorkspace(req: FastifyRequest, res: FastifyReply) {
 export async function DeleteWorkspace(req: FastifyRequest, res: FastifyReply) {
   try {
     const { id } = req.params as { id: string };
-    const results = WorkspaceDelete(id);
+    const results = await WorkspaceDelete(id);
 
     res.status(200).send({ message: 'Workspace deleted' });
   } catch (err: any) {

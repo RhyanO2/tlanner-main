@@ -1,11 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { checkRequestJWT } from './hooks/checkJWT-FromReq.ts';
-import { editTask } from '../controllers/taskControllers.ts';
+import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
+import { editTask } from '../controllers/taskControllers.js';
 
 export const putTask: FastifyPluginAsyncZod = async (server) => {
   server.put(
-    '/tasks/:id',
+    '/task/:id',
     {
       preHandler: [checkRequestJWT],
       schema: {
@@ -18,6 +18,7 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
           description: z.string(),
           status: z.enum(['pending', 'in_progress', 'done']),
           due_date: z.string(),
+          priority: z.enum(['low', 'normal', 'high', 'urgent']),
         }),
         response: {
           200: z.object({ message: z.string() }),

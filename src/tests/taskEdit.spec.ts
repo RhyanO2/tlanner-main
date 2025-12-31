@@ -1,10 +1,10 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.ts';
-import { makeTask } from './factories/makeTask.ts';
-import { authenticateCreatedUser } from './factories/makeUser.ts';
+import { server } from '../app.js';
+import { makeTask } from './factories/makeTask.js';
+import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker as f } from '@faker-js/faker';
-import { priority } from '../database/schema.ts';
+import { priority } from '../database/schema.js';
 
 describe('TaskEdit Tests', () => {
   test('Edit task giving taskID in reqparams', async () => {
@@ -14,7 +14,7 @@ describe('TaskEdit Tests', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .put(`/tasks/${task.id}`)
+      .put(`/task/${task.id}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
@@ -57,7 +57,7 @@ describe('TaskEdit Tests', () => {
     const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .put(`/tasks/${task}`)
+      .put(`/task/${task}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({

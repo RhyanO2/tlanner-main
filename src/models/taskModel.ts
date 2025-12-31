@@ -1,5 +1,5 @@
-import { Tasks } from '../database/schema.ts';
-import { db } from '../database/index.ts';
+import { Tasks } from '../database/schema.js';
+import { db } from '../database/index.js';
 import { eq } from 'drizzle-orm';
 
 export async function taskSelectByID(taskID: string) {
@@ -28,6 +28,14 @@ export async function taskSelectById(taskId: string) {
     })
     .from(Tasks)
     .where(eq(Tasks.id, taskId));
+}
+
+export async function selectTasksByWorkspaceId(workspaceID: string) {
+  const workspace = await db
+    .select()
+    .from(Tasks)
+    .where(eq(Tasks.id_workspace, workspaceID));
+  return workspace;
 }
 
 export async function taskInsert(
