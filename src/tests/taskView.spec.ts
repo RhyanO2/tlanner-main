@@ -39,7 +39,7 @@ describe('Task view', () => {
 
     expect(response.status).toEqual(404);
     expect(response.body).toEqual({
-      message: 'Cannot find task related to this user workspace',
+      message: `Task ID${user} does not exists`,
     });
   });
 });
