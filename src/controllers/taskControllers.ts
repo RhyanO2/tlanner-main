@@ -5,7 +5,7 @@ import {
   taskRemove,
   tasksGet,
   WorkspaceTasksGet,
-} from '../services/taskServices.js';
+} from '../services/taskServices';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
 export async function getTaskByID(req: FastifyRequest, res: FastifyReply) {

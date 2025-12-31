@@ -1,4 +1,5 @@
 import { faker as f } from '@faker-js/faker';
+
 import { db } from '../../database/index.js';
 import { Tasks } from '../../database/schema.js';
 import { makeUser } from './makeUser.js';
@@ -19,6 +20,7 @@ export async function makeTask() {
 
   return Task[0];
 }
-const task = (await makeTask()).id;
 
-console.log(task);
+// const taskid =  (makeTask()).id;
+
+// console.log(taskid);

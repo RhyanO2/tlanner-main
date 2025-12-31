@@ -4,18 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-  "start": "node dist/server.js",
-    "dev": "node --env-file .env --watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server",
     "start test": "node --env-file test.env --watch src/server.ts",
-
-    
     "test": "dotenv -e test.env vitest run",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate"
   },
   "keywords": [],
   "author": "",
-  "type": "module",
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {

@@ -1,5 +1,6 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
+
 import { login } from '../controllers/userControllers.js';
 
 export const loginRoute: FastifyPluginAsyncZod = async (server) => {

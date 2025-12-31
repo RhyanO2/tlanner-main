@@ -4,30 +4,23 @@ import {
   type ZodTypeProvider,
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod';
-import { registerRoute } from './routes/userRegister.js';
+import { registerRoute } from './routes/userRegister';
 import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
-import { loginRoute } from './routes/userLogin.js';
-import { TESTROUTE } from './routes/testRoute.js';
-import { getTasks } from './routes/taskView.js';
-import { createTask } from './routes/taskCreate.js';
-import { fastifyServer as server } from './config/fastifyServer.js';
-import { putTask } from './routes/taskUpdate.js';
-import { deleteTask } from './routes/taskDelete.js';
-import { userWorkspaces } from './routes/userWorkspaceView.js';
-import { getWorkspace } from './routes/workspaceView.js';
-import { WorkspacePost } from './routes/workspaceCreate.js';
-import { WorkspacePut } from './routes/workspaceUpdate.js';
-import { WorkspaceDelete } from './routes/workspaceDelete.js';
+import { loginRoute } from './routes/userLogin';
+import { TESTROUTE } from './routes/testRoute';
+import { getTasks } from './routes/taskView';
+import { createTask } from './routes/taskCreate';
+import { fastifyServer as server } from './config/fastifyServer';
+import { putTask } from './routes/taskUpdate';
+import { deleteTask } from './routes/taskDelete';
+import { userWorkspaces } from './routes/userWorkspaceView';
+import { getWorkspace } from './routes/workspaceView';
+import { WorkspacePost } from './routes/workspaceCreate';
+import { WorkspacePut } from './routes/workspaceUpdate';
+import { WorkspaceDelete } from './routes/workspaceDelete';
 import cors from '@fastify/cors';
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-import { WorkspaceTasks } from './routes/workspaceTasks.ts';
->>>>>>> Stashed changes
-=======
-import { WorkspaceTasks } from './routes/workspaceTasks.js';
->>>>>>> 5a819b5cbb214b286119411c0aa4d8b5874214ce
+import { WorkspaceTasks } from './routes/workspaceTasks';
 
 server.withTypeProvider<ZodTypeProvider>();
 

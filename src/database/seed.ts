@@ -1,6 +1,6 @@
-import userSeed from './seeders/user-Seed.js';
-import taskSeed from './seeders/task-Seed.js';
-import workspaceSeed from './seeders/workspace-Seed.js';
+import userSeed from './seeders/user-Seed';
+import taskSeed from './seeders/task-Seed';
+import workspaceSeed from './seeders/workspace-Seed';
 
 async function seed() {
   const createdUser = await userSeed.createUser();

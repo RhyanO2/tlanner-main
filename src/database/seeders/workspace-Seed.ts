@@ -1,5 +1,5 @@
-import { db } from '../index.js';
-import { Workspace } from '../schema.js';
+import { db } from '../index';
+import { Workspace } from '../schema';
 import { faker as f } from '@faker-js/faker';
 
 export default {
