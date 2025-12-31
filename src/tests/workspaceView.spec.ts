@@ -7,7 +7,7 @@ import { makeWorkspace } from './factories/makeUserWorkspace.js';
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
 
 describe('Workspace views', () => {
-  test('View all task from a user workspace ', async () => {
+  test('View all user workspaces ', async () => {
     await server.ready();
 
     const { token, user } = await authenticateCreatedUser();
