@@ -20,6 +20,10 @@ import { WorkspacePost } from './routes/workspaceCreate.ts';
 import { WorkspacePut } from './routes/workspaceUpdate.ts';
 import { WorkspaceDelete } from './routes/workspaceDelete.ts';
 import cors from '@fastify/cors';
+<<<<<<< Updated upstream
+=======
+import { WorkspaceTasks } from './routes/workspaceTasks.ts';
+>>>>>>> Stashed changes
 
 server.withTypeProvider<ZodTypeProvider>();
 
