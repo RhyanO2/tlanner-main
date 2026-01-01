@@ -53,7 +53,7 @@ export async function postTask(req: FastifyRequest, res: FastifyReply) {
     workspaceID: string;
   };
   try {
-    const task = taskCreate(
+    const task = await taskCreate(
       title,
       description,
       due_date,
