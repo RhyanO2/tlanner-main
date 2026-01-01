@@ -18,7 +18,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
           // status: z.enum([]),
           due_date: z.string(),
           // workspaceID: z.string(),
-          priority: z.enum([]),
+          // priority: z.enum([]),
         }),
         // response: {
         //   201: z.object({
