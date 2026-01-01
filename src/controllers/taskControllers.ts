@@ -53,8 +53,14 @@ export async function postTask(req: FastifyRequest, res: FastifyReply) {
     workspaceID: string;
   };
   try {
-    taskCreate(title, description, due_date, priority, workspaceID);
-    res.status(201).send({ message: 'Task created!' });
+    const task = taskCreate(
+      title,
+      description,
+      due_date,
+      priority,
+      workspaceID
+    );
+    res.status(201).send({ task: task });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
