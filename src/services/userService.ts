@@ -1,8 +1,10 @@
+
 import { selectUserByEmail, insertUser } from '../models/userModel.js';
 import { hash, verify } from 'argon2';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError.js';
 import { sendEmail } from './mailService.js';
+
 
 export async function userRegister(
   name: string,

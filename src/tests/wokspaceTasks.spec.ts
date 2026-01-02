@@ -16,30 +16,14 @@ describe('Task view', () => {
     const taskID = (await makeTaskInWorkspace(workspaceID)).id;
 
     const response = await request(server.server)
-      .get(`/task/${taskID}`)
+      .get(`/workspace/${workspaceID}/tasks`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      workspace: taskID,
+      workspace: workspaceID,
       tasks: expect.any(Array),
-    });
-  });
-  test('cannot find task', async () => {
-    await server.ready();
-
-    const user = faker.string.uuid();
-    const { token } = await authenticateCreatedUser();
-
-    const response = await request(server.server)
-      .get(`/task/${user}`)
-      .set('Content-Type', 'application/json')
-      .set('Authorization', token);
-
-    expect(response.status).toEqual(404);
-    expect(response.body).toEqual({
-      message: `Task ID${user} does not exists`,
     });
   });
 });

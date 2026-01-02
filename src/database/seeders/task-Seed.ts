@@ -1,5 +1,6 @@
-import { db } from '../index.js';
-import { Tasks } from '../schema.js';
+import { Tasks } from '../schema';
+import { db } from '../index';
+
 import { fakerPT_BR as f } from '@faker-js/faker';
 
 export default {

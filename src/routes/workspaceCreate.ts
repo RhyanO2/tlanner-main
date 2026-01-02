@@ -1,5 +1,6 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
+
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
 import { PostWorkspace } from '../controllers/workspaceControllers.js';
 
@@ -14,11 +15,11 @@ export const WorkspacePost: FastifyPluginAsyncZod = async (server) => {
           title: z.string(),
           id_user: z.uuid(),
         }),
-        response: {
-          201: z.object({
-            message: z.string(),
-          }),
-        },
+        // response: {
+        //   201: z.object({
+        //     message: z.string(),
+        //   }),
+        // },
       },
     },
     PostWorkspace

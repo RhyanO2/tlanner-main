@@ -1,3 +1,4 @@
+
 import { Workspace } from '../../database/schema.js';
 import { faker as f } from '@faker-js/faker';
 import { db } from '../../database/index.js';

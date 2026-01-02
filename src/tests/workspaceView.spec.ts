@@ -1,12 +1,13 @@
 import { describe, test, expect } from 'vitest';
 import request from 'supertest';
+
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
 
 describe('Workspace views', () => {
-  test('View all task from a user workspace ', async () => {
+  test('View all user workspaces ', async () => {
     await server.ready();
 
     const { token, user } = await authenticateCreatedUser();

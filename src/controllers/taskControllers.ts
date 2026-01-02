@@ -5,7 +5,7 @@ import {
   taskRemove,
   tasksGet,
   WorkspaceTasksGet,
-} from '../services/taskServices.js';
+} from '../services/taskServices';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 
 export async function getTaskByID(req: FastifyRequest, res: FastifyReply) {
@@ -53,8 +53,14 @@ export async function postTask(req: FastifyRequest, res: FastifyReply) {
     workspaceID: string;
   };
   try {
-    taskCreate(title, description, due_date, priority, workspaceID);
-    res.status(201).send({ message: 'Task created!' });
+    const task = await taskCreate(
+      title,
+      description,
+      due_date,
+      priority,
+      workspaceID
+    );
+    res.status(201).send({ task: task });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
