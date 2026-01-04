@@ -8,7 +8,6 @@ if (!process.env.NEON_URL) {
 
 const client = neon(process.env.NEON_URL);
 
-// 2. Instanciação correta
 export const db = drizzle(client, {
   logger: process.env.NODE_ENV === 'development',
 });

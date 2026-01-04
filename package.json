@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server",
-    "start test": "node --env-file test.env --watch src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "test": "dotenv -e test.env vitest run",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate"
   },
@@ -24,6 +24,7 @@
     "drizzle-kit": "^0.31.8",
     "nodemon": "^3.1.11",
     "supertest": "^7.1.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
   },
