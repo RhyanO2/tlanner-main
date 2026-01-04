@@ -22,7 +22,7 @@ describe('Workspace Create', () => {
       });
     expect(response.status).toEqual(201);
     expect(response.body).toEqual({
-      message: expect.any(String),
+      workspace: expect.any(Object),
     });
   });
 });

@@ -22,11 +22,12 @@ test('Create a task', async () => {
       title: f.lorem.text(),
       description: f.lorem.text(),
       due_date: date,
-      workspaceID: workspaceID,
+      priority: 'low',
+      // workspaceID: workspaceID,
     });
 
   expect(response.status).toEqual(201);
   expect(response.body).toEqual({
-    message: 'Task created!',
+    task: expect.any(Object),
   });
 });
