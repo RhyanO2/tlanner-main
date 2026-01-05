@@ -1,24 +1,43 @@
-import { test, expect } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 
 import { faker as f } from '@faker-js/faker';
 
-test('Register an user parsing bodyparams', async () => {
-  await server.ready();
+describe('User Register Tests', () => {
+  test('Register an user parsing bodyparams', async () => {
+    await server.ready();
 
-  const response = await request(server.server)
-    .post('/register')
-    .set('Content-Type', 'application/json')
-    .send({
-      name: f.person.firstName(),
-      email: f.internet.email(),
-      password: f.lorem.word(),
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email(),
+        password: f.lorem.word(),
+      });
+
+    expect(response.status).toEqual(201);
+    expect(response.body).toEqual({
+      User: expect.any(String),
     });
+  }),
+    test('Email not valid', async () => {
+      await server.ready();
 
-  expect(response.status).toEqual(201);
-  expect(response.body).toEqual({
-    User: expect.any(String),
-  });
+      const response = await request(server.server)
+        .post('/register')
+        .set('Content-Type', 'application/json')
+        .send({
+          name: f.person.firstName(),
+          email: f.person.firstName(),
+          password: f.lorem.word(),
+        });
+
+      expect(response.status).toEqual(401);
+      expect(response.body).toEqual({
+        message: expect.any(String),
+      });
+    });
 });

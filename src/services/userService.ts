@@ -3,12 +3,21 @@ import { hash, verify } from 'argon2';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError.js';
 import { sendEmail } from './mailService.js';
+import * as validator from 'email-validator';
 
 export async function userRegister(
   name: string,
   email: string,
   password: string
 ) {
+  const emailValid = validator.validate(email);
+
+  if (emailValid === false) {
+    throw new AppError('Email not compatible', 401);
+  }
+
+  console.log(emailValid);
+
   const userSelect = await selectUserByEmail(email);
   if (!name) {
     throw new AppError('User field missing', 401);

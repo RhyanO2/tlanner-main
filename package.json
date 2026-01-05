@@ -39,6 +39,7 @@
     "dotenv": "^17.2.3",
     "drizzle": "^1.4.0",
     "drizzle-orm": "^0.45.1",
+    "email-validator": "^2.0.4",
     "fastify": "^5.6.2",
     "fastify-nodemailer": "^5.0.0",
     "fastify-type-provider-zod": "^6.1.0",
