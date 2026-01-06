@@ -5,6 +5,39 @@ import { AppError } from '../errors/AppError.js';
 import { sendEmail } from './mailService.js';
 import * as validator from 'email-validator';
 
+async function checkPasswordStrength(password: string) {
+
+  if (password.length < 8) {
+    return false;
+  }
+
+
+  const lowerCase = /[a-z]/;
+  if (!lowerCase.test(password)) {
+    return false;
+  }
+
+
+  const upperCase = /[A-Z]/;
+  if (!upperCase.test(password)) {
+    return false;
+  }
+
+  const number = /[0-9]/;
+  if (!number.test(password)) {
+    return false;
+  }
+
+
+  const specialChar = /[!@#$%^&*()_+{}:"<>?|[\],.;\/\-]/;
+  if (!specialChar.test(password)) {
+    return false;
+  }
+
+
+  return true;
+}
+
 export async function userRegister(
   name: string,
   email: string,
@@ -13,10 +46,8 @@ export async function userRegister(
   const emailValid = validator.validate(email);
 
   if (emailValid === false) {
-    throw new AppError('Email not compatible', 401);
+    throw new AppError('Email not compatible', 400);
   }
-
-  console.log(emailValid);
 
   const userSelect = await selectUserByEmail(email);
   if (!name) {
@@ -25,6 +56,13 @@ export async function userRegister(
 
   if (userSelect[0]) {
     throw new AppError('Email already exists!', 409);
+  }
+  const passwordValid = await checkPasswordStrength(password);
+  if (passwordValid === false) {
+    throw new AppError(
+      `Weak password. For your security, use at least 8 characters including uppercase and lowercase letters, numbers, and symbols.`,
+      400
+    );
   }
 
   const hashedPassword = await hash(password);
