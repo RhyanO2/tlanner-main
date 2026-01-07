@@ -12,7 +12,7 @@ import { mailProvider } from '../infra/mail.js';
 // }
 export async function sendEmail(email: string, userName: string) {
   await mailProvider.sendMail({
-    from: '"Mail sender test" <onboarding@resend.dev>',
+    from: '"Mail sender test" <hello@tlanner.com.br>',
     to: email,
     subject: 'Welcome Back!',
     html: `<h1>Welcome Back${

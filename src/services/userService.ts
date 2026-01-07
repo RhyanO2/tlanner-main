@@ -6,17 +6,14 @@ import { sendEmail } from './mailService.js';
 import * as validator from 'email-validator';
 
 async function checkPasswordStrength(password: string) {
-
   if (password.length < 8) {
     return false;
   }
-
 
   const lowerCase = /[a-z]/;
   if (!lowerCase.test(password)) {
     return false;
   }
-
 
   const upperCase = /[A-Z]/;
   if (!upperCase.test(password)) {
@@ -28,12 +25,10 @@ async function checkPasswordStrength(password: string) {
     return false;
   }
 
-
   const specialChar = /[!@#$%^&*()_+{}:"<>?|[\],.;\/\-]/;
   if (!specialChar.test(password)) {
     return false;
   }
-
 
   return true;
 }
@@ -95,6 +90,6 @@ export async function userLogin(email: string, password: string) {
   const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
     expiresIn: '7d',
   });
-  sendEmail(email, name); //sometime i fix that
+  sendEmail(email, name);
   return token;
 }
