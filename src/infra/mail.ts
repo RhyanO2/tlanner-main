@@ -1,13 +1,11 @@
-import nodemailer from 'nodemailer'
+import nodemailer from 'nodemailer';
 
 export const mailProvider = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  host: 'smtp.resend.com',
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS
-}
-
-
-})
+    user: 'resend',
+    pass: process.env.MAIL_KEY,
+  },
+});
