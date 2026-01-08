@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 export const mailProvider = nodemailer.createTransport({
   host: 'smtp.resend.com',
-  port: 587,
+  port: 2587,
   secure: false,
   auth: {
     user: 'resend',
