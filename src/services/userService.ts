@@ -77,6 +77,14 @@ export async function userLogin(email: string, password: string) {
   const user = userSelect[0];
   const name = user.name;
 
+  try {
+    console.log('✅ Login successful, attempting to send email...');
+    await sendEmail(user.email, user.name);
+    console.log('✅ Email sent successfully');
+  } catch (err: any) {
+    console.error('❌ Error in login flow:', err);
+  }
+
   const matchPassword = await verify(user.password, password);
 
   if (!matchPassword) {
