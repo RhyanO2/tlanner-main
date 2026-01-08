@@ -2,7 +2,7 @@ import { selectUserByEmail, insertUser } from '../models/userModel.js';
 import { hash, verify } from 'argon2';
 import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError.js';
-import { sendEmail } from './mailService.js';
+import { sendLoginEmail, sendRegisterEmail } from './mailService.js';
 import * as validator from 'email-validator';
 
 async function checkPasswordStrength(password: string) {
@@ -64,6 +64,13 @@ export async function userRegister(
 
   const user = await insertUser(name, email, hashedPassword);
 
+  try {
+    console.log('✅ Login successful, attempting to send email...');
+    await sendRegisterEmail(email, name);
+    console.log('✅ Email sent successfully');
+  } catch (err: any) {
+    console.error('❌ Error in login flow:', err);
+  }
   return user;
 }
 
@@ -79,7 +86,7 @@ export async function userLogin(email: string, password: string) {
 
   try {
     console.log('✅ Login successful, attempting to send email...');
-    await sendEmail(user.email, user.name);
+    await sendLoginEmail(user.email, user.name);
     console.log('✅ Email sent successfully');
   } catch (err: any) {
     console.error('❌ Error in login flow:', err);
@@ -98,6 +105,6 @@ export async function userLogin(email: string, password: string) {
   const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
     expiresIn: '7d',
   });
-  sendEmail(email, name);
+
   return token;
 }
