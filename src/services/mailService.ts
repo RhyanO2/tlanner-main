@@ -11,12 +11,35 @@ import { mailProvider } from '../infra/mail.js';
 //   });
 // }
 export async function sendEmail(email: string, userName: string) {
-  await mailProvider.sendMail({
-    from: '"Mail sender test" <hello@tlanner.com.br>',
-    to: email,
-    subject: 'Welcome Back!',
-    html: `<h1>Welcome Back${
-      userName ? `, ${userName}` : ''
-    }!</h1><p>Good to see you again.</p>`,
-  });
+  // await mailProvider.sendMail({
+  //   from: '"Mail sender test" <hello@tlanner.com.br>',
+  //   to: email,
+  //   subject: 'Welcome Back!',
+  //   html: `<h1>Welcome Back${
+  //     userName ? `, ${userName}` : ''
+  //   }!</h1><p>Good to see you again.</p>`,
+  // });
+  try {
+    console.log('Attempting to send email to:', email);
+
+    const info = await mailProvider.sendMail({
+      from: '"Mail sender test" <hello@tlanner.com.br>',
+      to: email,
+      subject: 'Welcome Back!',
+      html: `<h1>Welcome Back${
+        userName ? `, ${userName}` : ''
+      }!</h1><p>Good to see you again.</p>`,
+    });
+
+    console.log('Email sent successfully:', info);
+    return info;
+  } catch (error: any) {
+    console.error('Failed to send email:', {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+    });
+    throw error;
+  }
 }
