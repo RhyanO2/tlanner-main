@@ -13,23 +13,30 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Get tasks related to an user workspace',
+        summary:
+          'Get tasks related to an user workspace parsing userWorkspaceID',
         params: z.object({
           id: z.uuid(),
         }),
-        // response: {
-        //   200: z.object({
-        //     user: z.string(),
-        //     tasks: z.array(
-        //       z.object({
-        //         title: z.string(),
-        //         status: z.enum(['pending', 'in_progress', 'done']),
-        //         description: z.string(),
-        //         userRelated: z.string(),
-        //       })
-        //     ),
-        //   }),
-        // },
+        response: {
+          // 200: z.object({
+          //   workspace: z.uuid(),
+          //   tasks: z.array(
+          //     z.object({
+          //       id: z.uuid(),
+          //       title: z.string(),
+          //       description: z.string(),
+          //       priority: z.enum(['low', 'normal', 'high', 'urgent']),
+          //       status: z.enum(['pending', 'in_progress', 'done']),
+          //       due_date: z.date(),
+          //       id_workspace: z.uuid(),
+          //     })
+          //   ),
+          // }),
+          400: z.object({
+            message: z.string(),
+          }),
+        },
       },
     },
     getWorkspaceTasks

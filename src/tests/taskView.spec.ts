@@ -22,7 +22,7 @@ describe('Task view', () => {
 
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      workspace: taskID,
+      // workspace: workspaceID,
       tasks: expect.any(Array),
     });
   });

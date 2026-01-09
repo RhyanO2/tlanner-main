@@ -10,7 +10,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
     };
     const user = await userRegister(name, email, password);
 
-    res.status(201).send({ User: `${user.id} Created with sucess!` });
+    res.status(201).send({ User: user.id });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,

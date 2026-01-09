@@ -3,7 +3,6 @@ import z, { prettifyError } from 'zod';
 
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
 import { postTask } from '../controllers/taskControllers.js';
-import { priority } from '../database/schema.js';
 
 export const createTask: FastifyPluginAsyncZod = async (server) => {
   server.post(
@@ -11,7 +10,8 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Create a task',
+        summary:
+          '  Create task parsing a userWorkspaceID that the task will be related ',
         body: z.object({
           title: z.string(),
           description: z.string(),
@@ -32,6 +32,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
               id_workspace: z.uuid(),
             }),
           }),
+          400: z.object({ message: z.string() }),
         },
       },
     },
