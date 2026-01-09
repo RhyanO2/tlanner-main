@@ -60,7 +60,11 @@ export async function userRegister(
     );
   }
 
-  const hashedPassword = await hash(password);
+  const hashedPassword = await hash(password, {
+    memoryCost: 64 * 1024,
+    timeCost: 2,
+    parallelism: 1,
+  });
 
   const user = await insertUser(name, email, hashedPassword);
 
@@ -75,21 +79,10 @@ export async function userRegister(
 }
 
 export async function userLogin(email: string, password: string) {
-  const userSelect = await selectUserByEmail(email);
+  const [user] = await selectUserByEmail(email);
 
-  if (userSelect.length === 0) {
+  if (!user) {
     throw new AppError('Invalid credentials.', 401);
-  }
-
-  const user = userSelect[0];
-  const name = user.name;
-
-  try {
-    console.log('✅ Login successful, attempting to send email...');
-    await sendLoginEmail(user.email, user.name);
-    console.log('✅ Email sent successfully');
-  } catch (err: any) {
-    console.error('❌ Error in login flow:', err);
   }
 
   const matchPassword = await verify(user.password, password);
@@ -105,6 +98,10 @@ export async function userLogin(email: string, password: string) {
   const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
     expiresIn: '7d',
   });
+
+  sendLoginEmail(user.email, user.name).catch((err) =>
+    console.error('Email failed', err)
+  );
 
   return token;
 }
