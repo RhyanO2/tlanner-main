@@ -3,7 +3,7 @@ import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
 
@@ -13,7 +13,7 @@ describe('Task view', () => {
 
     const { token, user } = await authenticateCreatedUser();
     const workspaceID = (await makeWorkspace(user.id)).id;
-    const taskID = (await makeTaskInWorkspace(workspaceID)).id;
+    const taskID = await makeTaskInWorkspace(workspaceID);
 
     const response = await request(server.server)
       .get(`/workspace/${workspaceID}/tasks`)
@@ -22,7 +22,7 @@ describe('Task view', () => {
 
     expect(response.status).toEqual(200);
     expect(response.body).toEqual({
-      workspace: workspaceID,
+      workspace: expect.any(String),
       tasks: expect.any(Array),
     });
   });

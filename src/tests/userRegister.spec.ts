@@ -15,7 +15,7 @@ describe('User Register Tests', () => {
       .send({
         name: f.person.firstName(),
         email: f.internet.email(),
-        password: f.lorem.word(),
+        password: f.internet.password(),
       });
 
     expect(response.status).toEqual(201);
@@ -35,7 +35,7 @@ describe('User Register Tests', () => {
           password: f.lorem.word(),
         });
 
-      expect(response.status).toEqual(401);
+      expect(response.status).toEqual(400);
       expect(response.body).toEqual({
         message: expect.any(String),
       });

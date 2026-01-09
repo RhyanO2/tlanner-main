@@ -13,7 +13,6 @@ export async function getTaskByID(req: FastifyRequest, res: FastifyReply) {
     const { id } = req.params as { id: string };
     const result = await tasksGet(id);
     res.status(200).send({
-      workspace: id,
       tasks: result,
     });
   } catch (err: any) {

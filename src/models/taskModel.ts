@@ -11,7 +11,6 @@ export async function taskSelectByID(taskID: string) {
       status: Tasks.status,
       priority: Tasks.priority,
       description: Tasks.description,
-      workspaceRelated: Tasks.id_workspace,
     })
     .from(Tasks)
     .where(eq(Tasks.id, taskID));

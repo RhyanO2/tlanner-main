@@ -14,7 +14,17 @@ export const registerRoute: FastifyPluginAsyncZod = async (server) => {
           password: z.string(),
         }),
         response: {
-          201: z.object({ User: z.string() }),
+          201: z.object({ User: z.uuid() }),
+
+          400: z.object({
+            message: z.string(),
+          }),
+          401: z.object({
+            message: z.string(),
+          }),
+          409: z.object({
+            message: z.string(),
+          }),
         },
       },
     },
