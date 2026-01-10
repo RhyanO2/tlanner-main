@@ -12,12 +12,12 @@ describe('Task view', () => {
     await server.ready();
 
     const { token, user } = await authenticateCreatedUser();
-    const workspaceID = (await makeWorkspace(user.id)).id;
-    const taskID = await makeTaskInWorkspace(workspaceID);
+    const userid = user.id;
+    const workspace = await makeWorkspace(userid);
+    const workspaceID = await makeTaskInWorkspace(workspace.id);
 
     const response = await request(server.server)
       .get(`/workspace/${workspaceID}/tasks`)
-      .set('Content-Type', 'application/json')
       .set('Authorization', token);
 
     expect(response.status).toEqual(200);

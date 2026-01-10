@@ -4,7 +4,6 @@ import z from 'zod';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
 import { getWorkspaceByID } from '../controllers/workspaceControllers.js';
 
-
 export const getWorkspace: FastifyPluginAsyncZod = async (server) => {
   server.get(
     '/workspace/:id',
@@ -19,9 +18,9 @@ export const getWorkspace: FastifyPluginAsyncZod = async (server) => {
           200: z.object({
             results: z.array(
               z.object({
-                id: z.string(),
+                id: z.uuid(),
                 title: z.string(),
-                id_user: z.string(),
+                id_user: z.uuid(),
               })
             ),
           }),
