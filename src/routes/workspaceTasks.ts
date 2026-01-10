@@ -19,20 +19,20 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
           id: z.uuid(),
         }),
         response: {
-          // 200: z.object({
-          //   workspace: z.uuid(),
-          //   tasks: z.array(
-          //     z.object({
-          //       id: z.uuid(),
-          //       title: z.string(),
-          //       description: z.string(),
-          //       priority: z.enum(['low', 'normal', 'high', 'urgent']),
-          //       status: z.enum(['pending', 'in_progress', 'done']),
-          //       due_date: z.date(),
-          //       id_workspace: z.uuid(),
-          //     })
-          //   ),
-          // }),
+          200: z.object({
+            workspace: z.uuid(),
+            tasks: z.array(
+              z.object({
+                id: z.uuid(),
+                title: z.string(),
+                description: z.string(),
+                priority: z.enum(['low', 'normal', 'high', 'urgent']),
+                status: z.enum(['pending', 'in_progress', 'done']),
+                due_date: z.string(),
+                id_workspace: z.uuid(),
+              })
+            ),
+          }),
           400: z.object({
             message: z.string(),
           }),
