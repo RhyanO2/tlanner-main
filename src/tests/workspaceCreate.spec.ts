@@ -25,4 +25,22 @@ describe('Workspace Create', () => {
       workspace: expect.any(Object),
     });
   });
+  test('Create user workspace', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
+
+    const response = await request(server.server)
+      .post(`/workspace`)
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        title: f.lorem.word(),
+        id_user: user,
+      });
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  });
 });

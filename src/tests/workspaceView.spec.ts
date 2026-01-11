@@ -38,4 +38,18 @@ describe('Workspace views', () => {
     expect(response.status).toEqual(200);
     expect(response.body).toEqual(expect.any(Object));
   });
+  test('wrong params', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
+    const workspace = await makeWorkspace(user.id);
+
+    const response = await request(server.server)
+      .get(`/workspace/${workspace}`)
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token);
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual(expect.any(Object));
+  });
 });

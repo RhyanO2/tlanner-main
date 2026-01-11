@@ -26,4 +26,22 @@ describe('Workspace Create', () => {
       message: expect.any(String),
     });
   });
+  test('Edit created wrong params', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
+    const workspace = await makeWorkspace(user.id);
+
+    const response = await request(server.server)
+      .put(`/workspace/${workspace}`)
+      .set('Content-Type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        title: f.lorem.word(),
+      });
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  });
 });

@@ -27,6 +27,24 @@ describe('Task view', () => {
       workspace: expect.any(String),
       tasks: expect.any(Array),
     });
-    // console.log(response.request);
+  });
+  test('Wrong req params', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
+    const userid = user.id;
+    const workspace = await makeWorkspace(userid);
+    const workspaceID = await makeTaskInWorkspace(workspace.id);
+
+    // console.log(workspace.id);
+
+    const response = await request(server.server)
+      .get(`/workspace/${workspace}/tasks`)
+      .set('Authorization', token);
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
   });
 });

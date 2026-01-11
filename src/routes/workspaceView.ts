@@ -24,6 +24,9 @@ export const getWorkspace: FastifyPluginAsyncZod = async (server) => {
               })
             ),
           }),
+          400: z.object({
+            message: z.string(),
+          }),
         },
       },
     },
