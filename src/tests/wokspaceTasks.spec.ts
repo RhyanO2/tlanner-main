@@ -14,7 +14,9 @@ describe('Task view', () => {
     const { token, user } = await authenticateCreatedUser();
     const userid = user.id;
     const workspace = await makeWorkspace(userid);
-    const workspaceID = await makeTaskInWorkspace(workspace.id);
+    const workspaceID = (await makeTaskInWorkspace(workspace.id)).id_workspace;
+
+    // console.log(workspace.id);
 
     const response = await request(server.server)
       .get(`/workspace/${workspaceID}/tasks`)
@@ -25,5 +27,6 @@ describe('Task view', () => {
       workspace: expect.any(String),
       tasks: expect.any(Array),
     });
+    // console.log(response.request);
   });
 });
