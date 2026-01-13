@@ -1,4 +1,11 @@
-import { pgEnum, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 export const status = pgEnum('task_status', ['pending', 'in_progress', 'done']);
 export const priority = pgEnum('task_priotity', [
@@ -15,7 +22,8 @@ export const Users = pgTable('Users', {
   name: text().notNull(),
   email: text().notNull().unique(),
   password: text().notNull(),
-  //ispremium: bool().notNull(),
+  provider: text().notNull().default('email'),
+  ispremium: boolean().notNull().default(false),
 });
 
 export const Workspace = pgTable('Workspace', {
