@@ -1,4 +1,8 @@
-import { userLogin, userRegister } from '../services/userService';
+import {
+  findOrCreateUser,
+  userLogin,
+  userRegister,
+} from '../services/userService';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
 import jwt from 'jsonwebtoken';
 
@@ -38,10 +42,7 @@ export async function login(req: FastifyRequest, res: FastifyReply) {
   }
 }
 
-export async function githubUserRegister(
-  req: FastifyRequest,
-  res: FastifyReply
-) {
+export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
   try {
     const { code } = req.query as { code: string };
 
@@ -79,43 +80,53 @@ export async function githubUserRegister(
     const userData = await userResponse.json();
 
     if (userData.message) {
-      console.error('❌ Erro ao buscar usuário:', userData);
-      return res.status(401).send({ error: userData.message });
+      return res.status(401).send({
+        error: userData.message,
+      });
     }
 
-    console.log('✅ Usuário autenticado:', {
-      name: userData.name,
-      email: userData.email,
-      id: userData.id,
+    const emailsRes = await fetch('https://api.github.com/user/emails', {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        Accept: 'application/json',
+      },
     });
 
-    const user = await userRegister(
+    const emails = await emailsRes.json();
+
+    const primaryEmail = emails.find(
+      (email: any) => email.primary && email.verified
+    )?.email;
+
+    if (!primaryEmail) {
+      return res.status(400).send({
+        error: 'GitHub account has no verified email',
+      });
+    }
+
+    const userID = await findOrCreateUser(
+      'GITHUB',
       userData.name,
-      userData.email,
-      undefined,
-      'GITHUB'
+      userData.email
     );
 
-    console.log('✅ Usuário registrado/encontrado:', user.id);
-
+    // const userID = user.
     if (!process.env.JWT_SECRET) {
       throw new Error('JWT_SECRET MUST BE SET.');
     }
 
-    const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ sub: userID }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
 
-    console.log('✅ Token JWT gerado');
-
-    const redirectUrl = `http://localhost:5173/auth/callback?token=${token}`;
-    console.log('🔄 Redirecionando para:', redirectUrl);
+    // const redirectUrl = `http://localhost:5173/auth/callback?token=${token}`;
+    const redirectUrl = `https://tlanner-main-1.onrender.com/auth/callback?token=${token}`;
 
     return res.redirect(redirectUrl);
   } catch (err: any) {
     console.error('❌ Erro no GitHub OAuth:', err);
     return res.status(err.statusCode || 500).send({
-      message: err.message || 'Erro na autenticação com GitHub',
+      message: err.message || 'GitHub authentication failed',
     });
   }
 }
