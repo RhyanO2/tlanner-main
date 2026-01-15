@@ -55,7 +55,7 @@ export async function userRegister(
     throw new AppError('Email already exists!', 409);
   }
 
-  let user; // Define user com valor vazio para depois mudar de acordo com as condições
+  // Define user com valor vazio para depois mudar de acordo com as condições
 
   if (password) {
     const passwordValid = await checkPasswordStrength(password);
@@ -71,18 +71,28 @@ export async function userRegister(
       timeCost: 2,
       parallelism: 1,
     });
-    user = await insertUser(name, email, hashedPassword, provider);
+    const user = await insertUser(name, email, hashedPassword, provider);
+
+    try {
+      console.log('✅ Login successful, attempting to send email...');
+      await sendRegisterEmail(email, name);
+      console.log('✅ Email sent successfully');
+    } catch (err: any) {
+      console.error('❌ Error in login flow:', err);
+    }
+    return user;
   } else {
-    user = await insertUser(name, email, undefined, 'GITHUB');
+    const user = await insertUser(name, email, undefined, provider);
+
+    try {
+      console.log('✅ Login successful, attempting to send email...');
+      await sendRegisterEmail(email, name);
+      console.log('✅ Email sent successfully');
+    } catch (err: any) {
+      console.error('❌ Error in login flow:', err);
+    }
+    return user;
   }
-  try {
-    console.log('✅ Login successful, attempting to send email...');
-    await sendRegisterEmail(email, name);
-    console.log('✅ Email sent successfully');
-  } catch (err: any) {
-    console.error('❌ Error in login flow:', err);
-  }
-  return user;
 }
 
 // export async function githubUserRegister(
@@ -127,4 +137,18 @@ export async function userLogin(email: string, password: string) {
   );
 
   return token;
+}
+
+export async function findOrCreateUser(
+  provider: 'GOOGLE' | 'GITHUB',
+  name: string,
+  email: string
+) {
+  const existingUser = await selectUserByEmail(email);
+
+  if (!existingUser) {
+    return (await userRegister(name, email, undefined, provider)).id;
+  }
+  // return userRegister(name, email, undefined , provider);
+  return existingUser[0].id;
 }

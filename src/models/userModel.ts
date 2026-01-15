@@ -20,7 +20,6 @@ export async function insertUser(
   password?: string,
   provider?: 'LOCAL' | 'GITHUB' | 'GOOGLE'
 ) {
-
   if (provider) {
     const insertedUser = await db
       .insert(Users)
