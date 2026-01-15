@@ -35,11 +35,11 @@ export async function WorkspaceTasksGet(workspaceID: string) {
 export async function taskCreate(
   title: string,
   description: string,
-  due_date: string,
+  due_date: string | null,
   priority: 'low' | 'normal' | 'high' | 'urgent',
   workspaceID: string
 ) {
-  const realDate = new Date(due_date);
+  const realDate = due_date ? new Date(due_date) : null;
 
   if (!description) {
     description = title;
@@ -61,7 +61,7 @@ export async function taskEdit(
   description: string,
   priority: 'low' | 'normal' | 'high' | 'urgent',
   status: 'pending' | 'in_progress' | 'done',
-  due_date: string,
+  due_date: string | null,
   taskId: string
 ) {
   const task = await taskSelectById(taskId);
@@ -70,7 +70,7 @@ export async function taskEdit(
     throw new AppError('task cannot be find', 404);
   }
 
-  const realDate = new Date(due_date);
+  const realDate = due_date ? new Date(due_date) : null;
 
   return taskUpdate(title, description, status, priority, realDate, taskId);
 }

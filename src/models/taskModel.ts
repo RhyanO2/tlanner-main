@@ -41,7 +41,7 @@ export async function selectTasksByWorkspaceId(workspaceID: string) {
 export async function taskInsert(
   title: string,
   description: string,
-  date: Date,
+  date: Date | null,
   priority: 'low' | 'normal' | 'high' | 'urgent',
   workspaceID: string
 ) {
@@ -66,7 +66,7 @@ export async function taskUpdate(
   description: string,
   status: 'pending' | 'in_progress' | 'done',
   priority: 'low' | 'normal' | 'high' | 'urgent',
-  due_date: Date,
+  due_date: Date | null,
   taskId: string
 ) {
   const updatedTask = await db
