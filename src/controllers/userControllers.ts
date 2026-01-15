@@ -121,7 +121,7 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     });
 
     // 'http://localhost:3000/api/auth/callback/github'
-    const redirectUrl = `http://www.tlanner.vercel.app/dashboard/${user.id}?token=${token}`;
+    const redirectUrl = `http://tlanner.vercel.app/auth/callback?token=${token}`;
 
     return res.redirect(redirectUrl);
   } catch (err: any) {
