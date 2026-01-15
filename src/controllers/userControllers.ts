@@ -107,7 +107,7 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     const userID = await findOrCreateUser(
       'GITHUB',
       userData.name,
-      userData.email
+      primaryEmail
     );
 
     // const userID = user.
