@@ -71,6 +71,13 @@
       "when": 1768316466582,
       "tag": "0009_dashing_energizer",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1768418040035,
+      "tag": "0010_big_chimera",
+      "breakpoints": true
     }
   ]
 }

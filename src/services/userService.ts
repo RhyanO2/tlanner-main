@@ -36,7 +36,8 @@ async function checkPasswordStrength(password: string) {
 export async function userRegister(
   name: string,
   email: string,
-  password: string
+  password?: string,
+  provider?: 'LOCAL' | 'GITHUB' | 'GOOGLE'
 ) {
   const emailValid = validator.validate(email);
 
@@ -44,30 +45,36 @@ export async function userRegister(
     throw new AppError('Email not compatible', 400);
   }
 
-  const userSelect = await selectUserByEmail(email);
   if (!name) {
     throw new AppError('User field missing', 401);
   }
 
+  const userSelect = await selectUserByEmail(email);
+
   if (userSelect[0]) {
     throw new AppError('Email already exists!', 409);
   }
-  const passwordValid = await checkPasswordStrength(password);
-  if (passwordValid === false) {
-    throw new AppError(
-      `Weak password. For your security, use at least 8 characters including uppercase and lowercase letters, numbers, and symbols.`,
-      400
-    );
+
+  let user; // Define user com valor vazio para depois mudar de acordo com as condições
+
+  if (password) {
+    const passwordValid = await checkPasswordStrength(password);
+    if (passwordValid === false) {
+      throw new AppError(
+        `Weak password. For your security, use at least 8 characters including uppercase and lowercase letters, numbers, and symbols.`,
+        400
+      );
+    }
+
+    const hashedPassword = await hash(password, {
+      memoryCost: 64 * 1024,
+      timeCost: 2,
+      parallelism: 1,
+    });
+    user = await insertUser(name, email, hashedPassword, provider);
+  } else {
+    user = await insertUser(name, email, undefined, 'GITHUB');
   }
-
-  const hashedPassword = await hash(password, {
-    memoryCost: 64 * 1024,
-    timeCost: 2,
-    parallelism: 1,
-  });
-
-  const user = await insertUser(name, email, hashedPassword);
-
   try {
     console.log('✅ Login successful, attempting to send email...');
     await sendRegisterEmail(email, name);
@@ -78,11 +85,27 @@ export async function userRegister(
   return user;
 }
 
+// export async function githubUserRegister(
+//   name: string,
+//   email: string,
+//   password: string
+// ) {
+//   const user = await userRegister(name, email, password);
+
+//   return user;
+// }
+
 export async function userLogin(email: string, password: string) {
   const [user] = await selectUserByEmail(email);
 
   if (!user) {
     throw new AppError('Invalid credentials.', 401);
+  }
+  if (!user.password) {
+    throw new AppError(
+      `This account wasn't created in the default path. Please Login with the provider used to create this account`,
+      401
+    );
   }
 
   const matchPassword = await verify(user.password, password);

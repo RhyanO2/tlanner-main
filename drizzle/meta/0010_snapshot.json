@@ -1,6 +1,6 @@
 {
-  "id": "780d45ac-0534-428e-bf39-15c26b8a8e93",
-  "prevId": "99e7e0c2-03b0-4302-b14b-1d238f676f00",
+  "id": "cbfadd46-1817-4d31-a7a8-0b8c33d070d7",
+  "prevId": "780d45ac-0534-428e-bf39-15c26b8a8e93",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -62,8 +62,12 @@
           "name": "Tasks_id_workspace_Workspace_id_fk",
           "tableFrom": "Tasks",
           "tableTo": "Workspace",
-          "columnsFrom": ["id_workspace"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "id_workspace"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -101,14 +105,14 @@
           "name": "password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "provider": {
           "name": "provider",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "default": "'email'"
+          "default": "'LOCAL'"
         },
         "ispremium": {
           "name": "ispremium",
@@ -125,7 +129,9 @@
         "Users_email_unique": {
           "name": "Users_email_unique",
           "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         }
       },
       "policies": {},
@@ -162,8 +168,12 @@
           "name": "Workspace_id_user_Users_id_fk",
           "tableFrom": "Workspace",
           "tableTo": "Users",
-          "columnsFrom": ["id_user"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "id_user"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -179,12 +189,30 @@
     "public.task_priotity": {
       "name": "task_priotity",
       "schema": "public",
-      "values": ["low", "normal", "high", "urgent"]
+      "values": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ]
+    },
+    "public.user_provider": {
+      "name": "user_provider",
+      "schema": "public",
+      "values": [
+        "LOCAL",
+        "GITHUB",
+        "GOOGLE"
+      ]
     },
     "public.task_status": {
       "name": "task_status",
       "schema": "public",
-      "values": ["pending", "in_progress", "done"]
+      "values": [
+        "pending",
+        "in_progress",
+        "done"
+      ]
     }
   },
   "schemas": {},

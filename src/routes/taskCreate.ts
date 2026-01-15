@@ -1,5 +1,5 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
-import z, { prettifyError } from 'zod';
+import z from 'zod';
 
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
 import { postTask } from '../controllers/taskControllers.js';

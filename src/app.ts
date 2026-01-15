@@ -21,6 +21,8 @@ import { WorkspacePut } from './routes/workspaceUpdate';
 import { WorkspaceDelete } from './routes/workspaceDelete';
 import cors from '@fastify/cors';
 import { WorkspaceTasks } from './routes/workspaceTasks';
+import { githubOAuth } from './routes/githubOAuth';
+import { callbackGithub } from './routes/githubCallback';
 
 server.withTypeProvider<ZodTypeProvider>();
 
@@ -63,5 +65,7 @@ server.register(WorkspacePost);
 server.register(WorkspacePut);
 server.register(WorkspaceDelete);
 server.register(WorkspaceTasks);
+server.register(githubOAuth);
+server.register(callbackGithub);
 
 export { server };

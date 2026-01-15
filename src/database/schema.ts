@@ -14,6 +14,7 @@ export const priority = pgEnum('task_priotity', [
   'high',
   'urgent',
 ]);
+export const provider = pgEnum('user_provider', ['LOCAL', 'GITHUB', 'GOOGLE']);
 export type taskStatus = (typeof status.enumValues)[number];
 export type taskPriority = (typeof priority.enumValues)[number];
 
@@ -21,8 +22,8 @@ export const Users = pgTable('Users', {
   id: uuid().primaryKey().defaultRandom(),
   name: text().notNull(),
   email: text().notNull().unique(),
-  password: text().notNull(),
-  provider: text().notNull().default('email'),
+  password: text(),
+  provider: provider().notNull().default('LOCAL'),
   ispremium: boolean().notNull().default(false),
 });
 
