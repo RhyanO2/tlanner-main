@@ -39,7 +39,7 @@ export async function taskCreate(
   priority: 'low' | 'normal' | 'high' | 'urgent',
   workspaceID: string
 ) {
-  const realDate = due_date ? new Date(due_date) : null;
+  const realDate = due_date ? new Date(`${due_date}T12:00:00`) : null;
 
   if (!description) {
     description = title;
@@ -70,7 +70,7 @@ export async function taskEdit(
     throw new AppError('task cannot be find', 404);
   }
 
-  const realDate = due_date ? new Date(due_date) : null;
+  const realDate = due_date ? new Date(`${due_date}T12:00:00`) : null;
 
   return taskUpdate(title, description, status, priority, realDate, taskId);
 }
