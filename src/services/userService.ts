@@ -146,9 +146,10 @@ export async function findOrCreateUser(
 ) {
   const existingUser = await selectUserByEmail(email);
 
-  if (!existingUser) {
-    return (await userRegister(name, email, undefined, provider)).id;
+  if (!existingUser || existingUser.length === 0) {
+    const newUser = await userRegister(name, email, undefined, provider);
+    return newUser;
   }
-  // return userRegister(name, email, undefined , provider);
-  return existingUser[0].id;
+
+  return existingUser[0];
 }

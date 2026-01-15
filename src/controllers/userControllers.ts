@@ -65,7 +65,7 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     const tokenData = await tokenResponse.json();
 
     if (tokenData.error) {
-      console.error('❌ Erro no token:', tokenData);
+      console.error('❌ [ERRO] Erro no token:', tokenData);
       return res.status(400).send({ error: tokenData.error_description });
     }
 
@@ -80,11 +80,11 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     const userData = await userResponse.json();
 
     if (userData.message) {
+      console.error('❌ [ERRO] Erro ao buscar usuário:', userData.message);
       return res.status(401).send({
         error: userData.message,
       });
     }
-
     const emailsRes = await fetch('https://api.github.com/user/emails', {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -99,32 +99,37 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     )?.email;
 
     if (!primaryEmail) {
+      console.error('❌ [ERRO] Nenhum email verificado encontrado');
       return res.status(400).send({
         error: 'GitHub account has no verified email',
       });
     }
 
-    const userID = await findOrCreateUser(
+    const user = await findOrCreateUser(
       'GITHUB',
-      userData.name,
+      userData.name || userData.login,
       primaryEmail
     );
 
-    // const userID = user.
     if (!process.env.JWT_SECRET) {
+      console.error('❌ [ERRO] JWT_SECRET não configurado');
       throw new Error('JWT_SECRET MUST BE SET.');
     }
 
-    const token = jwt.sign({ sub: userID }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ sub: user.id }, process.env.JWT_SECRET, {
       expiresIn: '7d',
     });
 
-    // const redirectUrl = `http://localhost:5173/auth/callback?token=${token}`;
-    const redirectUrl = `https://tlanner-main-1.onrender.com/auth/callback?token=${token}`;
+    // 'http://localhost:3000/api/auth/callback/github'
+    const redirectUrl = `http://www.tlanner.com.br/auth/callback?token=${token}`;
 
     return res.redirect(redirectUrl);
   } catch (err: any) {
-    console.error('❌ Erro no GitHub OAuth:', err);
+    console.error('❌ [ERRO FATAL] Erro no GitHub OAuth:', {
+      message: err.message,
+      stack: err.stack,
+      statusCode: err.statusCode,
+    });
     return res.status(err.statusCode || 500).send({
       message: err.message || 'GitHub authentication failed',
     });
