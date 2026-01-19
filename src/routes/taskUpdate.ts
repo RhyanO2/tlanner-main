@@ -17,7 +17,7 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
           title: z.string(),
           description: z.string(),
           status: z.enum(['pending', 'in_progress', 'done']),
-          due_date: z.string() || z.null(),
+          due_date: z.string().nullable(),
           priority: z.enum(['low', 'normal', 'high', 'urgent']),
         }),
         response: {
