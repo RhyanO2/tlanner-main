@@ -2,10 +2,7 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
 
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
-import {
-  getTaskByID,
-  getWorkspaceTasks,
-} from '../controllers/taskControllers.js';
+import { getWorkspaceTasks } from '../controllers/taskControllers.js';
 
 export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
   server.get(
