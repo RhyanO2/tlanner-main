@@ -5,6 +5,8 @@ import {
   text,
   timestamp,
   uuid,
+  date,
+  unique,
 } from 'drizzle-orm/pg-core';
 
 export const status = pgEnum('task_status', ['pending', 'in_progress', 'done']);
@@ -15,6 +17,7 @@ export const priority = pgEnum('task_priotity', [
   'urgent',
 ]);
 export const provider = pgEnum('user_provider', ['LOCAL', 'GITHUB', 'GOOGLE']);
+export const frequency = pgEnum('habitFreq', ['daily', 'weekly', 'monthly']);
 export type taskStatus = (typeof status.enumValues)[number];
 export type taskPriority = (typeof priority.enumValues)[number];
 
@@ -46,3 +49,27 @@ export const Tasks = pgTable('Tasks', {
     .notNull()
     .references(() => Workspace.id, { onDelete: 'cascade' }),
 });
+
+export const Habits = pgTable('Habits', {
+  id: uuid().primaryKey().defaultRandom(),
+  name: text().notNull(),
+  id_user: uuid()
+    .notNull()
+    .references(() => Users.id),
+  frequency: frequency().notNull().default('daily'),
+  created_at: timestamp().defaultNow(),
+});
+
+export const Habits_completions = pgTable(
+  'Habit_Completions',
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    id_user: uuid()
+      .notNull()
+      .references(() => Users.id, { onDelete: 'cascade' }),
+    completed_at: date().notNull(),
+  },
+  (table) => ({
+    uniqueCompletion: unique().on(table.id, table.completed_at),
+  })
+);
