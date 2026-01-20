@@ -78,7 +78,6 @@ export async function taskEdit(
 export async function taskRemove(taskId: string) {
   const task = await taskSelectById(taskId);
 
-  console.log(task);
   if (task.length === 0) {
     throw new AppError('task cannot be find', 404);
   }
