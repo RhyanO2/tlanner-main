@@ -23,6 +23,10 @@ import cors from '@fastify/cors';
 import { WorkspaceTasks } from './routes/workspaceTasks';
 import { githubOAuth } from './routes/githubOAuth';
 import { callbackGithub } from './routes/githubCallback';
+import { HabitPOST } from './routes/HabitCreate';
+import { habitPUT } from './routes/HabitUpdate';
+import { habitDelete } from './routes/HabitDelete';
+import { habitsGET } from './routes/HabitView';
 
 server.withTypeProvider<ZodTypeProvider>();
 
@@ -67,5 +71,8 @@ server.register(WorkspaceDelete);
 server.register(WorkspaceTasks);
 server.register(githubOAuth);
 server.register(callbackGithub);
-
+server.register(HabitPOST);
+server.register(habitPUT);
+server.register(habitDelete);
+server.register(habitsGET);
 export { server };
