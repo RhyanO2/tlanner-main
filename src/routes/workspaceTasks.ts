@@ -25,7 +25,7 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
                 description: z.string(),
                 priority: z.enum(['low', 'normal', 'high', 'urgent']),
                 status: z.enum(['pending', 'in_progress', 'done']),
-                due_date: z.date().nullable(),
+                due_date: z.string().nullable(),
                 id_workspace: z.uuid(),
               })
             ),
