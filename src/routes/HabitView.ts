@@ -14,11 +14,22 @@ export const habitsGET: FastifyPluginAsyncZod = async (server) => {
           userID: z.uuid(),
         }),
 
-        // response: {
-        //   200: z.object({ message: z.string() }),
-        //   400: z.object({ message: z.string() }),
-        //   500: z.object({ message: z.string() }),
-        // },
+        response: {
+          200: z.object({
+            user: z.uuid(),
+            habits: z.array(
+              z.object({
+                name: z.string(),
+                id: z.uuid(),
+                id_user: z.uuid(),
+                frequency: z.enum(['daily', 'weekly', 'monthly']),
+                created_at: z.date().nullable(),
+              })
+            ),
+          }),
+          400: z.object({ message: z.string() }),
+          500: z.object({ message: z.string() }),
+        },
       },
     },
 

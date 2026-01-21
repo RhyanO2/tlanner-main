@@ -14,7 +14,8 @@ export async function getHabitsByUserID(
     const { userID } = req.params as { userID: string };
     const result = await habitsGet(userID);
     res.status(200).send({
-      tasks: result,
+      user: userID,
+      habits: result,
     });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({

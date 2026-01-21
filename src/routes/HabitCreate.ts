@@ -19,10 +19,17 @@ export const HabitPOST: FastifyPluginAsyncZod = async (server) => {
           id_user: z.uuid(),
         }),
         // response: {
-        //   200: z.object({ message: z.string() }),
-        //   400: z.object({ message: z.string() }),
-        //   500: z.object({ message: z.string() }),
-        // },
+        201: z.object({
+          habits: z.object({
+            name: z.string(),
+            id: z.uuid(),
+            id_user: z.uuid(),
+            frequency: z.enum(['daily', 'weekly', 'monthly']),
+            created_at: z.date().nullable(),
+          }),
+        }),
+        400: z.object({ message: z.string() }),
+        500: z.object({ message: z.string() }),
       },
     },
 

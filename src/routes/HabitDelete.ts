@@ -13,15 +13,12 @@ export const habitDelete: FastifyPluginAsyncZod = async (server) => {
         params: z.object({
           id: z.uuid(),
         }),
-        // body: z.object({
-        //   name: z.string(),
-        //   frequency: z.enum(['daily', 'weekly', 'monthly']),
-        // }),
-        // response: {
-        //   200: z.object({ message: z.string() }),
-        //   400: z.object({ message: z.string() }),
-        //   500: z.object({ message: z.string() }),
-        // },
+
+        response: {
+          200: z.object({ message: z.string() }),
+          400: z.object({ message: z.string() }),
+          500: z.object({ message: z.string() }),
+        },
       },
     },
 

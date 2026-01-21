@@ -17,11 +17,11 @@ export const habitPUT: FastifyPluginAsyncZod = async (server) => {
           name: z.string(),
           frequency: z.enum(['daily', 'weekly', 'monthly']),
         }),
-        // response: {
-        //   200: z.object({ message: z.string() }),
-        //   400: z.object({ message: z.string() }),
-        //   500: z.object({ message: z.string() }),
-        // },
+        response: {
+          200: z.object({ message: z.string() }),
+          400: z.object({ message: z.string() }),
+          500: z.object({ message: z.string() }),
+        },
       },
     },
 

@@ -18,7 +18,7 @@ export async function HabitInsert(
     .values([{ name: name, frequency: frequency, id_user: userID }])
     .returning();
 
-  return createdHabit;
+  return createdHabit[0];
 }
 export async function HabitUpdate(
   name: string,
@@ -31,7 +31,7 @@ export async function HabitUpdate(
     .where(eq(Habits.id, habitID))
     .returning();
 
-  return updatedHabit;
+  return updatedHabit[0];
 }
 export async function HabitDelete(habitID: string) {
   const deletedHabit = await db
