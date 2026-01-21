@@ -11,7 +11,7 @@ export async function habitsGet(userID: string) {
   const habits = await getHabitsByUserID(userID);
 
   if (habits.length === 0) {
-    throw new AppError(`user: ${userID} don't have any habits`);
+    throw new AppError(`user: ${userID} don't have any habits`, 404);
   }
   return habits;
 }
