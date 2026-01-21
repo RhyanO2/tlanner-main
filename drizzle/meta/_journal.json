@@ -78,6 +78,13 @@
       "when": 1768418040035,
       "tag": "0010_big_chimera",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1769007195030,
+      "tag": "0011_happy_lord_hawal",
+      "breakpoints": true
     }
   ]
 }

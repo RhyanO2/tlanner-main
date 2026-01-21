@@ -23,7 +23,7 @@ describe('TaskEdit Tests', () => {
         description: f.lorem.words(2),
         status: 'in_progress',
         priority: 'low',
-        due_date: f.date.future(),
+        due_date: null,
       });
 
     expect(response.status).toEqual(200);

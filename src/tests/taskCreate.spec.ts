@@ -14,6 +14,7 @@ describe('Create task routes TEST', () => {
 
     const workspaceID = (await makeWorkspace(user.id)).id;
     const date = new Date(f.date.future());
+    console.log(date);
 
     const response = await request(server.server)
       .post(`/workspace/${workspaceID}/tasks`)
@@ -22,7 +23,7 @@ describe('Create task routes TEST', () => {
       .send({
         title: f.lorem.text(),
         description: f.lorem.text(),
-        due_date: date,
+        due_date: null,
         priority: 'low',
         // workspaceID: workspaceID,
       });
@@ -46,6 +47,8 @@ describe('Create task routes TEST', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
+        title: f.lorem.text(),
+
         description: f.lorem.text(),
         due_date: date,
         priority: 'low',

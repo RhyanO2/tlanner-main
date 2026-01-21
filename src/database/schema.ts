@@ -64,9 +64,9 @@ export const Habits_completions = pgTable(
   'Habit_Completions',
   {
     id: uuid().primaryKey().defaultRandom(),
-    id_user: uuid()
+    id_habit: uuid()
       .notNull()
-      .references(() => Users.id, { onDelete: 'cascade' }),
+      .references(() => Habits.id, { onDelete: 'cascade' }),
     completed_at: date().notNull(),
   },
   (table) => ({
