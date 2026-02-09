@@ -20,13 +20,15 @@ export const HabitPOST: FastifyPluginAsyncZod = async (server) => {
         }),
         response: {
           201: z.object({
-            habits: z.object({
-              name: z.string(),
-              id: z.uuid(),
-              id_user: z.uuid(),
-              frequency: z.enum(['daily', 'weekly', 'monthly']),
-              created_at: z.date().nullable(),
-            }),
+            habits: z.array(
+              z.object({
+                name: z.string(),
+                id: z.uuid(),
+                id_user: z.uuid(),
+                frequency: z.enum(['daily', 'weekly', 'monthly']),
+                created_at: z.date().nullable(),
+              })
+            ),
           }),
           400: z.object({ message: z.string() }),
           500: z.object({ message: z.string() }),

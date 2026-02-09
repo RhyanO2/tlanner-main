@@ -34,8 +34,8 @@ export async function postHabit(req: FastifyRequest, res: FastifyReply) {
     id_user: string;
   };
   try {
-    const habits = await habitsCreate(name, frequency, id_user);
-    res.status(201).send({ habits: habits });
+    const habit = await habitsCreate(name, frequency, id_user);
+    res.status(201).send({ habits: [habit] });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
