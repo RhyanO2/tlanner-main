@@ -10,7 +10,7 @@ export const githubOAuth: FastifyPluginAsyncZod = async (server) => {
       },
     },
     async (req, res) => {
-      const githubURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=user:email`;
+      const githubURL = `https://github.com/login/oauth/authorize?client_id=${process.env.GHUB_CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=user:email`;
 
       res.redirect(githubURL);
     }

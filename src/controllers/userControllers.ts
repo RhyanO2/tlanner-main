@@ -55,8 +55,8 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          client_id: process.env.GITHUB_CLIENT_ID,
-          client_secret: process.env.GITHUB_CLIENT_SECRET,
+          client_id: process.env.GHUB_CLIENT_ID,
+          client_secret: process.env.GHUB_CLIENT_SECRET,
           code: code,
         }),
       }
