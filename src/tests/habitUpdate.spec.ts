@@ -44,6 +44,8 @@ describe('HabitEdit Tests', () => {
       });
 
     expect(response.status).toEqual(400);
-    expect(response.body).toEqual;
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
   });
 });

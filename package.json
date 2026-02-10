@@ -8,6 +8,7 @@
     "start": "node dist/server",
     "dev": "tsx watch src/server.ts",
     "test": "dotenv -e test.env vitest run",
+    "coverage": "vitest --coverage",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate"
   },
   "keywords": [],
@@ -38,7 +39,6 @@
     "@types/jsonwebtoken": "^9.0.10",
     "argon2": "^0.44.0",
     "dotenv": "^17.2.3",
-    "drizzle": "^1.4.0",
     "drizzle-orm": "^0.45.1",
     "email-validator": "^2.0.4",
     "fastify": "^5.6.2",
