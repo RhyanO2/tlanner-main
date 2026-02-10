@@ -9,10 +9,10 @@
          - uses: pnpm/action-setup@v2
          - run: pnpm install
          - name: Run tests
-           env:
-            NEON_URL: ${{ secrets.NEON_URL }}
-            MAIL_USER: ${{ secrets.MAIL_USER }}
-            MAIL_PASS: ${{ secrets.MAIL_PASS }}
-            JWT_SECRET: ${{ secrets.JWT_SECRET }}
-            SERVER_PORT: ${{ secrets.SERVER_PORT }}
-         - run: pnpm test
+            env:
+              NEON_URL: ${{ secrets.NEON_URL }}
+              MAIL_USER: ${{ secrets.MAIL_USER }}
+              MAIL_PASS: ${{ secrets.MAIL_PASS }}
+              JWT_SECRET: ${{ secrets.JWT_SECRET }}
+              SERVER_PORT: ${{ secrets.SERVER_PORT }}
+            run: pnpm test

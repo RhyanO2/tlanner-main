@@ -27,14 +27,12 @@ import { HabitPOST } from './routes/HabitCreate';
 import { habitPUT } from './routes/HabitUpdate';
 import { habitDelete } from './routes/HabitDelete';
 import { habitsGET } from './routes/HabitView';
-import rateLimit from '@fastify/rate-limit'
+import rateLimit from '@fastify/rate-limit';
 
-
-   server.register(rateLimit, {
-     max: 100,
-     timeWindow: '15 minutes'
-   })
-
+server.register(rateLimit, {
+  max: 100,
+  timeWindow: '15 minutes',
+});
 
 server.withTypeProvider<ZodTypeProvider>();
 
