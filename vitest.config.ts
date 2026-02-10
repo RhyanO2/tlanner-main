@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     env: {
       DOTENV_CONFIG_PATH: 'test.env',
+
       NODE_ENV: 'test',
     },
     coverage: {
