@@ -9,10 +9,7 @@ export const HabitPOST: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Edit a created task parsing taskID',
-        // params: z.object({
-        //   userid: z.uuid(),
-        // }),
+        summary: 'Create Habit',
         body: z.object({
           name: z.string(),
           frequency: z.enum(['daily', 'weekly', 'monthly']),

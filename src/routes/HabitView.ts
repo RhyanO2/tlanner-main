@@ -9,7 +9,7 @@ export const habitsGET: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Edit a created task parsing taskID',
+        summary: 'Get User Habits',
         params: z.object({
           userID: z.uuid(),
         }),

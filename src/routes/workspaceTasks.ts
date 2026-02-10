@@ -10,8 +10,7 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary:
-          'Get tasks related to an user workspace parsing userWorkspaceID',
+        summary: 'Get tasks related to an workspace',
         params: z.object({
           id: z.uuid(),
         }),

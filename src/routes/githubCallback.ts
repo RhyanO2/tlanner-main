@@ -7,6 +7,7 @@ export const callbackGithub: FastifyPluginAsyncZod = async (server) => {
     '/api/auth/callback/github',
     {
       schema: {
+        summary: 'Github OAuth Callback',
         querystring: z.object({
           code: z.string(),
         }),

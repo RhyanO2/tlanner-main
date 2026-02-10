@@ -10,7 +10,7 @@ export const getTasks: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Get taks details parsing taskID',
+        summary: 'Get task by ID',
         params: z.object({
           id: z.uuid(),
         }),

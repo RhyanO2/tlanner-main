@@ -5,7 +5,7 @@ export const TESTROUTE: FastifyPluginAsyncZod = async (server) => {
     '/',
     {
       schema: {
-        summary: 'Check the connection with server',
+        summary: 'Check the connection with server / Cronjob ',
       },
     },
     async (req, res) => {

@@ -10,7 +10,7 @@ export const userWorkspaces: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Get workspaces related to an user parsing userID',
+        summary: 'Get workspaces related to an user',
         params: z.object({
           userID: z.uuid(),
         }),

@@ -10,7 +10,7 @@ export const deleteTask: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Delete an existent task parsing taskID',
+        summary: 'Delete an existent task',
         params: z.object({
           id: z.uuid(),
         }),

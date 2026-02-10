@@ -9,7 +9,7 @@ export const putTask: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Edit a created task parsing taskID',
+        summary: 'Edit a created task',
         params: z.object({
           id: z.uuid(),
         }),

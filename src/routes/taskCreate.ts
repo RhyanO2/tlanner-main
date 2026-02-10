@@ -10,8 +10,7 @@ export const createTask: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary:
-          '  Create task parsing a userWorkspaceID that the task will be related ',
+        summary: 'Create task',
         body: z.object({
           title: z.string(),
           description: z.string(),

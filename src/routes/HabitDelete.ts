@@ -9,7 +9,7 @@ export const habitDelete: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Edit a created task parsing taskID',
+        summary: 'Delete an existent Habit',
         params: z.object({
           id: z.uuid(),
         }),

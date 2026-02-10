@@ -10,7 +10,7 @@ export const WorkspacePost: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Create a workspace parsind userid an title',
+        summary: 'Create a workspace',
         body: z.object({
           title: z.string(),
           id_user: z.uuid(),

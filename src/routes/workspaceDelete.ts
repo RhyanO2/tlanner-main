@@ -10,7 +10,7 @@ export const WorkspaceDelete: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Delete a workspace parsing ID',
+        summary: 'Delete a workspace',
         params: z.object({
           id: z.uuid(),
         }),

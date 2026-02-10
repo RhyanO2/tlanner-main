@@ -14,7 +14,7 @@ export const WorkspacePut: FastifyPluginAsyncZod = async (server) => {
         params: z.object({
           id: z.uuid(),
         }),
-        summary: 'Create a workspace parsind userid an title',
+        summary: 'Edit a workspace',
         body: z.object({
           title: z.string(),
         }),

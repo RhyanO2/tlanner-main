@@ -9,7 +9,7 @@ export const habitPUT: FastifyPluginAsyncZod = async (server) => {
     {
       preHandler: [checkRequestJWT],
       schema: {
-        summary: 'Edit a created task parsing taskID',
+        summary: 'Edit a Habit',
         params: z.object({
           id: z.uuid(),
         }),
