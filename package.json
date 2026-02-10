@@ -8,6 +8,7 @@
     "start": "node dist/server",
     "dev": "tsx watch src/server.ts",
     "test": "dotenv -e test.env vitest run",
+    "coverage": "vitest --coverage",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate"
   },
   "keywords": [],
