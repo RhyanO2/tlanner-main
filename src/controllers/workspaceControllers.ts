@@ -72,7 +72,7 @@ export async function DeleteWorkspace(req: FastifyRequest, res: FastifyReply) {
     const { id } = req.params as { id: string };
     const results = await WorkspaceDelete(id);
 
-    res.status(200).send({ message: 'Workspace deleted' });
+    res.status(204);
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
