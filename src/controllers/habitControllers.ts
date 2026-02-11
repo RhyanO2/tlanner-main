@@ -65,7 +65,7 @@ export async function delHabit(req: FastifyRequest, res: FastifyReply) {
 
     await habitRemove(id);
 
-    res.status(204);
+    res.status(204).send();
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
