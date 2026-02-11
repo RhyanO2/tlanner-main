@@ -5,8 +5,21 @@ import { server } from '../app.js';
 
 import { faker as f } from '@faker-js/faker';
 
-describe('User Register Tests', async () => {
-  test('Register an user parsing bodyparams', async () => {
+import { vi } from 'vitest';
+import nodemailer from 'nodemailer';
+
+// Cria um mock para o nodemailer antes de qualquer coisa
+vi.mock('nodemailer', () => ({
+  default: {
+    createTransport: vi.fn().mockReturnValue({
+      sendMail: vi.fn().mockResolvedValue({ messageId: 'test-id' }),
+      verify: vi.fn().mockResolvedValue(true),
+    }),
+  },
+}));
+
+describe('User Register Tests', () => {
+  (test('Register an user parsing bodyparams', async () => {
     await server.ready();
 
     const name = f.person.firstName();
@@ -48,5 +61,5 @@ describe('User Register Tests', async () => {
       expect(response.body).toEqual({
         message: expect.any(String),
       });
-    });
+    }));
 });

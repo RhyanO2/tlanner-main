@@ -92,7 +92,7 @@ export async function delTask(req: FastifyRequest, res: FastifyReply) {
 
     await taskRemove(id);
 
-    res.status(200).send({ message: 'Task deleted!' });
+    res.status(204);
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,

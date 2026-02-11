@@ -16,10 +16,7 @@ describe('Habit delete responses', () => {
       .delete(`/habit/${habit.id}`)
       .set('Authorization', token);
 
-    expect(response.status).toEqual(200);
-    expect(response.body).toEqual({
-      message: expect.any(String),
-    });
+    expect(response.status).toEqual(204);
   });
   test('unexistent ID', async () => {
     await server.ready();

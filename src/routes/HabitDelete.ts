@@ -15,7 +15,7 @@ export const habitDelete: FastifyPluginAsyncZod = async (server) => {
         }),
 
         response: {
-          200: z.object({ message: z.string() }),
+          204: z.void,
           400: z.object({ message: z.string() }),
           500: z.object({ message: z.string() }),
         },
