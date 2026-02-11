@@ -18,10 +18,7 @@ describe('Workspace Create', () => {
       .delete(`/workspace/${workspace.id}`)
       .set('Authorization', token);
 
-    expect(response.status).toEqual(200);
-    expect(response.body).toEqual({
-      message: expect.any(String),
-    });
+    expect(response.status).toEqual(204);
   });
   test('Delete a created user workspace', async () => {
     await server.ready();

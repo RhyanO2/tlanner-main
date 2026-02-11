@@ -6,7 +6,7 @@ import { server } from '../app.js';
 import { faker as f } from '@faker-js/faker';
 
 describe('User Register Tests', async () => {
-  test('Register an user parsing bodyparams', async () => {
+  (test('Register an user parsing bodyparams', async () => {
     await server.ready();
 
     const name = f.person.firstName();
@@ -48,5 +48,5 @@ describe('User Register Tests', async () => {
       expect(response.body).toEqual({
         message: expect.any(String),
       });
-    });
+    }));
 });
