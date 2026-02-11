@@ -15,9 +15,7 @@ export const WorkspaceDelete: FastifyPluginAsyncZod = async (server) => {
           id: z.uuid(),
         }),
         response: {
-          200: z.object({
-            message: z.string(),
-          }),
+          204: z.void,
           400: z.object({
             message: z.string(),
           }),
