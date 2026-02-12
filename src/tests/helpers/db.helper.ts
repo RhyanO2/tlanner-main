@@ -3,8 +3,8 @@ import { db } from '../../database/index.js';
 import { Habits, Tasks, Users, Workspace } from '../../database/schema.js';
 
 export async function cleanTestDatabase() {
-  db.delete(Tasks);
-  db.delete(Habits);
-  db.delete(Workspace);
-  db.delete(Users);
+  await db.delete(Tasks);
+  await db.delete(Habits);
+  await db.delete(Workspace);
+  await db.delete(Users);
 }
