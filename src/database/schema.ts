@@ -7,6 +7,7 @@ import {
   uuid,
   date,
   unique,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
 export const status = pgEnum('task_status', ['pending', 'in_progress', 'done']);
@@ -21,14 +22,20 @@ export const frequency = pgEnum('habitFreq', ['daily', 'weekly', 'monthly']);
 export type taskStatus = (typeof status.enumValues)[number];
 export type taskPriority = (typeof priority.enumValues)[number];
 
-export const Users = pgTable('Users', {
-  id: uuid().primaryKey().defaultRandom(),
-  name: text().notNull(),
-  email: text().notNull().unique(),
-  password: text(),
-  provider: provider().notNull().default('LOCAL'),
-  ispremium: boolean().notNull().default(false),
-});
+export const Users = pgTable(
+  'Users',
+  {
+    id: uuid().primaryKey().defaultRandom(),
+    name: text().notNull(),
+    email: text().notNull().unique(),
+    password: text(),
+    provider: provider().notNull().default('LOCAL'),
+    ispremium: boolean().notNull().default(false),
+  },
+  (table) => ({
+    emailIdx: uniqueIndex('idx_users_email').on(table.email),
+  })
+);
 
 export const Workspace = pgTable('Workspace', {
   id: uuid().primaryKey().defaultRandom(),

@@ -1,10 +1,9 @@
 // src/tests/helpers/db.helper.ts
 import { db } from '../../database/index.js';
-import { Habits, Tasks, Users, Workspace } from '../../database/schema.js';
-
+import { sql } from 'drizzle-orm';
 export async function cleanTestDatabase() {
-  db.delete(Tasks);
-  db.delete(Habits);
-  db.delete(Workspace);
-  db.delete(Users);
+  await db.execute(sql`
+    TRUNCATE TABLE "Tasks", "Habits", "Workspace", "Users" 
+    RESTART IDENTITY CASCADE
+  `);
 }
