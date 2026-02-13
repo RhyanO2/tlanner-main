@@ -10,7 +10,7 @@ describe('Create habit routes TEST', () => {
   test('Create a habit', async () => {
     await server.ready(); // espera o servidor rodar
 
-    const { token, user } = await authenticateCreatedUser(); // retorna usuario criado e token de auth, //utiliza o token retornado como object como string para funcionar na response
+    const { token, user } = await authenticateCreatedUser();
 
     const response = await request(server.server)
       .post(`/habit`)
