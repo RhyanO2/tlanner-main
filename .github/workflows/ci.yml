@@ -13,5 +13,5 @@ jobs:
           MAIL_USER: ${{ secrets.MAIL_USER }}
           MAIL_PASS: ${{ secrets.MAIL_PASS }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          SERVER_PORT: 3000
         run: pnpm test
