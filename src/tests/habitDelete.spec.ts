@@ -9,8 +9,8 @@ describe('Habit delete responses', () => {
   test('Delete a created habit from the database', async () => {
     await server.ready();
 
-    const { token, user } = await authenticateCreatedUser();
-    const habit = await makeHabit(user.id);
+    const habit = await makeHabit();
+    const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
       .delete(`/habit/${habit.id}`)

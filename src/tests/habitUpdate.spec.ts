@@ -12,8 +12,8 @@ describe('HabitEdit Tests', () => {
   test('Edit Habit giving HabitID in reqparams', async () => {
     await server.ready();
 
-    const { token, user } = await authenticateCreatedUser();
-    const habit = await makeHabit(user.id);
+    const habit = await makeHabit();
+    const { token } = await authenticateCreatedUser();
 
     const response = await request(server.server)
       .put(`/habit/${habit.id}`)
