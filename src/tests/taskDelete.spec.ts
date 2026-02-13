@@ -1,11 +1,15 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeTask } from './factories/makeTask.js';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Task delete responses', () => {
+   beforeEach(async () => {
+    await cleanTestDatabase();
+  });
   test('Delete a created task from the database', async () => {
     await server.ready();
 

@@ -1,4 +1,4 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
@@ -7,6 +7,7 @@ import { faker as f } from '@faker-js/faker';
 
 import { vi } from 'vitest';
 import nodemailer from 'nodemailer';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 // Cria um mock para o nodemailer antes de qualquer coisa
 vi.mock('nodemailer', () => ({
@@ -17,6 +18,9 @@ vi.mock('nodemailer', () => ({
     }),
   },
 }));
+ beforeEach(async () => {
+    await cleanTestDatabase();
+  });
 
 describe('User Register Tests', () => {
   (test('Register an user parsing bodyparams', async () => {

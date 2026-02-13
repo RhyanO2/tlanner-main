@@ -1,12 +1,16 @@
-import { describe, test, expect } from 'vitest';
+import { describe, test, expect, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 
 import { faker as f } from '@faker-js/faker';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Workspace Create', () => {
+   beforeEach(async () => {
+    await cleanTestDatabase();
+  });
   test('Create user workspace', async () => {
     await server.ready();
 

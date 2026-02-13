@@ -1,4 +1,4 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
@@ -6,8 +6,12 @@ import { makeTask } from './factories/makeTask.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker as f } from '@faker-js/faker';
 import { priority } from '../database/schema.js';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('TaskEdit Tests', () => {
+   beforeEach(async () => {
+    await cleanTestDatabase();
+  });
   test('Edit task giving taskID in reqparams', async () => {
     await server.ready();
 

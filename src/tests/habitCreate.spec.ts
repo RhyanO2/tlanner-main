@@ -1,16 +1,21 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { faker as f } from '@faker-js/faker';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Create habit routes TEST', () => {
-  test('Create a habit', async () => {
-    await server.ready(); // espera o servidor rodar
+  beforeEach(async () => {
+    await cleanTestDatabase();
+  });
 
-    const { token, user } = await authenticateCreatedUser(); // retorna usuario criado e token de auth, //utiliza o token retornado como object como string para funcionar na response
+  test('Create a habit', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
 
     const response = await request(server.server)
       .post(`/habit`)

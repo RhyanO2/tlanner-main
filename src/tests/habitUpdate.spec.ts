@@ -1,4 +1,4 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
@@ -7,8 +7,12 @@ import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker as f } from '@faker-js/faker';
 import { priority } from '../database/schema.js';
 import { makeHabit } from './factories/makeHabit.js';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('HabitEdit Tests', () => {
+  beforeEach(async () => {
+    await cleanTestDatabase();
+  });
   test('Edit Habit giving HabitID in reqparams', async () => {
     await server.ready();
 

@@ -1,9 +1,13 @@
-import { test, expect, describe } from 'vitest';
+import { test, expect, describe, beforeEach } from 'vitest';
 import request from 'supertest';
 import { server } from '../app.js';
 import { makeUser } from './factories/makeUser.js';
+import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Login operations', () => {
+   beforeEach(async () => {
+    await cleanTestDatabase();
+  });
   test('Login parsing email and password', async () => {
     await server.ready();
 
