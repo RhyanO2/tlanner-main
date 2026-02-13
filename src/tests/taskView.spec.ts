@@ -1,4 +1,4 @@
-import { test, expect, describe, beforeEach } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
@@ -6,12 +6,8 @@ import { authenticateCreatedUser } from './factories/makeUser.js';
 import { faker } from '@faker-js/faker';
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
-import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Task view', () => {
-   beforeEach(async () => {
-    await cleanTestDatabase();
-  });
   test('View information from a task', async () => {
     await server.ready();
 

@@ -1,6 +1,7 @@
-// import { beforeAll } from 'vitest';
+// import { afterEach } from 'vitest';
 // import { cleanTestDatabase } from './helpers/db.helper';
 
-// beforeAll(async () => {
+// afterEach(async () => {
 //   await cleanTestDatabase();
 // });
+// //

@@ -1,19 +1,14 @@
-import { test, expect, describe, beforeEach } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { faker as f } from '@faker-js/faker';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
-import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Create habit routes TEST', () => {
-  beforeEach(async () => {
-    await cleanTestDatabase();
-  });
-
   test('Create a habit', async () => {
-    await server.ready();
+    await server.ready(); // espera o servidor rodar
 
     const { token, user } = await authenticateCreatedUser();
 

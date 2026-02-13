@@ -1,16 +1,12 @@
-import { describe, test, expect, beforeEach } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
-import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Workspace views', () => {
-  beforeEach(async () => {
-    await cleanTestDatabase();
-  });
   test('View all user workspaces ', async () => {
     await server.ready();
 

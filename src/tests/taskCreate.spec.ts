@@ -1,16 +1,12 @@
-import { test, expect, describe, beforeEach } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { faker as f } from '@faker-js/faker';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
-import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Create task routes TEST', () => {
-   beforeEach(async () => {
-    await cleanTestDatabase();
-  });
   test('Create a task', async () => {
     await server.ready(); // espera o servidor rodar
 

@@ -1,15 +1,11 @@
-import { test, expect, describe, beforeEach } from 'vitest';
+import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
 import { makeHabit } from './factories/makeHabit.js';
-import { cleanTestDatabase } from './helpers/db.helper.js';
 
 describe('Habit delete responses', () => {
-  beforeEach(async () => {
-    await cleanTestDatabase();
-  });
   test('Delete a created habit from the database', async () => {
     await server.ready();
 
