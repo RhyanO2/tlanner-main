@@ -27,7 +27,7 @@ export async function userWorkspacesGet(userID: string) {
     throw new AppError('User do not have workspaces yet', 404);
   }
   const result = { workspaces };
-  await setCache(cacheKey, workspaces, 300);
+  await setCache(cacheKey, result, 300);
 
   return result;
 }
