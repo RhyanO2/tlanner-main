@@ -27,6 +27,7 @@ import { HabitPOST } from './routes/HabitCreate';
 import { habitPUT } from './routes/HabitUpdate';
 import { habitDelete } from './routes/HabitDelete';
 import { habitsGET } from './routes/HabitView';
+import { redisHealthRoute } from './routes/redisHealth';
 import rateLimit from '@fastify/rate-limit';
 
 server.register(rateLimit, {
@@ -81,4 +82,5 @@ server.register(HabitPOST);
 server.register(habitPUT);
 server.register(habitDelete);
 server.register(habitsGET);
+server.register(redisHealthRoute);
 export { server };
