@@ -23,7 +23,7 @@ export const habitsGET: FastifyPluginAsyncZod = async (server) => {
                 id: z.uuid(),
                 id_user: z.uuid(),
                 frequency: z.enum(['daily', 'weekly', 'monthly']),
-                created_at: z.date().nullable(),
+                created_at: z.coerce.date().nullable(),
               })
             ),
           }),
