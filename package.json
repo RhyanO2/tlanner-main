@@ -10,8 +10,8 @@
     "test": "dotenv -e test.env vitest run",
     "coverage": "vitest --coverage",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate",
-    "clean-db": "pnpm dotenv -e .env tsx src/tests/helpers/db.helper",
-    "clean-redis": "pnpm dotenv -e .env tsx src/tests/helpers/redis.helper"
+    "clean-db": "pnpm dotenv -e test.env tsx src/tests/helpers/db.helper",
+    "clean-redis": "pnpm dotenv -e test.env tsx src/tests/helpers/redis.helper"
   },
   "keywords": [],
   "author": "",
