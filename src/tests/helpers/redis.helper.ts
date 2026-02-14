@@ -1,11 +1,13 @@
-import { redis } from '../../config/redis';
+// import { redis } from '../../config/redis';
 
-export async function cleanTestRedis() {
-  await redis.flushdb();
-}
+// export async function cleanTestRedis() {
+//   if(redis != null){
+//   await redis.flushdb();}
+// }
 
-export async function disconnectRedis() {
-  await redis.quit();
-}
-cleanTestRedis();
-disconnectRedis();
+// export async function disconnectRedis() {
+//    if(redis != null){
+//   await redis.quit();}
+// }
+// cleanTestRedis();
+// disconnectRedis();
