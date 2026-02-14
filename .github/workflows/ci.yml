@@ -18,4 +18,5 @@ jobs:
 
         run: |
           pnpm clean-db
+          pnpm clean-redis
           pnpm test
