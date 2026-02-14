@@ -4,24 +4,26 @@ const DEFAULT_TTL = 300;
 
 export async function getCache<T>(key: string): Promise<T | null> {
   try {
-    if (!redis) return null;  
+    if (!redis) return null;
 
-    const cached = await redis.get(key);
+    const cached = await redis.get<T>(key);
     if (!cached) return null;
-    return JSON.parse(cached) as T;
+    return cached ?? null;
   } catch {
     return null;
   }
 }
 
-export async function setCache(key: string, data: unknown, ttl = DEFAULT_TTL): Promise<void> {
+export async function setCache(
+  key: string,
+  data: unknown,
+  ttl = DEFAULT_TTL
+): Promise<void> {
   try {
     if (!redis) return;
 
-    await redis.set(key, JSON.stringify(data), 'EX', ttl);
-  } catch {
-    
-  }
+    await redis.set(key, JSON.stringify(data), { ex: ttl });
+  } catch {}
 }
 
 export async function deleteCache(key: string): Promise<void> {
@@ -29,9 +31,7 @@ export async function deleteCache(key: string): Promise<void> {
     if (!redis) return;
 
     await redis.del(key);
-  } catch {
-    
-  }
+  } catch {}
 }
 
 export async function deleteCacheByPattern(pattern: string): Promise<void> {
@@ -40,11 +40,15 @@ export async function deleteCacheByPattern(pattern: string): Promise<void> {
 
     let cursor = '0';
     do {
-      const [nextCursor, keys] = await redis.scan(cursor, 'MATCH', pattern, 'COUNT', 100);
-      cursor = nextCursor;
-      if (keys.length > 0) await redis.del(...keys);
+      const result = await redis.scan(cursor, { match: pattern, count: 100 });
+      cursor = result[0];
+      const keys = result[1];
+
+      if (keys.length > 0) {
+        await redis.del(...keys);
+      }
     } while (cursor !== '0');
   } catch {
-    
+    // falha silenciosa
   }
 }
