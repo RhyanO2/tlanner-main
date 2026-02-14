@@ -48,7 +48,7 @@ export async function WorkspaceGet(workspaceID: string) {
 
 export async function WorkspaceCreate(title: string, userID: string) {
   const createWorkspace = await insertWorkspace(title, userID);
-  await deleteCache(`workspace:user${createWorkspace.id}`);
+  await deleteCache(`workspace:user${createWorkspace.id_user}`);
   return createWorkspace;
 }
 
