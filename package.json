@@ -10,7 +10,8 @@
     "test": "dotenv -e test.env vitest run",
     "coverage": "vitest --coverage",
     "migrate-testDB": "pnpm dotenv -e test.env drizzle-kit migrate",
-    "clean-db": "pnpm dotenv -e test.env tsx src/tests/helpers/db.helper"
+    "clean-db": "pnpm dotenv -e test.env tsx src/tests/helpers/db.helper",
+    "clean-redis": "pnpm dotenv -e test.env tsx src/tests/helpers/redis.helper"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "@faker-js/faker": "^10.1.0",
+    "@types/ioredis": "^5.0.0",
     "@types/node": "^25.0.0",
     "@types/nodemailer": "^7.0.4",
     "@types/supertest": "^6.0.3",
@@ -45,6 +47,7 @@
     "fastify": "^5.6.2",
     "fastify-nodemailer": "^5.0.0",
     "fastify-type-provider-zod": "^6.1.0",
+    "ioredis": "^5.9.3",
     "jsonwebtoken": "^9.0.3",
     "nodemailer": "^7.0.11",
     "pg": "^8.16.3",

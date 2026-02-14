@@ -6,20 +6,34 @@ import {
   taskDelete,
   selectTasksByWorkspaceId,
 } from '../models/taskModel.js';
-// import { taskPriority } from '../database/schema.ts';
 import { AppError } from '../errors/AppError.js';
+import { deleteCache, getCache, setCache } from '../cache/cacheUtils.js';
 
 export async function tasksGet(taskID: string) {
+  const cacheKey = `task:${taskID}`;
+
+  const cached = await getCache<typeof tasks>(cacheKey);
+
+  if (cached) {
+    return cached;
+  }
   const tasks = await taskSelectByID(taskID);
 
   if (tasks.length === 0) {
     throw new AppError(`Task ID${taskID} does not exists`, 404);
   }
 
+  await setCache(cacheKey, tasks, 300);
+
   return tasks;
 }
 
 export async function WorkspaceTasksGet(workspaceID: string) {
+  const cacheKey = `tasks:workspace:${workspaceID}`;
+
+  const cached = await getCache<typeof tasks>(cacheKey);
+  if (cached) return cached;
+
   const tasks = await selectTasksByWorkspaceId(workspaceID);
 
   if (tasks.length === 0) {
@@ -28,7 +42,7 @@ export async function WorkspaceTasksGet(workspaceID: string) {
       404
     );
   }
-
+  await setCache(cacheKey, tasks, 300);
   return tasks;
 }
 
@@ -45,7 +59,7 @@ export async function taskCreate(
     description = title;
   }
 
-  const createTask = taskInsert(
+  const createTask = await taskInsert(
     title,
     description,
     realDate,
@@ -53,6 +67,7 @@ export async function taskCreate(
     workspaceID
   );
 
+  await deleteCache(`tasks:workspace:${workspaceID}`);
   return createTask;
 }
 
@@ -71,8 +86,17 @@ export async function taskEdit(
   }
 
   const realDate = due_date ? new Date(`${due_date}T12:00:00`) : null;
-
-  return taskUpdate(title, description, status, priority, realDate, taskId);
+  const updated = await taskUpdate(
+    title,
+    description,
+    status,
+    priority,
+    realDate,
+    taskId
+  );
+  await deleteCache(`tasks:${taskId}`);
+  await deleteCache(`tasks:workspace${task[0].workspaceRelated}`);
+  return updated;
 }
 
 export async function taskRemove(taskId: string) {
@@ -81,6 +105,7 @@ export async function taskRemove(taskId: string) {
   if (task.length === 0) {
     throw new AppError('task cannot be find', 404);
   }
-
-  return taskDelete(taskId);
+  const deleted = await taskDelete(taskId);
+  await deleteCache(`tasks:${taskId}`);
+  return deleted;
 }
