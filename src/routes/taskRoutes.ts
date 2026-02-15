@@ -2,7 +2,12 @@ import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
 
 import { checkRequestJWT } from './hooks/checkJWT-FromReq.js';
-import { delTask, editTask, getTaskByID, postTask } from '../controllers/taskControllers.js';
+import {
+  delTask,
+  editTask,
+  getTaskByID,
+  postTask,
+} from '../controllers/taskControllers.js';
 
 export const getTasks: FastifyPluginAsyncZod = async (server) => {
   server.get(
@@ -107,7 +112,7 @@ export const deleteTask: FastifyPluginAsyncZod = async (server) => {
           id: z.uuid(),
         }),
         response: {
-          204: z.void,
+          204: z.void(),
           404: z.object({ message: z.string() }),
           400: z.object({ message: z.string() }),
         },
