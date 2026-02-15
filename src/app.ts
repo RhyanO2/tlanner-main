@@ -9,7 +9,6 @@ import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
 import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
-import websocket from '@fastify/websocket';
 
 import { registerRoute, loginRoute } from './routes/userRoutes';
 import { TESTROUTE } from './routes/testRoute';
