@@ -27,7 +27,7 @@ import {
   HabitPOST,
   habitPUT,
   habitDelete,
-} from './routes/HabitsRoutes';
+} from './routes/habitsRoutes';
 
 import { githubOAuth } from './routes/githubOAuth';
 import { callbackGithub } from './routes/githubCallback';
