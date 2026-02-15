@@ -1,7 +1,12 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq';
-import { delHabit, editHabit, getHabitsByUserID, postHabit } from '../controllers/habitControllers';
+import {
+  delHabit,
+  editHabit,
+  getHabitsByUserID,
+  postHabit,
+} from '../controllers/habitControllers';
 
 export const habitsGET: FastifyPluginAsyncZod = async (server) => {
   server.get(
@@ -98,7 +103,6 @@ export const habitPUT: FastifyPluginAsyncZod = async (server) => {
   );
 };
 
-
 export const habitDelete: FastifyPluginAsyncZod = async (server) => {
   server.delete(
     '/habit/:id',
@@ -111,7 +115,7 @@ export const habitDelete: FastifyPluginAsyncZod = async (server) => {
         }),
 
         response: {
-          204: z.void,
+          204: z.void(),
           400: z.object({ message: z.string() }),
           500: z.object({ message: z.string() }),
         },
@@ -121,4 +125,3 @@ export const habitDelete: FastifyPluginAsyncZod = async (server) => {
     delHabit
   );
 };
-
