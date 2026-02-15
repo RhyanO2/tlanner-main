@@ -64,7 +64,7 @@ server.register(cors, {
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 });
-server.register(websocket);
+
 server.register(TESTROUTE);
 server.register(registerRoute);
 server.register(loginRoute);
