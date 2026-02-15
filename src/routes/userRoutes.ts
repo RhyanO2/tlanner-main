@@ -1,6 +1,6 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
 import z from 'zod';
-import { register } from '../controllers/userControllers.js';
+import { login, register } from '../controllers/userControllers.js';
 
 export const registerRoute: FastifyPluginAsyncZod = async (server) => {
   server.post(
@@ -28,5 +28,29 @@ export const registerRoute: FastifyPluginAsyncZod = async (server) => {
       },
     },
     register
+  );
+};
+export const loginRoute: FastifyPluginAsyncZod = async (server) => {
+  server.post(
+    '/login',
+    {
+      schema: {
+        summary: 'Login',
+        body: z.object({
+          email: z.string().email(),
+          password: z.string(),
+        }),
+        response: {
+          200: z.object({
+            message: z.string(),
+            token: z.string(),
+          }),
+          401: z.object({ message: z.string() }),
+
+          400: z.object({ message: z.string() }),
+        },
+      },
+    },
+    login
   );
 };
