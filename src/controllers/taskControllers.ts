@@ -7,6 +7,8 @@ import {
   WorkspaceTasksGet,
 } from '../services/taskServices';
 import { type FastifyRequest, type FastifyReply } from 'fastify';
+import { getUserIDFromRequest } from '../websocket/getUserFromToken';
+import { emitToUser } from '../websocket/websocketManager';
 
 export async function getTaskByID(req: FastifyRequest, res: FastifyReply) {
   try {
@@ -59,6 +61,17 @@ export async function postTask(req: FastifyRequest, res: FastifyReply) {
       priority,
       workspaceID
     );
+
+    //Buscando userID do token JWT
+    const userID = getUserIDFromRequest(req.headers.authorization);
+    //com o @userID é possivel avisar um usuário específico que foi criado uma task
+    if (userID) {
+      emitToUser(userID, {
+        event: 'task:created',
+        data: { task, workspaceID },
+      });
+    }
+
     res.status(201).send({ task: task });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
@@ -77,7 +90,24 @@ export async function editTask(req: FastifyRequest, res: FastifyReply) {
     due_date: string | null;
   };
   try {
-    await taskEdit(title, description, priority, status, due_date, id);
+    const updatedTask = await taskEdit(
+      title,
+      description,
+      priority,
+      status,
+      due_date,
+      id
+    );
+
+    const userID = getUserIDFromRequest(req.headers.authorization);
+
+    if (userID) {
+      emitToUser(userID, {
+        event: 'task:updated',
+        data: { taskID: id, updatedTask },
+      });
+    }
+
     res.status(200).send({ message: 'Task edited!' });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
@@ -91,6 +121,15 @@ export async function delTask(req: FastifyRequest, res: FastifyReply) {
     const { id } = req.params as { id: string };
 
     await taskRemove(id);
+
+    const userID = getUserIDFromRequest(req.headers.authorization);
+
+    if (userID) {
+      emitToUser(userID, {
+        event: 'task:deleted',
+        data: { taskID: id },
+      });
+    }
 
     res.status(204).send();
   } catch (err: any) {
