@@ -32,6 +32,12 @@ import {
 
 import { githubOAuth } from './routes/githubOAuth';
 import { callbackGithub } from './routes/githubCallback';
+server.register(cors, {
+  origin: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+});
 
 server.register(rateLimit, {
   max: 100,
@@ -43,12 +49,6 @@ server.withTypeProvider<ZodTypeProvider>();
 server.setSerializerCompiler(serializerCompiler);
 server.setValidatorCompiler(validatorCompiler);
 
-server.register(cors, {
-  origin: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-});
 if (process.env.NODE_ENV === 'development') {
   server.register(fastifySwagger, {
     openapi: {
