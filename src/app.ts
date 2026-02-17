@@ -9,7 +9,8 @@ import { fastifySwagger } from '@fastify/swagger';
 import scalarAPIReference from '@scalar/fastify-api-reference';
 import cors from '@fastify/cors';
 import rateLimit from '@fastify/rate-limit';
-
+import websocket from '@fastify/websocket';
+import { wsRoute } from './websocket/wsRoute';
 import { registerRoute, loginRoute } from './routes/userRoutes';
 import { TESTROUTE } from './routes/testRoute';
 import { getTasks, createTask, putTask, deleteTask } from './routes/taskRoutes';
@@ -63,7 +64,9 @@ if (process.env.NODE_ENV === 'development') {
     routePrefix: '/api-docs',
   });
 }
-// server.register(WebSocket);
+server.register(websocket);
+server.register(wsRoute);
+
 server.register(TESTROUTE);
 server.register(registerRoute);
 server.register(loginRoute);
