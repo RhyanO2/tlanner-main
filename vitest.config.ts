@@ -3,7 +3,6 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     testTimeout: 10000,
-    setupFiles: ['./src/tests/setup.ts'],
     env: {
       DOTENV_CONFIG_PATH: 'test.env',
 
