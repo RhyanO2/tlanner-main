@@ -19,7 +19,7 @@ export function removeConnection(userID: string, socket: WebSocket) {
   const userSockets = connections.get(userID); // atraves de um Map busca todas as conexões de u usuario
 
   if (!userSockets) {
-    //Caso o usuário:@userID não tiver nenhuma connection para a função
+    //Caso o usuário:@userID não tiver nenhuma connection a função para
     return;
   }
 
