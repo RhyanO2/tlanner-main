@@ -32,6 +32,11 @@ import {
 
 import { githubOAuth } from './routes/githubOAuth';
 import { callbackGithub } from './routes/githubCallback';
+import {
+  abacatePayCreateBill,
+  abacatePayCreatePixQRcode,
+  abacatePayCheckQrcodePixStatus,
+} from './routes/PaymentAbacateRoutes';
 server.register(cors, {
   origin: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -86,4 +91,7 @@ server.register(HabitPOST);
 server.register(habitPUT);
 server.register(habitDelete);
 server.register(habitsGET);
+server.register(abacatePayCreateBill);
+server.register(abacatePayCreatePixQRcode);
+server.register(abacatePayCheckQrcodePixStatus);
 export { server };
