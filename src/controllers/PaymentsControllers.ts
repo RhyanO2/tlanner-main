@@ -26,11 +26,14 @@ export async function createBilling(req: FastifyRequest, res: FastifyReply) {
   }
 }
 
-export async function getQRcodePixStatus(req: FastifyRequest, res: FastifyReply) {
+export async function getQRcodePixStatus(
+  req: FastifyRequest,
+  res: FastifyReply
+) {
   try {
-    const {id} = req.query as {id:string}
-    const  pixQrCodeStatus  = await abacatePayService.checkPix(id);
-    res.status(200).send(pixQrCodeStatus)
+    const { id } = req.query as { id: string };
+    const pixQrCodeStatus = await abacatePayService.checkPix(id);
+    res.status(200).send(pixQrCodeStatus);
   } catch (err: any) {
     res.status(err.statuscode || 400).send({
       message: err.message,
