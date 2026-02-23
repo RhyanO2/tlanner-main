@@ -17,5 +17,6 @@ export const abacatePayService = {
   //Pix(Apenas QRcode)
 
   createQRcodePix: (data: any) => api.post('pixQrCode/create', data),
-  checkPix: (id: string) => api.get(`/pixQrCode/check?id=${id}`),
+  checkPix: (id: string) =>
+    api.get(`/pixQrCode/check?id=${id}`).then((res) => res.data),
 };
