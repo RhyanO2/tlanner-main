@@ -7,6 +7,7 @@ import {
 } from '../controllers/PaymentsControllers';
 import { AbacateSignatureHook } from './hooks/verifyAbacateSignature';
 import { checkRequestJWT } from './hooks/checkJWT-FromReq';
+import z from 'zod';
 
 export const abacatePayWebhook: FastifyPluginAsyncZod = async (server) => {
   server.post(
@@ -24,7 +25,39 @@ export const abacatePayCreateBill: FastifyPluginAsyncZod = async (server) => {
     '/billing/create',
     {
       preHandler: [checkRequestJWT],
-      // schema:{}
+      schema: {
+        summary: 'Create a billing',
+        body: z.object({
+          frequency: z.enum(['ONE_TIME', 'MONTHLY', 'YEARLY']),
+          methods: z.array(z.enum(['PIX', 'CARD'])).min(1),
+          products: z
+            .array(
+              z.object({
+                externalId: z.string(),
+                name: z.string(),
+                description: z.string().optional(),
+                quantity: z.number().int().positive(),
+                price: z.number().int().positive(),
+              })
+            )
+            .min(1),
+          returnUrl: z.string().url(),
+          completionUrl: z.string().url(),
+          customerId: z.string().optional(),
+          customer: z
+            .object({
+              name: z.string(),
+              cellphone: z.string(),
+              email: z.string().email(),
+              taxId: z.string(),
+            })
+            .optional(),
+          allowCoupons: z.boolean().optional().default(false),
+          coupons: z.array(z.string()).optional(),
+          externalId: z.string().optional(),
+          metadata: z.record(z.string(), z.unknown()).optional(),
+        }),
+      },
     },
     createBilling
   );
@@ -37,7 +70,23 @@ export const abacatePayCreatePixQRcode: FastifyPluginAsyncZod = async (
     '/pixQrCode/create',
     {
       preHandler: [checkRequestJWT],
-      // schema:{}
+      schema: {
+        summary: 'Create a PIX QR Code',
+        body: z.object({
+          amount: z.number().int().positive(),
+          expiresIn: z.number().int().positive(),
+          description: z.string().optional(),
+          customer: z
+            .object({
+              name: z.string(),
+              cellphone: z.string(),
+              email: z.string().email(),
+              taxId: z.string(),
+            })
+            .optional(),
+          metadata: z.record(z.string(), z.unknown()).optional(),
+        }),
+      },
     },
     createQRcodePix
   );
@@ -49,7 +98,12 @@ export const abacatePayCheckQrcodePixStatus: FastifyPluginAsyncZod = async (
     '/pixQrCode/check',
     {
       preHandler: [checkRequestJWT],
-      // schema:{}
+      schema: {
+        summary: 'Check a PIX QR Code',
+        querystring: z.object({
+          id: z.string().startsWith('pix_char_'),
+        }),
+      },
     },
     getQRcodePixStatus
   );
