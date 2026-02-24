@@ -15,6 +15,8 @@ jobs:
           MAIL_PASS: ${{ secrets.MAIL_PASS }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           REDIS_URL: ${{ secrets.REDIS_URL }}
+          ABACATEPAY_API_KEY: ${{ secrets.ABACATEPAY_API_KEY }}
+          ABACATE_WEBHOOK_SECRET: ${{ secrets.ABACATE_WEBHOOK_SECRET}}
           SERVER_PORT: 3000
 
         run: |
