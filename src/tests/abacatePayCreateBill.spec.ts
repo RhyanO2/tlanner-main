@@ -56,16 +56,6 @@ describe('abacatePayCreateBill tests', () => {
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
-        frequency: 'ONE_TIME',
-        methods: ['PIX'],
-        products: [
-          {
-            externalId: 'prod_YnzdddAwD5hdtMdyUGyezbt6',
-            name: 'Tlanner Premium Plan',
-            quantity: 1,
-            price: 700,
-          },
-        ],
         returnUrl: 'https://tlanner.com.br/',
         completionUrl: 'https://tlanner.com.br/dashboard',
         customerId: 'cust_FJDYScmeZHWhxRh4tF51nuMT',
