@@ -1,7 +1,9 @@
 <div align="center">
+<img width="30" height="30" alt="logo" src="https://github.com/user-attachments/assets/9f84899b-145c-4b55-bd49-2eaff8451dea" />
 
-<img src="https://img.shields.io/badge/TLanner-API-6366f1?style=for-the-badge&logoColor=white" alt="TLanner Backend" />
+<img src="https://img.shields.io/badge/TLanner-Backend-3626a3?style=for-the-badge&logoColor=black" alt="TLanner Backend" />
 
+<br/>
 <br/>
 
 **[🇧🇷 Português](#-português) · [🇺🇸 English](#-english)**
@@ -12,7 +14,7 @@
 ![Fastify](https://img.shields.io/badge/Fastify-000000?style=flat-square&logo=fastify&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-00fa93?style=flat-square&logo=vitest&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-6E9F18?style=flat-square&logo=vitest&logoColor=white)
 ![CI](https://img.shields.io/github/actions/workflow/status/RhyanO2/tlanner-main/ci.yml?style=flat-square&label=CI&logo=github)
 
 </div>
@@ -23,7 +25,7 @@
 
 ## O que é o TLanner?
 
-**TLanner** é uma web app de planejamento de tarefas — mínimo, direta e sem distrações. O objetivo é simples: organizar o que precisa ser feito, sem complexidade desnecessária.
+**TLanner** é uma web app de planejamento de tarefas — mínima, direta e sem distrações. O objetivo é simples: organizar o que precisa ser feito, sem complexidade desnecessária.
 
 Este repositório é o backend da aplicação, construído com foco em arquitetura limpa, tipagem forte e práticas de produção real.
 
