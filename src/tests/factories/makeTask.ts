@@ -20,7 +20,3 @@ export async function makeTask() {
 
   return Task[0];
 }
-
-// const taskid =  (makeTask()).id;
-
-// console.log(taskid);
