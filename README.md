@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/TLanner-API-6366f1?style=for-the-badge&logoColor=white" alt="TLanner API" />
+<img src="https://img.shields.io/badge/TLanner-API-6366f1?style=for-the-badge&logoColor=white" alt="TLanner Backend" />
 
 <br/>
 
