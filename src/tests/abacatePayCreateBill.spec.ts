@@ -9,7 +9,6 @@ describe('abacatePayCreateBill tests', () => {
     await server.ready();
 
     const { token, user } = await authenticateCreatedUser();
-    // console.log(user);
 
     const response = await request(server.server)
       .post('/billing/create')

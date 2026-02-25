@@ -18,7 +18,3 @@ export async function makeHabit(userID?: string) {
 
   return Habit[0];
 }
-
-// const taskid =  (makeTask()).id;
-
-// console.log(taskid);
