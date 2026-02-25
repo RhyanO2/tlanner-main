@@ -25,7 +25,7 @@
 
 ## O que é o TLanner?
 
-**TLanner** é uma web app de planejamento de tarefas — mínima, direta e sem distrações. O objetivo é simples: organizar o que precisa ser feito, sem complexidade desnecessária.
+**TLanner** é uma web app de planejamento de tarefas — mínimo, direta e sem distrações. O objetivo é simples: organizar o que precisa ser feito, sem complexidade desnecessária.
 
 Este repositório é o backend da aplicação, construído com foco em arquitetura limpa, tipagem forte e práticas de produção real.
 
