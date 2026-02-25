@@ -1,888 +1,378 @@
-# TLanner API - Guia Prático de Uso 🚀
+<div align="center">
 
-Guia completo e prático para configurar, executar e testar a TLanner API do zero. Perfeito para desenvolvedores que querem começar rapidamente!
+<img src="https://img.shields.io/badge/TLanner-API-6366f1?style=for-the-badge&logoColor=white" alt="TLanner API" />
 
----
+<br/>
 
-## 📋 Índice
+**[🇧🇷 Português](#-português) · [🇺🇸 English](#-english)**
 
-- [Pré-requisitos](#-pré-requisitos)
-- [Instalação](#-instalação)
-- [Configuração](#-configuração)
-- [Executando a Aplicação](#-executando-a-aplicação)
-- [Testando a API](#-testando-a-api)
-- [Executando Testes Automatizados](#-executando-testes-automatizados)
-- [Usando o Drizzle Studio](#-usando-o-drizzle-studio)
-- [Resolução de Problemas](#-resolução-de-problemas)
-- [Próximos Passos](#-próximos-passos)
+<br/>
 
----
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Fastify](https://img.shields.io/badge/Fastify-000000?style=flat-square&logo=fastify&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-00fa93?style=flat-square&logo=vitest&logoColor=white)
+![CI](https://img.shields.io/github/actions/workflow/status/RhyanO2/tlanner-main/ci.yml?style=flat-square&label=CI&logo=github)
 
-## 🔧 Pré-requisitos
-
-Antes de começar, certifique-se de ter instalado:
-
-### Obrigatórios
-
-✅ **Node.js** (versão 18 ou superior)
-```bash
-# Verificar versão instalada
-node --version
-# Deve mostrar v18.x.x ou superior
-
-# Se não tiver, baixe em: https://nodejs.org/
-```
-
-✅ **pnpm** (gerenciador de pacotes)
-```bash
-# Instalar pnpm globalmente
-npm install -g pnpm
-
-# Verificar instalação
-pnpm --version
-# Deve mostrar 8.x.x ou superior
-```
-
-✅ **Docker Desktop** (para banco de dados)
-```bash
-# Verificar se está instalado
-docker --version
-docker-compose --version
-
-# Se não tiver, baixe em: https://www.docker.com/products/docker-desktop/
-```
-
-### Opcional (mas recomendado)
-
-- **Git** - para clonar o repositório
-- **Visual Studio Code** - editor de código
-- **Postman** ou **Insomnia** - para testar endpoints
-- **DBeaver** ou **pgAdmin** - para visualizar o banco de dados
+</div>
 
 ---
 
-## 📥 Instalação
+# 🇧🇷 Português
 
-### Passo 1: Clone o repositório
+## O que é o TLanner?
+
+**TLanner** é uma web app de planejamento de tarefas — mínimo, direta e sem distrações. O objetivo é simples: organizar o que precisa ser feito, sem complexidade desnecessária.
+
+Este repositório é o backend da aplicação, construído com foco em arquitetura limpa, tipagem forte e práticas de produção real.
+
+---
+
+## Stack
+
+| Camada | Tecnologia | Por quê |
+|---|---|---|
+| Linguagem | TypeScript | Tipagem estática, segurança em tempo de compilação |
+| Framework HTTP | Fastify | Alta performance, baixo overhead, plugins nativos |
+| ORM | Drizzle ORM | SQL-first, totalmente tipado, sem magia negra |
+| Banco de dados | PostgreSQL | Relacional, robusto, ideal para dados estruturados |
+| Autenticação | JWT (jsonwebtoken) | Stateless, padrão de mercado |
+| Validação | Zod | Validação e inferência de tipos em runtime |
+| Testes | Vitest | Rápido, compatível com ESM, cobertura integrada |
+| Documentação | Swagger / Scalar | Interface visual para explorar e testar a API |
+| Containers | Docker + Compose | Ambiente isolado e reproduzível |
+| Package Manager | pnpm | Eficiente, suporte a workspaces |
+
+---
+
+## Arquitetura
+
+O projeto segue uma **arquitetura modular em camadas**, inspirada em Clean Architecture. Cada camada tem uma responsabilidade bem definida e não depende das camadas externas.
+
+```
+src/
+├── @types/          # Extensões de tipos globais (ex: FastifyRequest com user)
+├── controllers/     # Recebem a request, validam entrada, chamam services
+├── services/        # Regras de negócio — independentes do framework
+├── routes/          # Definição de rotas e registro de hooks
+├── hooks/           # Middlewares (autenticação JWT, autorização)
+├── database/        # Schema Drizzle, conexão e queries
+├── tests/           # Testes de integração por rota/feature
+└── app.ts           # Bootstrap do Fastify (plugins, rotas, config)
+```
+
+### Fluxo de uma requisição
+
+```
+Request → Route → Hook (JWT) → Controller → Service → Database → Response
+```
+
+Essa separação garante que:
+- Controllers não contêm lógica de negócio
+- Services não conhecem o framework HTTP
+- O banco é acessado apenas pela camada de database
+
+---
+
+## Funcionalidades
+
+- ✅ Cadastro de usuários com senha hasheada
+- ✅ Login com geração de token JWT
+- ✅ CRUD completo de tarefas
+- ✅ Isolamento de dados por usuário autenticado
+- ✅ Proteção de rotas via hook de autenticação
+- ✅ Validação de corpo e parâmetros com Zod
+- ✅ Rate limiting por IP
+- ✅ Health check endpoint
+- ✅ Documentação interativa (Swagger / Scalar)
+- ✅ Cobertura de testes automatizada
+- ✅ Pipeline de CI a cada Pull Request
+
+---
+
+## Endpoints principais
+
+| Método | Rota | Descrição | Auth |
+|---|---|---|---|
+| `POST` | `/users/register` | Cadastro de usuário | ❌ |
+| `POST` | `/users/login` | Login e geração de JWT | ❌ |
+| `GET` | `/tasks` | Listar tarefas do usuário | ✅ |
+| `POST` | `/tasks` | Criar nova tarefa | ✅ |
+| `PUT` | `/tasks/:id` | Editar tarefa | ✅ |
+| `DELETE` | `/tasks/:id` | Deletar tarefa | ✅ |
+| `GET` | `/health` | Status da API e banco | ❌ |
+
+> A documentação completa e interativa está disponível em `/docs` ao rodar a aplicação.
+
+---
+
+## Como rodar localmente
+
+### Pré-requisitos
+
+- [Node.js 20+](https://nodejs.org/)
+- [pnpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/)
+
+### Passo a passo
 
 ```bash
-# Via HTTPS
+# 1. Clone o repositório
 git clone https://github.com/RhyanO2/tlanner-main.git
-
-# Ou via SSH
-git clone git@github.com:RhyanO2/tlanner-main.git
-
-# Entre na pasta do projeto
 cd tlanner-main
-```
 
-### Passo 2: Instale as dependências
-
-```bash
-# Instalar todas as dependências do projeto
+# 2. Instale as dependências
 pnpm install
 
-# Aguarde... isso pode levar alguns minutos na primeira vez
-```
-
-**O que acontece aqui?**
-- O pnpm lê o arquivo `package.json`
-- Baixa todas as bibliotecas necessárias
-- Cria a pasta `node_modules/`
-
----
-
-## ⚙️ Configuração
-
-### Passo 3: Configure as variáveis de ambiente
-
-```bash
-# Copie o arquivo de exemplo
+# 3. Configure as variáveis de ambiente
 cp .env.example .env
+# Edite o .env com suas configurações
 
-# Edite o arquivo .env (use seu editor preferido)
-nano .env
-# ou
-code .env
-```
+# 4. Suba o banco de dados
+docker compose up -d
 
-**Configuração mínima necessária:**
-
-```env
-# .env
-NODE_ENV=development
-PORT=3000
-HOST=0.0.0.0
-
-# Banco de dados (não altere se for usar Docker)
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/tlanner
-
-# IMPORTANTE: Altere este secret!
-JWT_SECRET=meu-secret-super-secreto-123456
-
-# Tempo de expiração do token
-JWT_EXPIRES_IN=7d
-
-# Rate limiting
-RATE_LIMIT_MAX=100
-RATE_LIMIT_TIME_WINDOW=15m
-
-# Logging
-LOG_LEVEL=info
-
-# CORS (URL do seu frontend)
-CORS_ORIGIN=http://localhost:5173
-```
-
-> ⚠️ **IMPORTANTE**: O `JWT_SECRET` deve ser alterado! Em produção, use um valor forte e aleatório.
-
-### Passo 4: Inicie o banco de dados
-
-```bash
-# Inicia o PostgreSQL em container Docker
-docker-compose up -d
-
-# O comando "up" cria e inicia o container
-# O "-d" executa em background (detached mode)
-```
-
-**Verificar se está rodando:**
-
-```bash
-# Listar containers ativos
-docker ps
-
-# Você deve ver algo como:
-# CONTAINER ID   IMAGE         PORTS                    NAMES
-# abc123def456   postgres:15   0.0.0.0:5432->5432/tcp   tlanner-db
-```
-
-**Ver logs do banco (se necessário):**
-
-```bash
-docker-compose logs -f postgres
-```
-
-### Passo 5: Execute as migrations
-
-```bash
-# Cria as tabelas no banco de dados
+# 5. Execute as migrations
 pnpm db:migrate
 
-# Você verá algo como:
-# Applying migration: 0001_create_users_table.sql
-# Applying migration: 0002_create_tasks_table.sql
-# ✓ Migrations applied successfully
-```
-
-**O que acontece aqui?**
-- Lê os arquivos `.sql` da pasta `drizzle/migrations/`
-- Executa cada migration no banco PostgreSQL
-- Cria as tabelas `users` e `tasks`
-
-### Passo 6 (Opcional): Popule com dados de teste
-
-```bash
-# Insere usuários e tarefas de exemplo
-pnpm db:seed
-
-# Você verá:
-# ✓ Created 3 test users
-# ✓ Created 10 test tasks
-# ✓ Database seeded successfully
-```
-
----
-
-## 🚀 Executando a Aplicação
-
-### Modo Desenvolvimento (com hot reload)
-
-```bash
-# Inicia o servidor em modo de desenvolvimento
+# 6. Inicie a aplicação
 pnpm dev
 ```
 
-**Saída esperada:**
-
-```
-Server listening at http://localhost:3000
-Documentation available at http://localhost:3000/docs
-
-{"level":30,"time":1707567890123,"msg":"Server listening at http://0.0.0.0:3000"}
-```
-
-✅ **Pronto! A API está rodando!**
-
-Acesse no navegador:
-- **API**: http://localhost:3000
-- **Documentação**: http://localhost:3000/docs
-- **Health Check**: http://localhost:3000/health
-
-### Modo Produção
-
-```bash
-# 1. Compile o projeto
-pnpm build
-
-# 2. Execute o build
-pnpm start
-```
+A API estará disponível em `http://localhost:3000`
+A documentação em `http://localhost:3000/docs`
 
 ---
 
-## 🧪 Testando a API
-
-### Método 1: Usando cURL (Terminal)
-
-#### 1. Health Check
+## Testes
 
 ```bash
-curl http://localhost:3000/health
-```
-
-**Resposta esperada:**
-```json
-{
-  "status": "ok",
-  "timestamp": "2024-02-10T12:00:00.000Z",
-  "uptime": 42,
-  "database": "connected"
-}
-```
-
-#### 2. Registrar um novo usuário
-
-```bash
-curl -X POST http://localhost:3000/api/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "João Silva",
-    "email": "joao@example.com",
-    "password": "senha123"
-  }'
-```
-
-**Resposta esperada:**
-```json
-{
-  "user": {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "João Silva",
-    "email": "joao@example.com"
-  },
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1NTBlODQw..."
-}
-```
-
-> 💡 **Copie o `token`** - você precisará dele para as próximas requisições!
-
-#### 3. Fazer login
-
-```bash
-curl -X POST http://localhost:3000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "joao@example.com",
-    "password": "senha123"
-  }'
-```
-
-#### 4. Criar uma tarefa (requer autenticação)
-
-```bash
-# Substitua {SEU_TOKEN} pelo token recebido no registro/login
-curl -X POST http://localhost:3000/api/v1/tasks \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer {SEU_TOKEN}" \
-  -d '{
-    "title": "Estudar TypeScript",
-    "description": "Revisar tipos avançados e generics",
-    "status": "pending",
-    "priority": "high",
-    "dueDate": "2024-02-15"
-  }'
-```
-
-**Resposta esperada:**
-```json
-{
-  "task": {
-    "id": "660e8400-e29b-41d4-a716-446655440000",
-    "title": "Estudar TypeScript",
-    "description": "Revisar tipos avançados e generics",
-    "status": "pending",
-    "priority": "high",
-    "dueDate": "2024-02-15T00:00:00.000Z",
-    "createdAt": "2024-02-10T12:00:00.000Z",
-    "updatedAt": "2024-02-10T12:00:00.000Z"
-  }
-}
-```
-
-#### 5. Listar todas as tarefas
-
-```bash
-curl -X GET http://localhost:3000/api/v1/tasks \
-  -H "Authorization: Bearer {SEU_TOKEN}"
-```
-
-#### 6. Buscar tarefa específica
-
-```bash
-# Substitua {TASK_ID} pelo ID da tarefa
-curl -X GET http://localhost:3000/api/v1/tasks/{TASK_ID} \
-  -H "Authorization: Bearer {SEU_TOKEN}"
-```
-
-#### 7. Atualizar uma tarefa
-
-```bash
-curl -X PATCH http://localhost:3000/api/v1/tasks/{TASK_ID} \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer {SEU_TOKEN}" \
-  -d '{
-    "status": "completed"
-  }'
-```
-
-#### 8. Deletar uma tarefa
-
-```bash
-curl -X DELETE http://localhost:3000/api/v1/tasks/{TASK_ID} \
-  -H "Authorization: Bearer {SEU_TOKEN}"
-```
-
----
-
-### Método 2: Usando a Documentação Interativa (Swagger)
-
-**A maneira mais fácil de testar!**
-
-1. **Acesse**: http://localhost:3000/docs
-
-2. **Registre um usuário**:
-   - Expanda `POST /api/v1/auth/register`
-   - Clique em "Try it out"
-   - Preencha os dados:
-     ```json
-     {
-       "name": "Maria Santos",
-       "email": "maria@example.com",
-       "password": "senha456"
-     }
-     ```
-   - Clique em "Execute"
-   - **Copie o token** da resposta
-
-3. **Autentique na documentação**:
-   - Clique no botão "Authorize" 🔓 no topo
-   - Cole o token no campo `Bearer {token}`
-   - Clique em "Authorize"
-   - Agora todas as requisições usarão esse token!
-
-4. **Teste os endpoints**:
-   - Agora você pode testar todos os endpoints de tarefas
-   - Os exemplos já vêm preenchidos
-   - Basta clicar em "Execute"
-
----
-
-### Método 3: Usando Postman
-
-1. **Importe a collection**:
-   - Abra o Postman
-   - Import > Link
-   - Cole: `http://localhost:3000/docs/json`
-   - Isso importa todos os endpoints automaticamente!
-
-2. **Configure variáveis**:
-   - Crie um Environment "TLanner Local"
-   - Adicione variável `baseUrl` = `http://localhost:3000`
-   - Adicione variável `token` = (deixe vazio por enquanto)
-
-3. **Registre um usuário**:
-   - Selecione `POST /auth/register`
-   - Body > raw > JSON:
-     ```json
-     {
-       "name": "Pedro Costa",
-       "email": "pedro@example.com",
-       "password": "senha789"
-     }
-     ```
-   - Send
-   - Copie o `token` da resposta
-
-4. **Configure autenticação**:
-   - Cole o token na variável `{{token}}`
-   - Ou configure Authorization:
-     - Type: Bearer Token
-     - Token: `{{token}}`
-
-5. **Teste os endpoints protegidos**:
-   - Agora você pode usar todos os endpoints de tarefas
-   - Eles já estarão configurados com autenticação
-
----
-
-### Método 4: Script de teste rápido
-
-Crie um arquivo `test-api.sh`:
-
-```bash
-#!/bin/bash
-
-API_URL="http://localhost:3000"
-
-echo "1. Health Check..."
-curl $API_URL/health
-echo -e "\n"
-
-echo "2. Registrando usuário..."
-RESPONSE=$(curl -s -X POST $API_URL/api/v1/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Teste User",
-    "email": "teste@example.com",
-    "password": "teste123"
-  }')
-
-TOKEN=$(echo $RESPONSE | grep -o '"token":"[^"]*' | cut -d'"' -f4)
-echo "Token: $TOKEN"
-echo -e "\n"
-
-echo "3. Criando tarefa..."
-curl -X POST $API_URL/api/v1/tasks \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $TOKEN" \
-  -d '{
-    "title": "Tarefa de teste",
-    "description": "Criada via script",
-    "status": "pending",
-    "priority": "medium"
-  }'
-echo -e "\n"
-
-echo "4. Listando tarefas..."
-curl -X GET $API_URL/api/v1/tasks \
-  -H "Authorization: Bearer $TOKEN"
-echo -e "\n"
-```
-
-Execute:
-```bash
-chmod +x test-api.sh
-./test-api.sh
-```
-
----
-
-## 🧪 Executando Testes Automatizados
-
-### Tipos de Testes
-
-#### 1. Testes Unitários
-Testam funções e lógica isoladas.
-
-```bash
-# Executar todos os testes uma vez
+# Rodar todos os testes
 pnpm test
 
-# Executar em modo watch (monitora alterações)
+# Rodar com cobertura
+pnpm test:coverage
+
+# Modo watch
 pnpm test:watch
-
-# Executar com cobertura de código
-pnpm test:coverage
 ```
 
-**Saída esperada:**
+Os testes cobrem as regras de negócio críticas e o comportamento das rotas de ponta a ponta.
 
-```
- ✓ src/services/auth.service.test.ts (5)
-   ✓ AuthService
-     ✓ should hash password correctly
-     ✓ should validate correct password
-     ✓ should reject invalid password
-     ✓ should generate valid JWT token
-     ✓ should verify JWT token
+---
 
- ✓ src/services/tasks.service.test.ts (8)
-   ✓ TasksService
-     ✓ should create task
-     ✓ should list user tasks
-     ✓ should update task
-     ✓ should delete task
-     ...
+## Variáveis de ambiente
 
-Test Files  4 passed (4)
-     Tests  25 passed (25)
-  Start at  12:00:00
-  Duration  1.23s
-```
+```env
+# Servidor
+PORT=3000
+NODE_ENV=development
 
-#### 2. Testes de Integração (E2E)
+# Banco de dados
+DATABASE_URL=postgresql://user:password@localhost:5432/tlanner
 
-Testam fluxos completos da API.
-
-```bash
-# Executar testes E2E
-pnpm test:e2e
-```
-
-**O que é testado:**
-- ✅ Registro de usuário
-- ✅ Login
-- ✅ Criação de tarefas
-- ✅ Listagem de tarefas
-- ✅ Atualização de tarefas
-- ✅ Deleção de tarefas
-- ✅ Validações de autenticação
-- ✅ Validações de entrada
-
-#### 3. Cobertura de Testes
-
-```bash
-# Gerar relatório de cobertura
-pnpm test:coverage
-```
-
-**Saída esperada:**
-
-```
----------------------------|---------|----------|---------|---------|-------------------
-File                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
----------------------------|---------|----------|---------|---------|-------------------
-All files                  |   85.32 |    78.45 |   87.12 |   85.89 |                   
- controllers               |   92.15 |    85.32 |   95.00 |   92.50 |                   
-  auth.controller.ts       |   95.00 |    88.00 |  100.00 |   95.50 | 45-47            
-  tasks.controller.ts      |   90.00 |    82.00 |   90.00 |   90.00 | 78-82,105        
- services                  |   88.50 |    82.15 |   90.00 |   89.00 |                   
-  auth.service.ts          |   92.00 |    85.00 |   95.00 |   92.50 | 23-25            
-  tasks.service.ts         |   85.00 |    79.30 |   85.00 |   85.50 | 56-60,89-92      
- utils                     |   76.00 |    68.00 |   70.00 |   76.50 |                   
-  jwt.ts                   |   80.00 |    70.00 |   75.00 |   80.50 | 12-15            
-  hash.ts                  |   72.00 |    66.00 |   65.00 |   72.50 | 8-10,18-20       
----------------------------|---------|----------|---------|---------|-------------------
-```
-
-**Ver relatório HTML:**
-
-```bash
-# Após executar test:coverage, abra:
-open coverage/index.html
-
-# Ou no Linux:
-xdg-open coverage/index.html
-```
-
-### Estrutura dos Testes
-
-```
-src/tests/
-├── integration/          # Testes de endpoints completos
-│   ├── auth.test.ts     # Testa registro e login
-│   ├── tasks.test.ts    # Testa CRUD de tarefas
-│   └── health.test.ts   # Testa health checks
-├── unit/                # Testes de lógica isolada
-│   ├── services/
-│   │   ├── auth.service.test.ts
-│   │   └── tasks.service.test.ts
-│   └── utils/
-│       ├── jwt.test.ts
-│       └── hash.test.ts
-└── helpers/             # Utilitários para testes
-    ├── setup.ts         # Configuração inicial
-    └── teardown.ts      # Limpeza após testes
-```
-
-### Exemplo de Teste
-
-```typescript
-// src/tests/integration/auth.test.ts
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
-import { build } from '../../app'
-
-describe('Auth API', () => {
-  let app
-
-  beforeAll(async () => {
-    app = await build()
-  })
-
-  afterAll(async () => {
-    await app.close()
-  })
-
-  it('should register a new user', async () => {
-    const response = await app.inject({
-      method: 'POST',
-      url: '/api/v1/auth/register',
-      payload: {
-        name: 'Test User',
-        email: 'test@example.com',
-        password: 'password123'
-      }
-    })
-
-    expect(response.statusCode).toBe(201)
-    expect(response.json()).toHaveProperty('token')
-    expect(response.json().user.email).toBe('test@example.com')
-  })
-
-  it('should reject duplicate email', async () => {
-    // First registration
-    await app.inject({
-      method: 'POST',
-      url: '/api/v1/auth/register',
-      payload: {
-        name: 'User One',
-        email: 'duplicate@example.com',
-        password: 'password123'
-      }
-    })
-
-    // Duplicate registration
-    const response = await app.inject({
-      method: 'POST',
-      url: '/api/v1/auth/register',
-      payload: {
-        name: 'User Two',
-        email: 'duplicate@example.com',
-        password: 'password456'
-      }
-    })
-
-    expect(response.statusCode).toBe(409)
-    expect(response.json().error).toContain('already exists')
-  })
-})
+# JWT
+JWT_SECRET=seu_secret_aqui
+JWT_EXPIRES_IN=7d
 ```
 
 ---
 
-## 🎨 Usando o Drizzle Studio
+## CI/CD
 
-O Drizzle Studio é uma interface visual para gerenciar o banco de dados.
+A cada Pull Request aberto, o GitHub Actions executa automaticamente:
 
-### Iniciar o Drizzle Studio
+1. Instalação de dependências
+2. Type check com TypeScript
+3. Build da aplicação
+4. Suite completa de testes
+5. Relatório de cobertura
 
-```bash
-pnpm db:studio
-```
-
-**Saída:**
-
-```
-Drizzle Studio is running at https://local.drizzle.studio
-```
-
-### Funcionalidades
-
-1. **Visualizar dados**:
-   - Navegue entre as tabelas `users` e `tasks`
-   - Veja todos os registros em formato de tabela
-
-2. **Editar dados**:
-   - Clique em qualquer célula para editar
-   - Salva automaticamente no banco
-
-3. **Adicionar registros**:
-   - Clique em "+ Add row"
-   - Preencha os campos
-   - Salvar
-
-4. **Deletar registros**:
-   - Selecione linhas
-   - Clique em "Delete"
-
-5. **Executar queries SQL**:
-   - Aba "SQL Runner"
-   - Execute queries customizadas
-   - Veja resultados em tempo real
-
-### Exemplos de Queries no Studio
-
-```sql
--- Ver todos os usuários
-SELECT * FROM users;
-
--- Ver tarefas de um usuário específico
-SELECT * FROM tasks 
-WHERE user_id = 'uuid-do-usuario';
-
--- Contar tarefas por status
-SELECT status, COUNT(*) as total 
-FROM tasks 
-GROUP BY status;
-
--- Ver tarefas atrasadas
-SELECT * FROM tasks 
-WHERE due_date < CURRENT_DATE 
-AND status != 'completed';
-```
+Apenas PRs com todos os checks passando são elegíveis para merge.
 
 ---
 
-## 🛠️ Resolução de Problemas
-
-### Problema: "Port 3000 already in use"
-
-**Solução 1**: Matar o processo na porta 3000
-```bash
-# Linux/Mac
-lsof -ti:3000 | xargs kill -9
-
-# Windows (PowerShell)
-Get-Process -Id (Get-NetTCPConnection -LocalPort 3000).OwningProcess | Stop-Process
-```
-
-**Solução 2**: Usar outra porta
-```bash
-# Edite o .env
-PORT=3001
-
-# Ou execute com variável de ambiente
-PORT=3001 pnpm dev
-```
+<br/>
 
 ---
 
-### Problema: "Cannot connect to database"
+# 🇺🇸 English
 
-**Verificar se Docker está rodando:**
-```bash
-docker ps
-```
+## What is TLanner?
 
-**Se não estiver rodando:**
-```bash
-docker-compose up -d
-```
+**TLanner** is a minimal, no-nonsense task planning web app. The goal is simple: organize what needs to get done, without unnecessary complexity.
 
-**Verificar logs do container:**
-```bash
-docker-compose logs postgres
-```
-
-**Resetar o banco (CUIDADO: deleta tudo):**
-```bash
-docker-compose down -v
-docker-compose up -d
-pnpm db:migrate
-```
+This repository is the application's backend, built with a focus on clean architecture, strong typing, and real production practices.
 
 ---
 
-### Problema: "JWT token invalid"
+## Stack
 
-**Causas comuns:**
-- Token expirado (padrão: 7 dias)
-- JWT_SECRET diferente entre requisições
-- Token malformatado
-
-**Solução:**
-1. Faça login novamente para obter novo token
-2. Verifique se o `.env` não mudou
-3. Confirme formato: `Bearer {token}`
+| Layer | Technology | Why |
+|---|---|---|
+| Language | TypeScript | Static typing, compile-time safety |
+| HTTP Framework | Fastify | High performance, low overhead, native plugins |
+| ORM | Drizzle ORM | SQL-first, fully typed, no black magic |
+| Database | PostgreSQL | Relational, robust, ideal for structured data |
+| Authentication | JWT (jsonwebtoken) | Stateless, industry standard |
+| Validation | Zod | Runtime validation with type inference |
+| Testing | Vitest | Fast, ESM-compatible, built-in coverage |
+| Documentation | Swagger / Scalar | Visual interface to explore and test the API |
+| Containers | Docker + Compose | Isolated and reproducible environment |
+| Package Manager | pnpm | Efficient, workspace support |
 
 ---
 
-### Problema: Migrations não aplicam
+## Architecture
 
-```bash
-# Limpar e recriar
-pnpm db:reset
+The project follows a **modular layered architecture**, inspired by Clean Architecture. Each layer has a well-defined responsibility and does not depend on outer layers.
 
-# Ou manualmente:
-docker-compose down -v  # Remove volumes
-docker-compose up -d    # Recria container
-pnpm db:migrate        # Aplica migrations
+```
+src/
+├── @types/          # Global type extensions (e.g.: FastifyRequest with user)
+├── controllers/     # Receive requests, validate input, call services
+├── services/        # Business logic — framework-agnostic
+├── routes/          # Route definitions and hook registration
+├── hooks/           # Middlewares (JWT authentication, authorization)
+├── database/        # Drizzle schema, connection and queries
+├── tests/           # Integration tests per route/feature
+└── app.ts           # Fastify bootstrap (plugins, routes, config)
 ```
 
+### Request lifecycle
+
+```
+Request → Route → Hook (JWT) → Controller → Service → Database → Response
+```
+
+This separation ensures that:
+- Controllers contain no business logic
+- Services have no knowledge of the HTTP framework
+- The database is only accessed through the database layer
+
 ---
 
-### Problema: "Module not found"
+## Features
+
+- ✅ User registration with hashed passwords
+- ✅ Login with JWT token generation
+- ✅ Full task CRUD
+- ✅ Per-user data isolation
+- ✅ Route protection via authentication hook
+- ✅ Body and parameter validation with Zod
+- ✅ IP-based rate limiting
+- ✅ Health check endpoint
+- ✅ Interactive API documentation (Swagger / Scalar)
+- ✅ Automated test coverage
+- ✅ CI pipeline on every Pull Request
+
+---
+
+## Main Endpoints
+
+| Method | Route | Description | Auth |
+|---|---|---|---|
+| `POST` | `/users/register` | User registration | ❌ |
+| `POST` | `/users/login` | Login and JWT generation | ❌ |
+| `GET` | `/tasks` | List user tasks | ✅ |
+| `POST` | `/tasks` | Create new task | ✅ |
+| `PUT` | `/tasks/:id` | Edit task | ✅ |
+| `DELETE` | `/tasks/:id` | Delete task | ✅ |
+| `GET` | `/health` | API and database status | ❌ |
+
+> Full interactive documentation is available at `/docs` when running the application.
+
+---
+
+## Running locally
+
+### Prerequisites
+
+- [Node.js 20+](https://nodejs.org/)
+- [pnpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/)
+
+### Step by step
 
 ```bash
-# Reinstalar dependências
-rm -rf node_modules pnpm-lock.yaml
+# 1. Clone the repository
+git clone https://github.com/RhyanO2/tlanner-main.git
+cd tlanner-main
+
+# 2. Install dependencies
 pnpm install
+
+# 3. Set up environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# 4. Start the database
+docker compose up -d
+
+# 5. Run migrations
+pnpm db:migrate
+
+# 6. Start the application
+pnpm dev
 ```
+
+The API will be available at `http://localhost:3000`
+Documentation at `http://localhost:3000/docs`
 
 ---
 
-### Problema: Testes falhando
+## Testing
 
 ```bash
-# Verificar variáveis de ambiente de teste
-cat .env
+# Run all tests
+pnpm test
 
-# Executar testes com mais informações
-pnpm test --reporter=verbose
+# Run with coverage
+pnpm test:coverage
 
-# Executar um teste específico
-pnpm test src/tests/integration/auth.test.ts
+# Watch mode
+pnpm test:watch
+```
+
+Tests cover critical business rules and route behavior end-to-end.
+
+---
+
+## Environment variables
+
+```env
+# Server
+PORT=3000
+NODE_ENV=development
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/tlanner
+
+# JWT
+JWT_SECRET=your_secret_here
+JWT_EXPIRES_IN=7d
 ```
 
 ---
 
-## 🎯 Próximos Passos
+## CI/CD
 
-Agora que você tem a API rodando:
+On every Pull Request, GitHub Actions automatically runs:
 
-### 1. Explorar a documentação
-- Acesse http://localhost:3000/docs
-- Teste todos os endpoints
-- Leia os schemas de validação
+1. Dependency installation
+2. TypeScript type check
+3. Application build
+4. Full test suite
+5. Coverage report
 
-### 2. Desenvolver features
-- Adicione novos campos às tarefas
-- Implemente filtros avançados
-- Crie categorias/tags
-
-### 3. Melhorar testes
-- Aumentar cobertura para >90%
-- Adicionar testes de performance
-- Criar testes de carga
-
-### 4. Deploy
-- Configure CI/CD
-- Deploy no Railway/Render
-- Configure variáveis de produção
-
-### 5. Integrar frontend
-- Crie aplicação React/Vue
-- Use o token JWT
-- Implemente refresh tokens
-
----
-
-## 📚 Recursos Adicionais
-
-- **Documentação Fastify**: https://www.fastify.io/
-- **Drizzle ORM**: https://orm.drizzle.team/
-- **Vitest**: https://vitest.dev/
-- **TypeScript**: https://www.typescriptlang.org/
-
----
-
-## 💡 Dicas
-
-✅ **Use o modo watch**: `pnpm dev` reinicia automaticamente  
-✅ **Drizzle Studio**: Visualize dados facilmente  
-✅ **Swagger UI**: Melhor forma de testar endpoints  
-✅ **Git hooks**: Configure pre-commit para rodar testes  
-✅ **Docker Compose**: Mantenha ambiente consistente  
+Only PRs with all checks passing are eligible for merge.
 
 ---
 
 <div align="center">
 
-**Dúvidas? Problemas?**
+<br/>
 
-[Abra uma issue](https://github.com/RhyanO2/tlanner-main/issues) ou entre em contato!
-
-🚀 **Bom desenvolvimento!**
+Made with ☕ by [RhyanO2](https://github.com/RhyanO2)
 
 </div>
