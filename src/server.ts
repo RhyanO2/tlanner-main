@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { server } from './app';
-import { sdk } from '../src/config/openTelemetry.setup';
+// import { sdk } from '../src/config/openTelemetry.setup';
 
 // sdk.start();
 const port = Number(process.env.SERVER_PORT);
