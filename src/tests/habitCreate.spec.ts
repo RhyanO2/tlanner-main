@@ -30,7 +30,7 @@ describe('Create habit routes TEST', () => {
   test('Create a habit - 400', async () => {
     await server.ready(); // espera o servidor rodar
 
-    const { token, user } = await authenticateCreatedUser(); // retorna usuario criado e token de auth, //utiliza o token retornado como object como string para funcionar na response
+    const { token, user } = await authenticateCreatedUser(); 
 
     const response = await request(server.server)
       .post(`/habit`)
@@ -40,7 +40,6 @@ describe('Create habit routes TEST', () => {
         name: f.lorem.text(),
         frequency: 'daily',
         id_user: user,
-        // workspaceID: workspaceID,
       });
 
     expect(response.status).toEqual(400);

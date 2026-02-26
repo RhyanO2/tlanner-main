@@ -8,10 +8,9 @@ import { makeWorkspace } from './factories/makeUserWorkspace.js';
 
 describe('Create task routes TEST', () => {
   test('Create a task', async () => {
-    await server.ready(); // espera o servidor rodar
+    await server.ready();
 
-    const { token, user } = await authenticateCreatedUser(); // retorna usuario criado e token de auth, //utiliza o token retornado como object como string para funcionar na response
-
+    const { token, user } = await authenticateCreatedUser();
     const workspaceID = (await makeWorkspace(user.id)).id;
     const date = new Date(f.date.future());
     console.log(date);
@@ -35,9 +34,9 @@ describe('Create task routes TEST', () => {
   });
 
   test('Create a task', async () => {
-    await server.ready(); // espera o servidor rodar
+    await server.ready();
 
-    const { token, user } = await authenticateCreatedUser(); // retorna usuario criado e token de auth, //utiliza o token retornado como object como string para funcionar na response
+    const { token, user } = await authenticateCreatedUser();
 
     const workspaceID = (await makeWorkspace(user.id)).id;
     const date = new Date(f.date.future());

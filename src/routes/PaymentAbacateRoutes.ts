@@ -14,7 +14,6 @@ export const abacatePayWebhook: FastifyPluginAsyncZod = async (server) => {
     '/webhook/abacatepay',
     {
       preHandler: [AbacateSignatureHook],
-      // schema:{}
     },
     abacatepayWebHook
   );
