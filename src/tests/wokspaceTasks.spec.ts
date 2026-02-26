@@ -3,7 +3,7 @@ import request from 'supertest';
 
 import { server } from '../app.js';
 import { authenticateCreatedUser } from './factories/makeUser.js';
-// import { faker } from '@faker-js/faker';
+
 import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
 import { makeWorkspace } from './factories/makeUserWorkspace.js';
 
@@ -15,8 +15,6 @@ describe('Task view', () => {
     const userid = user.id;
     const workspace = await makeWorkspace(userid);
     const workspaceID = (await makeTaskInWorkspace(workspace.id)).id_workspace;
-
-    // console.log(workspace.id);
 
     const response = await request(server.server)
       .get(`/workspace/${workspaceID}/tasks`)
@@ -35,8 +33,6 @@ describe('Task view', () => {
     const userid = user.id;
     const workspace = await makeWorkspace(userid);
     const workspaceID = await makeTaskInWorkspace(workspace.id);
-
-    // console.log(workspace.id);
 
     const response = await request(server.server)
       .get(`/workspace/${workspace}/tasks`)

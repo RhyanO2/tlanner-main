@@ -82,6 +82,7 @@ export async function userRegister(
     }
     return user;
   } else {
+    // Pra usuuários criados com OAuth
     const user = await insertUser(name, email, undefined, provider);
 
     try {

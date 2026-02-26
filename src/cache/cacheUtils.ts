@@ -48,7 +48,5 @@ export async function deleteCacheByPattern(pattern: string): Promise<void> {
         await redis.del(...keys);
       }
     } while (cursor !== '0');
-  } catch {
-    // falha silenciosa
-  }
+  } catch {}
 }

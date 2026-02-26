@@ -8,7 +8,6 @@ import { faker as f } from '@faker-js/faker';
 import { vi } from 'vitest';
 import nodemailer from 'nodemailer';
 
-// Cria um mock para o nodemailer antes de qualquer coisa
 vi.mock('nodemailer', () => ({
   default: {
     createTransport: vi.fn().mockReturnValue({

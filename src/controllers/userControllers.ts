@@ -65,7 +65,7 @@ export async function githubAuth(req: FastifyRequest, res: FastifyReply) {
     const tokenData = await tokenResponse.json();
 
     if (tokenData.error) {
-      console.error('❌ [ERRO] Erro no token:', tokenData);
+      console.error('Erro no token:', tokenData);
       return res.status(400).send({ error: tokenData.error_description });
     }
 

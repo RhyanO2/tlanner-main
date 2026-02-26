@@ -27,9 +27,7 @@ export async function getHabitsByUserID(
 }
 
 export async function postHabit(req: FastifyRequest, res: FastifyReply) {
-  // const { userid } = req.params as {
-  //   userid: string;
-  // };
+
   const { name, frequency, id_user } = req.body as {
     name: string;
     frequency: 'daily' | 'weekly' | 'monthly';
