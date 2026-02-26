@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'vitest';
 import request from 'supertest';
 
-import { authenticateCreatedUser } from './factories/makeUser';
-import { server } from '../app';
+import { authenticateCreatedUser } from '../factories/makeUser';
+import { server } from '../../app';
 
 describe('abacatePayCreateQRcodePixtests', () => {
   test('Check status QRcode Pix', async () => {

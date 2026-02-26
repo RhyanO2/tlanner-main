@@ -1,4 +1,3 @@
-// src/tests/helpers/db.helper.ts
 import { db } from '../../database/index.js';
 import { sql } from 'drizzle-orm';
 import { Habits, Tasks, Users, Workspace } from '../../database/schema.js';

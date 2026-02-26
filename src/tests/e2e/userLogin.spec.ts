@@ -1,7 +1,7 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
-import { server } from '../app.js';
-import { makeUser } from './factories/makeUser.js';
+import { server } from '../../app.js';
+import { makeUser } from '../factories/makeUser.js';
 
 describe('Login operations', () => {
   test('Login parsing email and password', async () => {

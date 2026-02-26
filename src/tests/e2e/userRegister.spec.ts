@@ -1,12 +1,11 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
+import { server } from '../../app.js';
 
 import { faker as f } from '@faker-js/faker';
 
 import { vi } from 'vitest';
-import nodemailer from 'nodemailer';
 
 vi.mock('nodemailer', () => ({
   default: {
