@@ -1,9 +1,9 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { authenticateCreatedUser } from './factories/makeUser.js';
-import { makeTask } from './factories/makeTask.js';
+import { server } from '../../app.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
+import { makeTask } from '../factories/makeTask.js';
 
 describe('Task delete responses', () => {
   test('Delete a created task from the database', async () => {

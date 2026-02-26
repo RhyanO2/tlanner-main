@@ -1,12 +1,9 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { authenticateCreatedUser } from './factories/makeUser.js';
-import { faker } from '@faker-js/faker';
-import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
-import { makeWorkspace } from './factories/makeUserWorkspace.js';
-import { makeHabit } from './factories/makeHabit.js';
+import { server } from '../../app.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
+import { makeHabit } from '../factories/makeHabit.js';
 
 describe('Habit view', () => {
   test('View information from a Habit', async () => {
@@ -40,5 +37,18 @@ describe('Habit view', () => {
     expect(response.body).toEqual({
       message: expect.any(String),
     });
+  });
+  test('401 Unvalid credentials', async () => {
+    await server.ready();
+
+    const { token, user } = await authenticateCreatedUser();
+
+    const response = await request(server.server)
+      .get(`/user/${user.id}/habits`)
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'WRONGGG!');
+
+    expect(response.status).toEqual(401);
+    expect(response.body).toEqual({});
   });
 });

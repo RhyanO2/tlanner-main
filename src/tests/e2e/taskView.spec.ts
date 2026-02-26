@@ -1,11 +1,11 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { authenticateCreatedUser } from './factories/makeUser.js';
+import { server } from '../../app.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
 import { faker } from '@faker-js/faker';
-import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
-import { makeWorkspace } from './factories/makeUserWorkspace.js';
+import { makeTaskInWorkspace } from '../factories/makeTaskWorkspaceID.js';
+import { makeWorkspace } from '../factories/makeUserWorkspace.js';
 
 describe('Task view', () => {
   test('View information from a task', async () => {

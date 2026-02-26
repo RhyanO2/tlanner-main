@@ -1,11 +1,10 @@
 import { test, expect, describe } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { makeTask } from './factories/makeTask.js';
-import { authenticateCreatedUser } from './factories/makeUser.js';
+import { server } from '../../app.js';
+import { makeTask } from '../factories/makeTask.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
 import { faker as f } from '@faker-js/faker';
-import { priority } from '../database/schema.js';
 
 describe('TaskEdit Tests', () => {
   test('Edit task giving taskID in reqparams', async () => {

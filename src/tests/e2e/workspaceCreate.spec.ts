@@ -1,47 +1,43 @@
-import { test, expect, describe } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { faker as f } from '@faker-js/faker';
-import { authenticateCreatedUser } from './factories/makeUser.js';
-import { makeWorkspace } from './factories/makeUserWorkspace.js';
+import { server } from '../../app.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
 
-describe('Create habit routes TEST', () => {
-  test('Create a habit', async () => {
-    await server.ready(); // espera o servidor rodar
+import { faker as f } from '@faker-js/faker';
+
+describe('Workspace Create', () => {
+  test('Create user workspace', async () => {
+    await server.ready();
 
     const { token, user } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .post(`/habit`)
+      .post(`/workspace`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
-        name: f.lorem.text(),
-        frequency: 'daily',
+        title: f.lorem.word(),
         id_user: user.id,
       });
-
     expect(response.status).toEqual(201);
     expect(response.body).toEqual({
-      habits: expect.any(Object),
+      workspace: expect.any(Object),
     });
   });
-  test('Create a habit - 400', async () => {
-    await server.ready(); // espera o servidor rodar
+  test('Create user workspace', async () => {
+    await server.ready();
 
-    const { token, user } = await authenticateCreatedUser(); 
+    const { token, user } = await authenticateCreatedUser();
 
     const response = await request(server.server)
-      .post(`/habit`)
+      .post(`/workspace`)
       .set('Content-Type', 'application/json')
       .set('Authorization', token)
       .send({
-        name: f.lorem.text(),
-        frequency: 'daily',
+        title: f.lorem.word(),
         id_user: user,
       });
-
     expect(response.status).toEqual(400);
     expect(response.body).toEqual({
       message: expect.any(String),

@@ -3,11 +3,7 @@ import { db } from '../database/index.js';
 
 import { eq } from 'drizzle-orm';
 
-export async function selectUserByID(userId: string) {
-  const user = await db.select().from(Users).where(eq(Users.id, userId));
 
-  return user;
-}
 export async function selectUserByEmail(email: string) {
   const user = await db.select().from(Users).where(eq(Users.email, email));
 

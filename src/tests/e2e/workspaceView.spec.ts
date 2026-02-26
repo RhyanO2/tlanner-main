@@ -1,10 +1,10 @@
 import { describe, test, expect } from 'vitest';
 import request from 'supertest';
 
-import { server } from '../app.js';
-import { authenticateCreatedUser } from './factories/makeUser.js';
-import { makeWorkspace } from './factories/makeUserWorkspace.js';
-import { makeTaskInWorkspace } from './factories/makeTaskWorkspaceID.js';
+import { server } from '../../app.js';
+import { authenticateCreatedUser } from '../factories/makeUser.js';
+import { makeWorkspace } from '../factories/makeUserWorkspace.js';
+import { makeTaskInWorkspace } from '../factories/makeTaskWorkspaceID.js';
 
 describe('Workspace views', () => {
   test('View all user workspaces ', async () => {
