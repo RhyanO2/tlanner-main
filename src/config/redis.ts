@@ -10,4 +10,4 @@ if (!url || !token) {
 
 export const redis = url && token ? new Redis({ url, token }) : null;
 
-console.log(redis ? '✅ Redis (Upstash) configurado' : '⚠️ Redis desabilitado');
+console.log(redis ? '(Upstash) configurado' : '⚠️ Redis desabilitado');
