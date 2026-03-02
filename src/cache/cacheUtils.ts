@@ -1,4 +1,4 @@
-import { redis } from '../config/redis';
+import { redis } from './redis';
 
 const DEFAULT_TTL = 300;
 

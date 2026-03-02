@@ -12,3 +12,4 @@ export const mailProvider = nodemailer.createTransport({
   greetingTimeout: 10000,
   socketTimeout: 10000,
 });
+ 

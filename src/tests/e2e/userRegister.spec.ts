@@ -17,7 +17,7 @@ vi.mock('nodemailer', () => ({
 }));
 
 describe('User Register Tests', () => {
-  (((test('Register an user parsing bodyparams', async () => {
+  (test('Register an user parsing bodyparams', async () => {
     await server.ready();
 
     const name = f.person.firstName();
@@ -43,40 +43,40 @@ describe('User Register Tests', () => {
       User: expect.any(String),
     });
   }),
-  test('Email not valid', async () => {
-    await server.ready();
+    test('Email not valid', async () => {
+      await server.ready();
 
-    const response = await request(server.server)
-      .post('/register')
-      .set('Content-Type', 'application/json')
-      .send({
-        name: f.person.firstName(),
-        email: f.person.firstName(),
-        password: f.lorem.word(),
+      const response = await request(server.server)
+        .post('/register')
+        .set('Content-Type', 'application/json')
+        .send({
+          name: f.person.firstName(),
+          email: f.person.firstName(),
+          password: f.lorem.word(),
+        });
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({
+        message: expect.any(String),
       });
+    }),
+    test('Password lenght> 8', async () => {
+      await server.ready();
 
-    expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
-      message: expect.any(String),
-    });
-  }),
-  test('Password lenght> 8', async () => {
-    await server.ready();
+      const response = await request(server.server)
+        .post('/register')
+        .set('Content-Type', 'application/json')
+        .send({
+          name: f.person.firstName(),
+          email: f.internet.email({ provider: 'tlanner.com.br' }),
+          password: 'notvali',
+        });
 
-    const response = await request(server.server)
-      .post('/register')
-      .set('Content-Type', 'application/json')
-      .send({
-        name: f.person.firstName(),
-        email: f.internet.email({ provider: 'tlanner.com.br' }),
-        password: 'notvali',
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual({
+        message: expect.any(String),
       });
-
-    expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
-      message: expect.any(String),
-    });
-  })),
+    }));
   test('Password not valid (just lowercase)', async () => {
     await server.ready();
 
@@ -93,24 +93,24 @@ describe('User Register Tests', () => {
     expect(response.body).toEqual({
       message: expect.any(String),
     });
-  })),
-    test('Password not valid (just uppercase)', async () => {
-      await server.ready();
+  });
+  test('Password not valid (just uppercase)', async () => {
+    await server.ready();
 
-      const response = await request(server.server)
-        .post('/register')
-        .set('Content-Type', 'application/json')
-        .send({
-          name: f.person.firstName(),
-          email: f.internet.email({ provider: 'tlanner.com.br' }),
-          password: 'NOTV4LI#',
-        });
-
-      expect(response.status).toEqual(400);
-      expect(response.body).toEqual({
-        message: expect.any(String),
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email({ provider: 'tlanner.com.br' }),
+        password: 'NOTV4LI#',
       });
-    }));
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  });
   test('Password not valid ( number)', async () => {
     await server.ready();
 
