@@ -17,7 +17,7 @@ vi.mock('nodemailer', () => ({
 }));
 
 describe('User Register Tests', () => {
-  (test('Register an user parsing bodyparams', async () => {
+  (((test('Register an user parsing bodyparams', async () => {
     await server.ready();
 
     const name = f.person.firstName();
@@ -43,7 +43,58 @@ describe('User Register Tests', () => {
       User: expect.any(String),
     });
   }),
-    test('Email not valid', async () => {
+  test('Email not valid', async () => {
+    await server.ready();
+
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.person.firstName(),
+        password: f.lorem.word(),
+      });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  }),
+  test('Password lenght> 8', async () => {
+    await server.ready();
+
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email({ provider: 'tlanner.com.br' }),
+        password: 'notvali',
+      });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  })),
+  test('Password not valid (just lowercase)', async () => {
+    await server.ready();
+
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email({ provider: 'tlanner.com.br' }),
+        password: 'notvalid',
+      });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  })),
+    test('Password not valid (just uppercase)', async () => {
       await server.ready();
 
       const response = await request(server.server)
@@ -51,8 +102,8 @@ describe('User Register Tests', () => {
         .set('Content-Type', 'application/json')
         .send({
           name: f.person.firstName(),
-          email: f.person.firstName(),
-          password: f.lorem.word(),
+          email: f.internet.email({ provider: 'tlanner.com.br' }),
+          password: 'NOTV4LI#',
         });
 
       expect(response.status).toEqual(400);
@@ -60,4 +111,38 @@ describe('User Register Tests', () => {
         message: expect.any(String),
       });
     }));
+  test('Password not valid ( number)', async () => {
+    await server.ready();
+
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email({ provider: 'tlanner.com.br' }),
+        password: '1232133',
+      });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  });
+  test('Password not valid (just esp. char)', async () => {
+    await server.ready();
+
+    const response = await request(server.server)
+      .post('/register')
+      .set('Content-Type', 'application/json')
+      .send({
+        name: f.person.firstName(),
+        email: f.internet.email({ provider: 'tlanner.com.br' }),
+        password: '@#$',
+      });
+
+    expect(response.status).toEqual(400);
+    expect(response.body).toEqual({
+      message: expect.any(String),
+    });
+  });
 });

@@ -1,13 +1,14 @@
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import 'dotenv/config';
 
-const url = process.env.UPSTASH_REDIS_REST_URL;
-const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+const url = process.env.REDIS_URL;
 
-if (!url || !token) {
-  console.warn('⚠️ Upstash Redis não configurado');
+if (!url) {
+  console.warn('⚠️ Redis não configurado');
 }
 
-export const redis = url && token ? new Redis({ url, token }) : null;
+export const redis = url
+  ? new Redis(url, { tls: { rejectUnauthorized: false } })
+  : null;
 
-console.log(redis ? '✅ Redis (Upstash) configurado' : '⚠️ Redis desabilitado');
+console.log(redis ? '(redis) configurado' : '⚠️ Redis desabilitado');
