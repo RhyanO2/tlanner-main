@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { AppError } from '../errors/AppError.js';
 import { sendLoginEmail, sendRegisterEmail } from './mailService.js';
 import * as validator from 'email-validator';
+import { emailQueue } from '../queue/jobs/emailQueue.js';
 
 async function checkPasswordStrength(password: string) {
   if (password.length < 8) {
@@ -74,11 +75,12 @@ export async function userRegister(
     const user = await insertUser(name, email, hashedPassword, provider);
 
     try {
-      console.log('✅ Login successful, attempting to send email...');
-      await sendRegisterEmail(email, name);
-      console.log('✅ Email sent successfully');
+      await emailQueue.add('send-register-email', {
+        to: email,
+        userName: name,
+      });
     } catch (err: any) {
-      console.error('❌ Error in login flow:', err);
+      console.error('');
     }
     return user;
   } else {
@@ -86,12 +88,11 @@ export async function userRegister(
     const user = await insertUser(name, email, undefined, provider);
 
     try {
-      console.log('✅ Login successful, attempting to send email...');
-      await sendRegisterEmail(email, name);
-      console.log('✅ Email sent successfully');
-    } catch (err: any) {
-      console.error('❌ Error in login flow:', err);
-    }
+      await emailQueue.add('send-register-email', {
+        to: email,
+        userName: name,
+      });
+    } catch (err: any) {}
     return user;
   }
 }
@@ -133,10 +134,9 @@ export async function userLogin(email: string, password: string) {
     expiresIn: '7d',
   });
 
-  sendLoginEmail(user.email, user.name).catch((err) =>
-    console.error('Email failed', err)
-  );
-
+  emailQueue
+    .add('send-login-email', { to: email, userName: user.name })
+    .catch((err) => console.error('❌ Failed to enqueue login email:', err));
   return token;
 }
 
