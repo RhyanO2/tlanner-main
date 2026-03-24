@@ -3,11 +3,11 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     testTimeout: 10000,
-    env: {
-      DOTENV_CONFIG_PATH: 'test.env',
+    // env: {
+    //   DOTENV_CONFIG_PATH: 'test.env',
 
-      NODE_ENV: 'test',
-    },
+    //   NODE_ENV: 'test',
+    // },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],

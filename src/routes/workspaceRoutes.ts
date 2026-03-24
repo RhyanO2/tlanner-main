@@ -84,7 +84,9 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
           offset: z.coerce.number().int().min(0).optional(),
           status: z.enum(['pending', 'in_progress', 'done']).optional(),
           priority: z.enum(['low', 'normal', 'high', 'urgent']).optional(),
-          sortBy: z.enum(['due_date', 'priority', 'status', 'title']).optional(),
+          sortBy: z
+            .enum(['due_date', 'priority', 'status', 'title'])
+            .optional(),
           sortOrder: z.enum(['asc', 'desc']).optional(),
         }),
         response: {
