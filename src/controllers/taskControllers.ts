@@ -29,10 +29,34 @@ export async function getWorkspaceTasks(
 ) {
   try {
     const { id } = req.params as { id: string };
-    const result = await WorkspaceTasksGet(id);
+    const { limit, offset, status, priority, sortBy, sortOrder } =
+      req.query as {
+        limit?: number;
+        offset?: number;
+        status?: 'pending' | 'in_progress' | 'done';
+        priority?: 'low' | 'normal' | 'high' | 'urgent';
+        sortBy?: 'due_date' | 'priority' | 'status' | 'title';
+        sortOrder?: 'asc' | 'desc';
+      };
+
+    const result = await WorkspaceTasksGet(id, {
+      limit,
+      offset,
+      status,
+      priority,
+      sortBy,
+      sortOrder,
+    });
+
     res.status(200).send({
       workspace: id,
-      tasks: result,
+      tasks: result.tasks,
+      meta: {
+        limit: result.limit,
+        offset: result.offset,
+        count: result.tasks.length,
+        total: result.total,
+      },
     });
   } catch (err: any) {
     res.status(err.statuscode || 400).send({

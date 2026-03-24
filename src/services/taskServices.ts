@@ -43,9 +43,8 @@ function buildWorkspaceTasksCacheKey(
 export async function tasksGet(taskID: string) {
   const cacheKey = `task:${taskID}`;
 
-  const cached = await getCache<
-    Awaited<ReturnType<typeof taskSelectByID>>
-  >(cacheKey);
+  const cached =
+    await getCache<Awaited<ReturnType<typeof taskSelectByID>>>(cacheKey);
 
   if (cached) {
     return cached;
