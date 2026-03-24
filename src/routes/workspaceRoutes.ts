@@ -79,6 +79,14 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
         params: z.object({
           id: z.uuid(),
         }),
+        querystring: z.object({
+          limit: z.coerce.number().int().min(1).max(100).optional(),
+          offset: z.coerce.number().int().min(0).optional(),
+          status: z.enum(['pending', 'in_progress', 'done']).optional(),
+          priority: z.enum(['low', 'normal', 'high', 'urgent']).optional(),
+          sortBy: z.enum(['due_date', 'priority', 'status', 'title']).optional(),
+          sortOrder: z.enum(['asc', 'desc']).optional(),
+        }),
         response: {
           200: z.object({
             workspace: z.uuid(),
@@ -93,6 +101,12 @@ export const WorkspaceTasks: FastifyPluginAsyncZod = async (server) => {
                 id_workspace: z.uuid(),
               })
             ),
+            meta: z.object({
+              limit: z.number().int().positive().nullable(),
+              offset: z.number().int().min(0),
+              count: z.number().int().min(0),
+              total: z.number().int().min(0),
+            }),
           }),
           400: z.object({
             message: z.string(),

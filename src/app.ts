@@ -37,6 +37,7 @@ import {
   abacatePayCreatePixQRcode,
   abacatePayCheckQrcodePixStatus,
 } from './routes/PaymentAbacateRoutes';
+import { healthRoutes } from './routes/healthRoutes';
 server.register(cors, {
   origin: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
@@ -73,6 +74,7 @@ server.register(websocket);
 server.register(wsRoute);
 
 server.register(TESTROUTE);
+server.register(healthRoutes);
 server.register(registerRoute);
 server.register(loginRoute);
 server.register(getTasks);
