@@ -1,4 +1,5 @@
 import {
+  countTasksByWorkspaceId,
   taskSelectByID,
   taskSelectById,
   taskInsert,
@@ -7,12 +8,44 @@ import {
   selectTasksByWorkspaceId,
 } from '../models/taskModel.js';
 import { AppError } from '../errors/AppError.js';
-import { deleteCache, getCache, setCache } from '../cache/cacheUtils.js';
+import {
+  deleteCache,
+  deleteCacheByPattern,
+  getCache,
+  setCache,
+} from '../cache/cacheUtils.js';
+
+type WorkspaceTasksQuery = {
+  limit?: number;
+  offset?: number;
+  status?: 'pending' | 'in_progress' | 'done';
+  priority?: 'low' | 'normal' | 'high' | 'urgent';
+  sortBy?: 'due_date' | 'priority' | 'status' | 'title';
+  sortOrder?: 'asc' | 'desc';
+};
+
+function buildWorkspaceTasksCacheKey(
+  workspaceID: string,
+  query: WorkspaceTasksQuery
+) {
+  const suffix = [
+    `limit:${query.limit ?? 'all'}`,
+    `offset:${query.offset ?? 0}`,
+    `status:${query.status ?? 'all'}`,
+    `priority:${query.priority ?? 'all'}`,
+    `sortBy:${query.sortBy ?? 'due_date'}`,
+    `sortOrder:${query.sortOrder ?? 'desc'}`,
+  ].join('|');
+
+  return `tasks:workspace:${workspaceID}:${suffix}`;
+}
 
 export async function tasksGet(taskID: string) {
   const cacheKey = `task:${taskID}`;
 
-  const cached = await getCache<typeof tasks>(cacheKey);
+  const cached = await getCache<
+    Awaited<ReturnType<typeof taskSelectByID>>
+  >(cacheKey);
 
   if (cached) {
     return cached;
@@ -28,13 +61,25 @@ export async function tasksGet(taskID: string) {
   return tasks;
 }
 
-export async function WorkspaceTasksGet(workspaceID: string) {
-  const cacheKey = `tasks:workspace:${workspaceID}`;
+export async function WorkspaceTasksGet(
+  workspaceID: string,
+  query: WorkspaceTasksQuery = {}
+) {
+  const cacheKey = buildWorkspaceTasksCacheKey(workspaceID, query);
 
-  const cached = await getCache<typeof tasks>(cacheKey);
+  const cached = await getCache<{
+    tasks: Awaited<ReturnType<typeof selectTasksByWorkspaceId>>;
+    total: number;
+    limit: number | null;
+    offset: number;
+  }>(cacheKey);
   if (cached) return cached;
 
-  const tasks = await selectTasksByWorkspaceId(workspaceID);
+  const tasks = await selectTasksByWorkspaceId(workspaceID, query);
+  const total = await countTasksByWorkspaceId(workspaceID, {
+    status: query.status,
+    priority: query.priority,
+  });
 
   if (tasks.length === 0) {
     throw new AppError(
@@ -42,8 +87,16 @@ export async function WorkspaceTasksGet(workspaceID: string) {
       404
     );
   }
-  await setCache(cacheKey, tasks, 300);
-  return tasks;
+
+  const payload = {
+    tasks,
+    total,
+    limit: query.limit ?? null,
+    offset: query.offset ?? 0,
+  };
+
+  await setCache(cacheKey, payload, 300);
+  return payload;
 }
 
 export async function taskCreate(
@@ -67,7 +120,7 @@ export async function taskCreate(
     workspaceID
   );
 
-  await deleteCache(`tasks:workspace:${workspaceID}`);
+  await deleteCacheByPattern(`tasks:workspace:${workspaceID}:*`);
   return createTask;
 }
 
@@ -94,8 +147,8 @@ export async function taskEdit(
     realDate,
     taskId
   );
-  await deleteCache(`tasks:${taskId}`);
-  await deleteCache(`tasks:workspace${task[0].workspaceRelated}`);
+  await deleteCache(`task:${taskId}`);
+  await deleteCacheByPattern(`tasks:workspace:${task[0].workspaceRelated}:*`);
   return updated;
 }
 
@@ -106,6 +159,7 @@ export async function taskRemove(taskId: string) {
     throw new AppError('task cannot be find', 404);
   }
   const deleted = await taskDelete(taskId);
-  await deleteCache(`tasks:${taskId}`);
+  await deleteCache(`task:${taskId}`);
+  await deleteCacheByPattern(`tasks:workspace:${task[0].workspaceRelated}:*`);
   return deleted;
 }
